@@ -22,6 +22,14 @@ Route::group(['prefix' =>'posts'], function(){
     Route::post('save', 'BusinessPostsController@savePost');
     Route::get('edit/{id}', 'BusinessPostsController@editPost');
 });
+
+Route::get('areas/{city_id}', 'BusinessPostsController@getAreasByCity');
+Route::group(['prefix' =>'business'], function(){
+    Route::get('list', 'BusinessPostsController@businessList');
+    Route::get('create', 'BusinessPostsController@createBusiness');
+    Route::post('save', 'BusinessPostsController@saveBusiness');
+    Route::get('edit/{id}', 'BusinessPostsController@editBusiness');
+});
 Route::group(['namespace' => 'Api\V1', 'middleware'=>'localization'], function () {
     Route::get('zone/list', 'ZoneController@get_zones');
     Route::get('countries/list','ZoneController@countries_list');
@@ -29,7 +37,7 @@ Route::group(['namespace' => 'Api\V1', 'middleware'=>'localization'], function (
     Route::get('cities/bystateid','ZoneController@cities_by_state');
     Route::get('areas/bycityid/{id}','ZoneController@areas_by_city');
     Route::get('category/subcategories/{id}','CategoryController@get_sub_categories');
-    
+
     Route::group(['prefix' => 'auth', 'namespace' => 'Auth'], function () {
         Route::post('sign-up', 'CustomerAuthController@register');
         Route::post('login', 'CustomerAuthController@login');
@@ -174,7 +182,7 @@ Route::group(['namespace' => 'Api\V1', 'middleware'=>'localization'], function (
         Route::group(['prefix' => 'categories'], function () {
             Route::get('/', 'CategoryController@get_categories');
             Route::get('childes/{category_id}', 'CategoryController@get_childes');
-            
+
         });
 
         Route::group(['prefix' => 'delivery-man'], function () {
@@ -199,7 +207,7 @@ Route::group(['namespace' => 'Api\V1', 'middleware'=>'localization'], function (
             Route::get('organic', 'ItemController@organic');
         });
         // Store Reviews - New By Deepesh - 23rd Sep 2023
-        
+
         // POS
         Route::group(['prefix'=>'pos'], function(){
             Route::get('orders', 'POSController@order_list');
@@ -225,7 +233,7 @@ Route::group(['namespace' => 'Api\V1', 'middleware'=>'localization'], function (
         Route::get('geocode-api', 'ConfigController@geocode_api');
         Route::get('get-PaymentMethods', 'ConfigController@getPaymentMethods');
     });
-    
+
     Route::group(['prefix' => 'testimonial'], function () {
         Route::get('/', 'TestimonialController@get_tetimonial_lists');
 
@@ -234,7 +242,7 @@ Route::group(['namespace' => 'Api\V1', 'middleware'=>'localization'], function (
     Route::get('customer/order/cancellation-reasons', 'OrderController@cancellation_reason');
     Route::get('most-tips', 'OrderController@most_tips');
     Route::get('stores/details/{id}', 'StoreController@get_details');
-    
+
     Route::group(['middleware'=>['module-check']], function(){
         Route::group(['prefix' => 'customer', 'middleware' => 'auth:api'], function () {
             Route::get('notifications', 'NotificationController@get_notifications');
