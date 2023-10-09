@@ -200,3 +200,17 @@ Route::group(['prefix' => 'deliveryman', 'as' => 'deliveryman.'], function () {
     Route::get('apply', 'DeliveryManController@create')->name('create');
     Route::post('apply', 'DeliveryManController@store')->name('store');
 });
+
+Route::group(['prefix' =>'business'], function(){
+    Route::get('list', 'BusinessPostsController@businessList');
+    Route::get('create', 'BusinessPostsController@createBusiness');
+    Route::post('save', 'BusinessPostsController@saveBusiness');
+    Route::get('edit/{id}', 'BusinessPostsController@editBusiness');
+});
+
+Route::group(['prefix' =>'posts'], function(){
+    Route::get('list', 'BusinessPostsController@index');
+    Route::get('create', 'BusinessPostsController@create');
+    Route::post('save', 'BusinessPostsController@savePost');
+    Route::get('edit/{id}', 'BusinessPostsController@editPost');
+});

@@ -16,20 +16,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 // Post Data/Business
-Route::group(['prefix' =>'posts'], function(){
-    Route::get('list', 'BusinessPostsController@index');
-    Route::get('create', 'BusinessPostsController@create');
-    Route::post('save', 'BusinessPostsController@savePost');
-    Route::get('edit/{id}', 'BusinessPostsController@editPost');
-});
+
 
 Route::get('areas/{city_id}', 'BusinessPostsController@getAreasByCity');
-Route::group(['prefix' =>'business'], function(){
-    Route::get('list', 'BusinessPostsController@businessList');
-    Route::get('create', 'BusinessPostsController@createBusiness');
-    Route::post('save', 'BusinessPostsController@saveBusiness');
-    Route::get('edit/{id}', 'BusinessPostsController@editBusiness');
-});
+
+
+
 Route::group(['namespace' => 'Api\V1', 'middleware'=>'localization'], function () {
     Route::get('zone/list', 'ZoneController@get_zones');
     Route::get('countries/list','ZoneController@countries_list');
@@ -65,6 +57,7 @@ Route::group(['namespace' => 'Api\V1', 'middleware'=>'localization'], function (
             Route::put('reset-password', 'VendorPasswordResetController@reset_password_submit');
             Route::post('register','VendorLoginController@register');
         });
+
 
         Route::post('social-login', 'SocialAuthController@social_login');
         Route::post('social-register', 'SocialAuthController@social_register');
@@ -221,6 +214,20 @@ Route::group(['namespace' => 'Api\V1', 'middleware'=>'localization'], function (
             Route::get('search-list', 'ConversationController@search_conversations');
             Route::get('details', 'ConversationController@messages');
             Route::post('send', 'ConversationController@messages_store');
+        });
+
+        Route::group(['prefix' =>'business'], function(){
+            Route::get('list', 'VendorLoginController@businessList');
+            Route::get('create', 'VendorLoginController@createBusiness');
+            Route::post('save', 'VendorLoginController@saveBusiness');
+            Route::get('edit/{id}', 'VendorLoginController@editBusiness');
+        });
+
+        Route::group(['prefix' =>'posts'], function(){
+            Route::get('list', '\App\Http\Controllers\BusinessPostsController@apiindex');
+            Route::get('create', '\App\Http\Controllers\BusinessPostsController@apicreate');
+            Route::post('save', '\App\Http\Controllers\BusinessPostsController@apisavePost');
+            Route::get('edit/{id}', '\App\Http\Controllers\BusinessPostsController@apieditPost');
         });
     });
 

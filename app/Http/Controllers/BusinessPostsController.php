@@ -12,6 +12,8 @@ use App\Models\Category;
 use App\Models\areas;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Validator;
+use App\CentralLogics\Helpers;
 class BusinessPostsController extends Controller
 {
     public function index(Request $request){
@@ -247,6 +249,124 @@ class BusinessPostsController extends Controller
         $categories = Category::where('parent_id',0)->where('status',1)->get();
         $store = Store::find($store_id);
         return view('admin-views.customer.business.edit-business',get_defined_vars());
+    }
+
+
+    // Api functions for posts
+    public function apiindex(Request $request){
+        $posts = Post::where('user_id', 2)->get();
+        return response()->json($posts, 200);
+    }
+
+    public function apisavePost(Request $request){
+        try {
+            if($request->post_id){
+                $post_id = $request->post_id;
+                $validator = Validator::make($request->all(), [
+                    'title' => 'required|string|max:255',
+                    'address' => 'required|string|max:255',
+                    'rent_per_month' => 'required|numeric|min:0',
+                    'deposit' => 'required|numeric|min:0',
+                    'bedrooms' => 'required|integer|min:0',
+                    'bathrooms' => 'required|integer|min:0',
+                    'floors' => 'required|integer|min:0',
+                    'description' => 'required|string',
+                    'possession_date' => 'required|date', // Ensure that possession_date is a valid date
+                    'image1' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Validating image1 as an example, you can apply similar rules to other images
+                    'image2' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Optional image fields
+                    'image3' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+                    'image4' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+                    // 'amenities' => 'required',
+                ]);
+                if ($validator->fails()) {
+                    return response()->json(['errors' => Helpers::error_processor($validator)], 403);
+                }
+                $listing = Post::find($post_id);
+                $message = 'Post updated successfully';
+            }
+            else{
+                $validator = Validator::make($request->all(), [
+                    'title' => 'required|string|max:255',
+                    'address' => 'required|string|max:255',
+                    'rent_per_month' => 'required|numeric|min:0',
+                    'deposit' => 'required|numeric|min:0',
+                    'bedrooms' => 'required|integer|min:0',
+                    'bathrooms' => 'required|integer|min:0',
+                    'floors' => 'required|integer|min:0',
+                    'description' => 'required|string',
+                    'possession_date' => 'required|date',
+                    'image1' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+                    'image2' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+                    'image3' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+                    'image4' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+                    // 'amenities' => 'required',
+                ]);
+                if ($validator->fails()) {
+                    return response()->json(['errors' => Helpers::error_processor($validator)], 403);
+                }
+                $listing = new Post();
+                $message = 'Post Added successfully';
+            }
+            // $listing->user_id = auth()->user()->id ?? 0;
+            $listing->user_id = 2;
+            $listing->title = $request->title;
+            $listing->address = $request->address;
+            $listing->rent_per_month = $request->rent_per_month;
+            $listing->deposit = $request->deposit;
+            $listing->bedrooms = $request->bedrooms;
+            $listing->bathrooms = $request->bathrooms;
+            $listing->floors = $request->floors;
+            $listing->description = $request->description;
+            $listing->possession_date = $request->possession_date;
+
+            // Handle image uploads
+            if ($request->hasFile('image1')) {
+                $imageName = time().'.img1-'.$request->image1->extension();
+                $request->image1->move(public_path('images/post-images'), $imageName);
+                $listing->image1 = $imageName;
+            }
+            if ($request->hasFile('image2')) {
+                $imageName = time().'.img2-'.$request->image2->extension();
+                $request->image2->move(public_path('images/post-images'), $imageName);
+                $listing->image2 = $imageName;
+            }
+            if ($request->hasFile('image3')) {
+                $imageName = time().'.img3-'.$request->image3->extension();
+                $request->image3->move(public_path('images/post-images'), $imageName);
+                $listing->image3 = $imageName;
+            }
+            if ($request->hasFile('image4')) {
+                $imageName = time().'.img4-'.$request->image4->extension();
+                $request->image4->move(public_path('images/post-images'), $imageName);
+                $listing->image4 = $imageName;
+            }
+            $listing->amenities = json_encode($request->amenities);
+            $listing->post_type = 1;
+            $listing->save();
+            return response()->json(['status' => 'success', 'message' => $message], 200);
+        } catch (\Exception $e) {
+            info($e->getMessage());
+            return response()->json(['status' => 'error', 'message' => 'Failed to save/store business'], 500);
+        }
+    }
+
+
+    public function apieditPost($post_id){
+
+        try {
+            $post = Post::select('*')->where('id',$post_id)->first();
+            if (!$post) {
+                return response()->json(['status' => 'error','message' => 'Post not found'], 404);
+            }
+            return response()->json(['status' => 'success', 'data' => $post], 200);
+
+        } catch (\Exception $ex) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $ex->getMessage(),
+            ], 500);
+        }
+
     }
 
 }
