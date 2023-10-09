@@ -61,6 +61,12 @@ Route::group(['namespace' => 'Api\V1', 'middleware'=>'localization'], function (
 
         Route::post('social-login', 'SocialAuthController@social_login');
         Route::post('social-register', 'SocialAuthController@social_register');
+
+        Route::group(['prefix' =>'vacancies'], function(){
+            Route::get('list', 'VendorLoginController@vacancyList');
+            Route::post('save', 'VendorLoginController@saveVacancy');
+            Route::get('edit/{id}', 'VendorLoginController@editVacancy');
+        });
     });
 
     // Module
@@ -221,6 +227,13 @@ Route::group(['namespace' => 'Api\V1', 'middleware'=>'localization'], function (
             Route::get('create', 'VendorLoginController@createBusiness');
             Route::post('save', 'VendorLoginController@saveBusiness');
             Route::get('edit/{id}', 'VendorLoginController@editBusiness');
+        });
+
+        Route::group(['prefix' =>'vacancies'], function(){
+            Route::get('list', 'VendorLoginController@vacancyList');
+            // Route::get('create', 'VendorLoginController@createVacancy');
+            Route::post('save', 'VendorLoginController@saveVacancy');
+            Route::get('edit/{id}', 'VendorLoginController@editVacancy');
         });
 
         Route::group(['prefix' =>'posts'], function(){
