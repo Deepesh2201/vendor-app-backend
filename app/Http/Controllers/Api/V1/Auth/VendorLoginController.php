@@ -14,6 +14,7 @@ use App\Models\Store;
 use App\CentralLogics\StoreLogic;
 use App\Models\Admin;
 use App\Models\Translation;
+use App\Models\Vacancy;
 use App\Models\VendorEmployee;
 use MatanYadaev\EloquentSpatial\Objects\Point;
 use Illuminate\Support\Facades\Mail;
@@ -328,6 +329,105 @@ class VendorLoginController extends Controller
                 return response()->json(['status' => 'error','message' => 'Store not found'], 404);
             }
             return response()->json(['status' => 'success', 'data' => $store], 200);
+
+        } catch (\Exception $ex) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $ex->getMessage(),
+            ], 500);
+        }
+
+    }
+
+
+    // api functions for job vacancies
+    public function saveVacancy(Request $request){
+        try {
+            if($request->vacancy_id){
+                $vacancy_id = $request->vacancy_id;
+                $validator = Validator::make($request->all(), [
+                    'company_name' => 'required|string|max:255',
+                    'job_title' => 'required|string|max:255',
+                    'job_description' => 'required|string',
+                    'designation' => 'required|string',
+                    'salary_min' => 'required|integer|min:0',
+                    'salary_max' => 'required|integer|min:0',
+                    'location' => 'required|string|max:255',
+                    'min_education' => 'required|string|max:255',
+                    'experience' => 'required|string|max:255',
+                    'contact_person_name' => 'required|string|max:255',
+                    'contact_no' => 'required|string|max:255',
+                    'contact_email_id' => 'required|email',
+                    'website' => 'required|string|max:255',
+                    'job_type' => 'required',
+                    'shift' => 'required',
+                ]);
+                if ($validator->fails()) {
+                    return response()->json(['errors' => Helpers::error_processor($validator)], 403);
+                }
+                $listing = Vacancy::find($vacancy_id);
+                $message = 'Job Vacancy updated successfully';
+            }
+            else{
+                $validator = Validator::make($request->all(), [
+                    'company_name' => 'required|string|max:255',
+                    'job_title' => 'required|string|max:255',
+                    'job_description' => 'required|string',
+                    'designation' => 'required|string',
+                    'salary_min' => 'required|integer|min:0',
+                    'salary_max' => 'required|integer|min:0',
+                    'location' => 'required|string|max:255',
+                    'min_education' => 'required|string|max:255',
+                    'experience' => 'required|string|max:255',
+                    'contact_person_name' => 'required|string|max:255',
+                    'contact_no' => 'required|string|max:255',
+                    'contact_email_id' => 'required|email',
+                    'website' => 'required|string|max:255',
+                    'job_type' => 'required',
+                    'shift' => 'required',
+                ]);
+                if ($validator->fails()) {
+                    return response()->json(['errors' => Helpers::error_processor($validator)], 403);
+                }
+                $listing = new Vacancy;
+                $message = 'Vacancy Added successfully';
+            }
+            $listing->user_id = auth()->user()->id ?? 2;
+            $listing->company_name = $request->company_name;
+            $listing->job_title = $request->job_title;
+            $listing->job_description = $request->job_description;
+            $listing->designation = $request->designation;
+            $listing->salary_min = $request->salary_min;
+            $listing->salary_max = $request->salary_max;
+            $listing->location = $request->location;
+            $listing->min_education = $request->min_education;
+            $listing->experience = $request->experience;
+            $listing->contact_person_name = $request->contact_person_name;
+            $listing->contact_no = $request->contact_no;
+            $listing->contact_email = $request->contact_email_id;
+            $listing->website = $request->website;
+            $listing->job_type = $request->job_type;
+            $listing->shift = $request->shift;
+            $listing->status = 1;
+            $listing->save();
+            return response()->json(['status' => 'success', 'message' => $message], 200);
+        } catch (\Exception $e) {
+            info($e->getMessage());
+            return response()->json(['status' => 'error', 'message' => 'Failed to save/Job Vacancy Post'], 500);
+        }
+    }
+    public function vacancyList(){
+        $vacancyList = Vacancy::all();
+        return response()->json($vacancyList, 200);
+    }
+
+    public function editVacancy($vacancy_id){
+        try {
+            $vacancy = Vacancy::find($vacancy_id);
+            if (!$vacancy) {
+                return response()->json(['status' => 'error','message' => 'Job Vacancy Post  not found'], 404);
+            }
+            return response()->json(['status' => 'success', 'data' => $vacancy], 200);
 
         } catch (\Exception $ex) {
             return response()->json([
