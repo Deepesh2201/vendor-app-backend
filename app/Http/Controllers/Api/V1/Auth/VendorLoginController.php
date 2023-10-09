@@ -323,7 +323,7 @@ class VendorLoginController extends Controller
 
     public function editBusiness($store_id){
         try {
-            $store = Storess::find($store_id);
+            $store = Store::find($store_id);
             if (!$store) {
                 return response()->json(['status' => 'error','message' => 'Store not found'], 404);
             }
