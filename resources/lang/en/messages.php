@@ -2726,6 +2726,16 @@
   'jobs_list' => 'Jobs list',
   'jobs' => 'Jobs',
   'message.jobs_list' => 'Message.jobs list',
+
   '3. Once you have downloaded and filled the format file, upload it in the form below and submit.Make sure the phone numbers and email addresses are unique.' => '3. Once you have downloaded and filled the format file  upload it in the form below and submit.Make sure the phone numbers and email addresses are unique.',
   'Posts' => 'Posts',
+
+  'total_withdraws' => 'Total withdraws',
+  'Post_list' => 'Post list',
+  'ex_:_Search_Post_Name' => 'Ex : Search Post Name',
+  'Index' => 'Index',
+  'Post_Title' => 'Post Title',
+  'S.No' => 'S.No',
+  'delete_Post' => 'Delete Post',
+
 );
