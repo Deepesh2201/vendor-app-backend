@@ -6,6 +6,8 @@ use App\Models\Zone;
 use App\Models\Store;
 use App\Models\Module;
 use App\Models\Vendor;
+use App\Models\Post;
+use App\Models\Vacancy;
 use Illuminate\Http\Request;
 use App\CentralLogics\Helpers;
 use App\Models\BusinessSetting;
@@ -209,4 +211,17 @@ class VendorController extends Controller
         ->limit(8)->get([DB::raw('modules.id as id, modules.module_name as text')]);
         return response()->json($module_data);
     }
+
+    // web for posts, stores , vacancies
+    public function postsList(){
+        $posts = Post::all();
+        return view('admin-views.posts.posts-list', get_defined_vars());
+    }
+
+    public function jobsList(){
+        $posts = Vacancy::all();
+        return view('admin-views.jobs.jobs-list', get_defined_vars());
+    }
+
+
 }

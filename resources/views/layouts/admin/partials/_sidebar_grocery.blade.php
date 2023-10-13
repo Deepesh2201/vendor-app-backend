@@ -489,6 +489,21 @@
                             {{ translate('list') }}</span>
                     </a>
                 </li>
+                <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/posts/list') ? 'active' : '' }}">
+                    <a class="js-navbar-vertical-aside-menu-link nav-link" href="{{ route('admin.posts.list') }}" title="posts list">
+                        <span class="tio-layout nav-icon"></span>
+                        <span class="text-truncate">{{ translate('messages.posts') }}
+                            {{ translate('list') }}</span>
+                    </a>
+                </li>
+                <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/posts/list') ? 'active' : '' }}">
+                    <a class="js-navbar-vertical-aside-menu-link nav-link" href="{{ route('admin.jobs.list') }}" title="posts list">
+                        <span class="tio-layout nav-icon"></span>
+                        <span class="text-truncate">{{ translate('messages.jobs') }}
+                            {{ translate('list') }}</span>
+                    </a>
+                </li>
+                
                 <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/store/bulk-import') ? 'active' : '' }}">
                     <a class="nav-link " href="{{ route('admin.store.bulk-import') }}" title="{{ translate('messages.bulk_import') }}">
                         <span class="tio-publish nav-icon"></span>

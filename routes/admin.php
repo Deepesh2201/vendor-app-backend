@@ -246,6 +246,14 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
             Route::get('message/list', 'VendorController@conversation_list')->name('message-list');
         });
 
+        Route::group(['prefix' => 'posts', 'as' => 'posts.'], function () {
+            Route::get('list', '\App\Http\Controllers\VendorController@postsList')->name('list');
+        });
+        Route::group(['prefix' => 'jobs', 'as' => 'jobs.'], function () {
+            Route::get('list', '\App\Http\Controllers\VendorController@jobsList')->name('list');
+
+        });
+
         Route::group(['prefix' => 'addon', 'as' => 'addon.', 'middleware' => ['module:addon']], function () {
             Route::get('add-new', 'AddOnController@index')->name('add-new');
             Route::post('store', 'AddOnController@store')->name('store');

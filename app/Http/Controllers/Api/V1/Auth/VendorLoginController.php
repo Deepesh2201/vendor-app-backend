@@ -241,7 +241,7 @@ class VendorLoginController extends Controller
                     }
                     // $business->storeName = $business->name;
                     $business->storeDescription = $business->meta_description;
-                    $business->createdDate = $business->created_at->format('Y-m-d H:i:s');
+                    $business->createdDate = $business->created_at->format('H:i:s d-m-Y');
                     $business->statusId = $business->status;
                     $business->isActive = $business->active;
                     return $business;
@@ -360,6 +360,10 @@ class VendorLoginController extends Controller
             $listing->zone_id = 2;
             $listing->active = 1;
             $listing->save();
+            if(!$request->store_id){
+                $listing->index = $listing->id;
+                $listing->save();
+            }
             return response()->json(['status' => 'success', 'message' => $message], 200);
         } catch (\Exception $e) {
             info($e->getMessage());
@@ -480,7 +484,7 @@ class VendorLoginController extends Controller
         }
         if(count($posts) > 0){
                 $postsWithImages = $posts->map(function ($post) {
-                    $post->createdDate =  $post->created_at->format('Y-m-d H:i:s') ;
+                    $post->createdDate =  $post->created_at->format('H:i:s d-m-Y');
                     if($post->status ==1){
                        $post->statusName = 'Approved' ;
                     }else{
