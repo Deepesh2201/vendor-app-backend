@@ -116,10 +116,10 @@ class StoreController extends Controller
 
         usort($stores['stores'], function ($a, $b) {
             $key = 'avg_rating';
-            return $b[$key] - $a[$key];
+            return $b[$key] - $a[$key]; 
         });
 
-        return response()->json($stores, 200);
+        return response()->json($stores, 200);  
     }
 
     public function get_popular_store_items($id)
@@ -253,12 +253,12 @@ class StoreController extends Controller
 
     public function submit_store_reviews(Request $request){
         $data = store_reviews::where('store_id',$request->storeId)->where('user_id',$request->userId)->first();
-
+        
         if(!$data){
             $data = new store_reviews();
-
+            
         }
-
+         
             $data->store_id = $request->storeId;
             $data->user_id = $request->userId;
             $data->ratings = $request->ratings;

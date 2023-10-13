@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('areas/{city_id}', 'BusinessPostsController@getAreasByCity');
+Route::get('post-amenities/{id}', '\App\Http\Controllers\BusinessPostsController@getAmenities');
 
 
 
@@ -61,6 +62,12 @@ Route::group(['namespace' => 'Api\V1', 'middleware'=>'localization'], function (
 
         Route::post('social-login', 'SocialAuthController@social_login');
         Route::post('social-register', 'SocialAuthController@social_register');
+
+        Route::group(['prefix' =>'vacancies'], function(){
+            Route::get('list', 'VendorLoginController@vacancyList');
+            Route::post('save', 'VendorLoginController@saveVacancy');
+            Route::get('edit/{id}', 'VendorLoginController@editVacancy');
+        });
     });
 
     // Module
@@ -217,14 +224,21 @@ Route::group(['namespace' => 'Api\V1', 'middleware'=>'localization'], function (
         });
 
         Route::group(['prefix' =>'business'], function(){
-            Route::get('list', 'VendorLoginController@businessList');
-            Route::get('create', 'VendorLoginController@createBusiness');
-            Route::post('save', 'VendorLoginController@saveBusiness');
-            Route::get('edit/{id}', 'VendorLoginController@editBusiness');
+            Route::get('list/{id}', '\App\Http\Controllers\Api\V1\Auth\VendorLoginController@businessList');
+            Route::get('create', '\App\Http\Controllers\Api\V1\Auth\VendorLoginController@createBusiness');
+            Route::post('save', '\App\Http\Controllers\Api\V1\Auth\VendorLoginController@saveBusiness');
+            Route::get('edit/{id}', '\App\Http\Controllers\Api\V1\Auth\VendorLoginController@editBusiness');
+        });
+
+        Route::group(['prefix' =>'vacancies'], function(){
+            Route::get('list/{id?}', '\App\Http\Controllers\Api\V1\Auth\VendorLoginController@vacancyList');
+            // Route::get('create', 'VendorLoginController@createVacancy');
+            Route::post('save', '\App\Http\Controllers\Api\V1\Auth\VendorLoginController@saveVacancy');
+            Route::get('edit/{id}', '\App\Http\Controllers\Api\V1\Auth\VendorLoginController@editVacancy');
         });
 
         Route::group(['prefix' =>'posts'], function(){
-            Route::get('list', '\App\Http\Controllers\BusinessPostsController@apiindex');
+            Route::get('list/{id?}', '\App\Http\Controllers\BusinessPostsController@apiindex');
             Route::get('create', '\App\Http\Controllers\BusinessPostsController@apicreate');
             Route::post('save', '\App\Http\Controllers\BusinessPostsController@apisavePost');
             Route::get('edit/{id}', '\App\Http\Controllers\BusinessPostsController@apieditPost');

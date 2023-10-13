@@ -68,7 +68,9 @@
                    </div>
 
                     
-                    
+                  <input type="file" id="fileInput" onchange="handleFileSelection()" />
+
+
                     
               
                 </div>
@@ -112,7 +114,19 @@
   
         }
     </script>
-    
+
+
+<script>
+  function handleFileSelection() {
+    const fileInput = document.getElementById('fileInput');
+    const selectedFile = fileInput.files[0];
+    _webViewController.evaluateJavascript('FilePicker.postMessage("$selectedFile")');
+  }
+</script>
+
+
+
+
     <script src="{{url('/custom-assets/js/jquery.min.js')}}"></script>
     <script src="{{url('/custom-assets/js/popper.js')}}"></script>
     <script src="{{url('/custom-assets/js/bootstrap.min.js')}}"></script>

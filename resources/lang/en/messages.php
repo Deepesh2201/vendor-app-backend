@@ -2719,4 +2719,5 @@
   'successfully_updated' => 'Successfully updated',
   'already_in_wishlist' => 'Already in wishlist',
   'The password must be at least 6 characters.' => 'The password must be at least 6 characters.',
+  'vendor_type_required' => 'Vendor type required',
 );
