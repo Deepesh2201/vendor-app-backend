@@ -2726,4 +2726,11 @@
   'jobs_list' => 'Jobs list',
   'jobs' => 'Jobs',
   'message.jobs_list' => 'Message.jobs list',
+  'total_withdraws' => 'Total withdraws',
+  'Post_list' => 'Post list',
+  'ex_:_Search_Post_Name' => 'Ex : Search Post Name',
+  'Index' => 'Index',
+  'Post_Title' => 'Post Title',
+  'S.No' => 'S.No',
+  'delete_Post' => 'Delete Post',
 );

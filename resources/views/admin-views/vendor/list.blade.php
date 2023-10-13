@@ -185,6 +185,7 @@
                         <th class="border-0">{{translate('messages.module')}}</th>
                         <th class="border-0">{{translate('messages.owner_information')}}</th>
                         <th class="border-0">{{translate('messages.zone')}}</th>
+                        <th>Index</th>
                         <th class="text-uppercase border-0">{{translate('messages.featured')}}</th>
                         <th class="text-uppercase border-0">{{translate('messages.status')}}</th>
                         <th class="text-center border-0">{{translate('messages.action')}}</th>
@@ -227,6 +228,7 @@
                                 {{$store->zone?$store->zone->name:translate('messages.zone_deleted')}}
                                 {{--<span class="d-block font-size-sm">{{$banner['image']}}</span>--}}
                             </td>
+                            <td></td>
                             <td>
                                 <label class="toggle-switch toggle-switch-sm" for="featuredCheckbox{{$store->id}}">
                                     <input type="checkbox" onclick="location.href='{{route('admin.store.featured',[$store->id,$store->featured?0:1])}}'" class="toggle-switch-input" id="featuredCheckbox{{$store->id}}" {{$store->featured?'checked':''}}>
