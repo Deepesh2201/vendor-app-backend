@@ -288,11 +288,8 @@ class BusinessPostsController extends Controller
                             $post->$field = null;
                         }
                     }
-                    // $post->image1 =   'public/images/post-images/' . $post->image1;
-                    // $post->image2 =   'public/images/post-images/' . $post->image2;
-                    // $post->image3 =   'public/images/post-images/' . $post->image3;
-                    // $post->image4 =   'public/images/post-images/' . $post->image4;
                     $post->createdDate =  $post->created_at->format('H:i:s d-m-Y') ;
+                    $post->module_id = 11;
                     if($post->status ==1){
                        $post->statusName = 'Approved' ;
                     }else{

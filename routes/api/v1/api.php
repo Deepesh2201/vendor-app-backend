@@ -243,6 +243,10 @@ Route::group(['namespace' => 'Api\V1', 'middleware'=>'localization'], function (
             Route::post('save', '\App\Http\Controllers\BusinessPostsController@apisavePost');
             Route::get('edit/{id}', '\App\Http\Controllers\BusinessPostsController@apieditPost');
         });
+        Route::group(['prefix' =>'banner'], function(){
+            Route::get('getBanners/{id}', '\App\Http\Controllers\Api\V1\Auth\VendorLoginController@getBannerByModuleId');
+           
+        });
     });
 
     Route::group(['prefix' => 'config'], function () {

@@ -13,6 +13,7 @@ use App\Models\Zone;
 use App\Models\Store;
 use App\CentralLogics\StoreLogic;
 use App\Models\Admin;
+use App\Models\Banner;
 use App\Models\Translation;
 use App\Models\Vacancy;
 use App\Models\VendorEmployee;
@@ -339,7 +340,6 @@ class VendorLoginController extends Controller
                         unlink($filePath);
                     }
                 }
-                
                 $imageName = time().'.store_banner-'.$request->cover_photo->extension();
                 $request->cover_photo->move(public_path('images/business-images'), $imageName);
                 $listing->cover_photo = $imageName;
@@ -490,6 +490,7 @@ class VendorLoginController extends Controller
                     }else{
                         $post->statusName = 'In Review';
                     }
+                    $post->module_id = 10;
                     return $post;
                 });
                return response()->json($postsWithImages, 200);
@@ -513,5 +514,19 @@ class VendorLoginController extends Controller
             ], 500);
         }
 
+    }
+
+    // get banners by module Id
+    public function getBannerByModuleId($module_id){
+        if($module_id){
+            $banners = Banner::where('module_id',$module_id)->get();
+            if(count($banners) >0){
+                return response()->json(['status' => 'success', 'data' => $banners], 200);  
+            }else{
+                return response()->json(['status' => 'error','message' => 'Banners  not found'], 404);  
+            }
+        }else{
+            return response()->json(['status' => 'error','message' => 'Banners  not found'], 404);  
+        }
     }
 }
