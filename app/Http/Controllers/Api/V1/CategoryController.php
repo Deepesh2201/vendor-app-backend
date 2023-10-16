@@ -41,6 +41,8 @@ class CategoryController extends Controller
         }
     }
 
+
+    
     public function get_childes($id)
     {
         
