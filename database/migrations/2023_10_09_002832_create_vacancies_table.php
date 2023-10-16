@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('company_name');
             $table->string('job_title');
             $table->text('job_description');
+            
             $table->string('designation');
             $table->decimal('salary_min', 10, 2); // Minimum salary
             $table->decimal('salary_max', 10, 2); // Maximum salary
@@ -29,7 +30,8 @@ return new class extends Migration
             $table->string('website');
             $table->integer('job_type')->comment('1: Full Time, 2: Part Time');
             $table->integer('shift')->comment('1: Day Shift, 2: Night Shift, 3: Rotational Shift');
-            $table->tinyInteger('status')->default(1); 
+            $table->tinyInteger('status')->default(0); 
+            $table->tinyInteger('is_active')->default(0); 
             $table->integer('module_id')->nullable();
             $table->timestamps();
         });
