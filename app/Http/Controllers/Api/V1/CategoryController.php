@@ -6,6 +6,7 @@ use App\CentralLogics\CategoryLogic;
 use App\CentralLogics\Helpers;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Module;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -50,6 +51,17 @@ class CategoryController extends Controller
         } catch (\Exception $e) {
             return response()->json([], 200);
         }
+    }
+
+    public function main_categories(){
+        try {
+            $categories = Module::where(['status'=>1])->get();
+            return response()->json($categories, 200);
+        } catch (\Exception $e) {
+            return response()->json([], 200);
+        }
+           
+
     }
 
     public function get_products($id, Request $request)

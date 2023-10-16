@@ -30,6 +30,8 @@ Route::group(['namespace' => 'Api\V1', 'middleware'=>'localization'], function (
     Route::get('cities/bystateid','ZoneController@cities_by_state');
     Route::get('areas/bycityid/{id}','ZoneController@areas_by_city');
     Route::get('category/subcategories/{id}','CategoryController@get_sub_categories');
+    Route::get('category/subcategories/{id}','CategoryController@get_sub_categories');
+    Route::get('main/categories', 'CategoryController@main_categories');
 
     Route::group(['prefix' => 'auth', 'namespace' => 'Auth'], function () {
         Route::post('sign-up', 'CustomerAuthController@register');
