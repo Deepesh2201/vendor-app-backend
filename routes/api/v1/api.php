@@ -23,6 +23,7 @@ Route::get('post-amenities/{id}', '\App\Http\Controllers\BusinessPostsController
 Route::get('main/categories', 'CategoryController@main_categories');
 
 
+
 Route::group(['namespace' => 'Api\V1', 'middleware'=>'localization'], function () {
     Route::get('zone/list', 'ZoneController@get_zones');
     Route::get('countries/list','ZoneController@countries_list');
