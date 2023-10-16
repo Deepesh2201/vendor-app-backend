@@ -130,7 +130,7 @@
                         
                     </div>
                     <div class="descArea">
-                        <a href="detailviewpost.html">
+                        <a href="{{url('posts/view')}}/{{$post->id}}">
                             <div class="titleandrent">
                                 <h3 style="color: #4caf4f;">{{ $post->title }}</h3>
                                 <span><b>&#163;{{ $post->rent_per_month }}</b></span>
