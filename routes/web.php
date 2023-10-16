@@ -30,10 +30,6 @@ use App\Http\Controllers\PaystackController;
 */
 
 Route::get('/', 'HomeController@index')->name('home');
-
-
-Route::get('main/categories', '\App\Http\Controllers\Api\V1\CategoryController@main_categories');
-
 Route::get('store-registration', 'HomeController@showregistrationpage')->name('showregistrationpage');
 Route::post('save-store-registration', 'HomeController@saveStoreRegistration')->name('save-store-registration');
 Route::post('posts/save', 'BusinessPostsController@savePost');
