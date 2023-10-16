@@ -33,6 +33,11 @@ Route::get('/', 'HomeController@index')->name('home');
 
 
 Route::get('main/categories', '\App\Http\Controllers\Api\V1\CategoryController@main_categories');
+Route::get('zone/list', '\App\Http\Controllers\Api\V1\ZoneController@get_zones');
+    Route::get('countries/list','\App\Http\Controllers\Api\V1\ZoneController@countries_list');
+    Route::get('states/bycountryid/{id}','\App\Http\Controllers\Api\V1\ZoneController@states_by_country');
+    Route::get('cities/bystateid','\App\Http\Controllers\Api\V1\ZoneController@cities_by_state');
+    Route::get('areas/bycityid/{id}','\App\Http\Controllers\Api\V1\ZoneController@areas_by_city');
 
 Route::get('store-registration', 'HomeController@showregistrationpage')->name('showregistrationpage');
 Route::post('save-store-registration', 'HomeController@saveStoreRegistration')->name('save-store-registration');
