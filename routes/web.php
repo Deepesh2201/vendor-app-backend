@@ -200,3 +200,13 @@ Route::group(['prefix' => 'deliveryman', 'as' => 'deliveryman.'], function () {
     Route::get('apply', 'DeliveryManController@create')->name('create');
     Route::post('apply', 'DeliveryManController@store')->name('store');
 });
+
+// web posts and vacancies
+Route::group(['prefix' =>'posts'], function(){
+    Route::get('list', '\App\Http\Controllers\BusinessPostsController@allPostList');
+    Route::get('view/{id}', '\App\Http\Controllers\BusinessPostsController@viewPost');
+});
+Route::group(['prefix' =>'vacancies'], function(){
+    Route::get('list', '\App\Http\Controllers\BusinessPostsController@allJobsList');
+    Route::get('view/{id}', '\App\Http\Controllers\BusinessPostsController@viewJob');
+});

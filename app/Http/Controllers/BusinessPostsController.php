@@ -14,10 +14,10 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 use App\CentralLogics\Helpers;
+use App\Models\Vacancy;
 class BusinessPostsController extends Controller
 {
     public function index(Request $request){
-
         $posts = Post::where('user_id', 2)->get();
         // $posts = Post::where('user_id', $request->userid);
         return view('admin-views.customer.posts.post_list',get_defined_vars());
@@ -30,9 +30,9 @@ class BusinessPostsController extends Controller
         if($parent_id){
             $amenities = Amenity::where('parent_id',$parent_id)->where('status',1)->get();
         }else{
-           $amenities = Amenity::where('parent_id',1)->where('status',1)->where('status',1)->get(); 
+           $amenities = Amenity::where('parent_id',1)->where('status',1)->where('status',1)->get();
         }
-        
+
         if(count($amenities) > 0){
              $amenitiesWithImages = $amenities->map(function ($amenity) {
                 $amenity->icon =   'public/' . $amenity->icon;
@@ -42,7 +42,7 @@ class BusinessPostsController extends Controller
         }else{
             return response()->json(['status' => 'error','message' => 'Amenities not found'], 404);
         }
-        
+
     }
     public function savePost(Request $request){
 
@@ -423,7 +423,7 @@ class BusinessPostsController extends Controller
 
 
     public function apieditPost($post_id){
-        
+
         try {
             $post = Post::select('*')->where('id',$post_id)->first();
             if($post){
@@ -445,5 +445,31 @@ class BusinessPostsController extends Controller
         }
 
     }
+
+
+
+    // web posts and jobs
+
+    public function allPostList(Request $request){
+        $posts = Post::where('status', 1)->where('is_active',1)->get();
+        return view('posts.posts',get_defined_vars());
+    }
+
+    
+    public function allJobsList(Request $request){
+        $vacancyList = Vacancy::where('status', 1)->where('is_active',1)->get();
+        return view('jobs.vacancies',get_defined_vars());
+    }
+
+    public function viewPost(Request $request,$id){
+        $post = Post::find($id);
+        return view('posts.post-view',get_defined_vars());
+    }
+    public function viewJob(Request $request,$id){
+        $vacancy = Vacancy::find($id);
+        return view('jobs.job-view',get_defined_vars());
+    }
+    
+
 
 }
