@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('areas/{city_id}', 'BusinessPostsController@getAreasByCity');
 Route::get('post-amenities/{id}', '\App\Http\Controllers\BusinessPostsController@getAmenities');
-
+Route::get('main/categories', 'CategoryController@main_categories');
 
 
 Route::group(['namespace' => 'Api\V1', 'middleware'=>'localization'], function () {
@@ -31,7 +31,7 @@ Route::group(['namespace' => 'Api\V1', 'middleware'=>'localization'], function (
     Route::get('areas/bycityid/{id}','ZoneController@areas_by_city');
     Route::get('category/subcategories/{id}','CategoryController@get_sub_categories');
     Route::get('category/subcategories/{id}','CategoryController@get_sub_categories');
-    Route::get('main/categories', 'CategoryController@main_categories');
+    
 
     Route::group(['prefix' => 'auth', 'namespace' => 'Auth'], function () {
         Route::post('sign-up', 'CustomerAuthController@register');
