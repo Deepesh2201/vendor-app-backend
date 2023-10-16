@@ -27,6 +27,7 @@ return new class extends Migration
             $table->string('image2')->nullable();
             $table->string('image3')->nullable();
             $table->string('image4')->nullable();
+            $table->integer('module_id')->nullable();
             $table->json('amenities'); // JSON column for amenities array
             $table->timestamps();
         });

@@ -464,6 +464,7 @@ class VendorLoginController extends Controller
             $listing->job_type = $request->jobType;
             $listing->shift = $request->jobShift;
             $listing->status = 0;
+            $listing->module_id = 10;
             $listing->save();
             return response()->json(['status' => 'success', 'message' => $message], 200);
         } catch (\Exception $e) {

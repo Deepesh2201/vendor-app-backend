@@ -412,6 +412,7 @@ class BusinessPostsController extends Controller
             }
             $listing->amenities = $request->amenities ? json_encode($request->amenities) : null;
             $listing->post_type = 1;
+            $listing->module_id = 13;
             $listing->save();
             return response()->json(['status' => 'success', 'message' => $message], 200);
         // } catch (\Exception $e) {
