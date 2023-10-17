@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Brian2694\Toastr\Facades\Toastr;
 use App\Models\Amenity;
 use App\Models\Post;
+use App\Models\Banner;
 use App\Models\Store;
 use App\Models\cities;
 use App\Models\Category;
@@ -458,6 +459,9 @@ class BusinessPostsController extends Controller
     
     public function allJobsList(Request $request){
         $vacancyList = Vacancy::where('status', 1)->where('is_active',1)->get();
+        $banners = Banner::where('module_id',10)->get();
+        $randomPosts = Vacancy::inRandomOrder(4)->where(['status'=>1,'is_active'=>1])->get();
+        $latestPosts = Vacancy::latest()->take(4)->where(['status'=>1,'is_active'=>1])->get();
         return view('jobs.vacancies',get_defined_vars());
     }
 
@@ -467,7 +471,6 @@ class BusinessPostsController extends Controller
             $amenities = Amenity::where('parent_id',1)->get();
             $amenityIdsString = $post->amenities;
             $amenityIdArray = explode(',',  trim($amenityIdsString,'"'));
-           
             return view('posts.post-view',get_defined_vars());
         }else{
             return back();

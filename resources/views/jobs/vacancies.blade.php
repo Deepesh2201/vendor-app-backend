@@ -106,6 +106,8 @@
         <a href="#"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
     </div>
 
+    
+
     <div class="container">
 
         <div class="search-container">
@@ -121,20 +123,16 @@
 
             <div data-u="slides"
                 style="cursor:default;position:relative;top:0px;left:0px;width:980px;height:490px;overflow:hidden;">
-                <div data-p="735">
-                    <img data-u="image" src="{{url('images/house1.jpg')}}" />
-
-                </div>
-                <div data-p="735">
-                    <img data-u="image" src="{{url('images/house2.jpg')}}" />
-
-                </div>
-                <div>
-                    <img data-u="image" src="{{url('images/house3.jpg')}}" />
-                </div>
-                <div data-p="735">
-                    <img data-u="image" src="{{url('images/house4.jpg')}}" />
-                </div>
+                @foreach ($banners as $item)
+                    @php
+                     $filePath = storage_path('app/public/banner/' . $item->image);;
+                    @endphp
+                    @if (file_exists($filePath))
+                        <div data-p="735">
+                            <img data-u="image" src="{{url('storage/app/public/banner')}}/{{$item->image}}" />
+                        </div>
+                    @endif
+                @endforeach
             </div>
             <!-- <a data-scale="0" href="https://www.jssor.com" style="display:none;position:absolute;">animation</a> -->
             <!-- Bullet Navigator -->
@@ -178,7 +176,25 @@
 
 
             <div class="slides">
-                <div id="slide-1">
+                @foreach ($randomPosts as $vacancy)
+                    <div id="slide-1">
+                        <!--  -->
+                        <div class="complogoName">
+                            @if($vacancy->logo)
+                            <img src="{{url('images/post-images/'.$vacancy->logo)}}">
+                            @endif
+                            <h4>{{$vacancy->company_name ?? ''}}</h4>
+
+                        </div>
+                        <div class="jd">
+                            <p>&nbsp;&nbsp;<i class="fa fa-graduation-cap" aria-hidden="true"></i>&nbsp;{{$vacancy->min_education ?? ''}}</p>
+                            <p>&nbsp;&nbsp;<i class="fa  fa fa-briefcase" aria-hidden="true"></i>&nbsp; {{$vacancy->experience ?? '0'}} years</p>
+                            <p>&nbsp;&nbsp;<i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp; {{$vacancy->location ?? ''}}</p>
+                        </div>
+                    </div>
+                @endforeach
+                
+                {{-- <div id="slide-1">
                     <!--  -->
                     <div class="complogoName">
                         <img src="{{url('images/restraurantData/argosLogo.jpg')}}">
@@ -193,17 +209,7 @@
 
                     </div>
 
-                </div>
-                <div id="slide-2">
-                    <img src="{{url('images/pic-2.jpg')}}">
-                </div>
-                <div id="slide-3">
-                    <img src="{{url('images/pic-2.jpg')}}">
-                </div>
-                <div id="slide-4">
-                    <img src="{{url('images/pic-4.jpg')}}">
-                </div>
-
+                </div> --}}
             </div>
         </div>
 
@@ -217,32 +223,23 @@
 
 
             <div class="slides">
-                <div id="slide-1">
-                    <!--  -->
-                    <div class="complogoName">
-                        <img src="{{url('images/restraurantData/wilkinsonlogo.jpg')}}">
-                        <h4>Wilkinson</h4>
+                @foreach ($latestPosts as $vacancy)
+                    <div id="slide-1">
+                        <!--  -->
+                        <div class="complogoName">
+                            @if($vacancy->logo)
+                            <img src="{{url('images/post-images/'.$vacancy->logo)}}">
+                            @endif
+                            <h4>{{$vacancy->company_name ?? ''}}</h4>
 
+                        </div>
+                        <div class="jd">
+                            <p>&nbsp;&nbsp;<i class="fa fa-graduation-cap" aria-hidden="true"></i>&nbsp;{{$vacancy->min_education  ?? ''}}</p>
+                            <p>&nbsp;&nbsp;<i class="fa  fa fa-briefcase" aria-hidden="true"></i>&nbsp; {{$vacancy->experience ?? '0'}} years</p>
+                            <p>&nbsp;&nbsp;<i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp; {{$vacancy->location ?? ''}}</p>
+                        </div>
                     </div>
-                    <div class="jd">
-                        <p>&nbsp;&nbsp;<i class="fa fa-graduation-cap" aria-hidden="true"></i>&nbsp;Chartered Accountant
-                        </p>
-                        <p>&nbsp;&nbsp;<i class="fa  fa fa-briefcase" aria-hidden="true"></i>&nbsp; 3 Years</p>
-                        <p>&nbsp;&nbsp;<i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp; London, UK</p>
-
-                    </div>
-
-                </div>
-                <div id="slide-2">
-                    <img src="{{url('images/pic-2.jpg')}}">
-                </div>
-                <div id="slide-3">
-                    <img src="{{url('images/pic-2.jpg')}}">
-                </div>
-                <div id="slide-4">
-                    <img src="{{url('images/pic-4.jpg')}}">
-                </div>
-
+                @endforeach
             </div>
         </div>
 
@@ -251,7 +248,29 @@
             <h4>All Vacancies </h4>
         </div>
 
-        <div class="allList">
+        @foreach ($vacancyList as $vacancy)
+            <div class="allList">
+                <div class="listItem">
+                    <!--  -->
+                    <div class="itemlogoName">
+                        @if($vacancy->logo)
+                         <img src="{{url('images/post-images/'.$vacancy->logo)}}">
+                        @endif
+                        <h4>{{$vacancy->company_name ?? ''}}</h4>
+
+                    </div>
+                    <div class="jd">
+                        <p>&nbsp;&nbsp;<i class="fa fa-graduation-cap" aria-hidden="true"></i>&nbsp;{{$vacancy->min_education ?? ''}}</p>
+                        <p>&nbsp;&nbsp;<i class="fa  fa fa-briefcase" aria-hidden="true"></i>&nbsp; {{$vacancy->experience ?? '0'}} years</p>
+                        <p>&nbsp;&nbsp;<i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp; {{$vacancy->location ?? ''}}</p>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+
+        
+
+        {{-- <div class="allList">
             <div class="listItem">
                 <!--  -->
                 <div class="itemlogoName">
@@ -281,23 +300,7 @@
                     <p>&nbsp;&nbsp;<i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp; London, UK</p>
                 </div>
             </div>
-        </div>
-
-        <div class="allList">
-            <div class="listItem">
-                <!--  -->
-                <div class="itemlogoName">
-                    <img src="{{url('images/restraurantData/argosLogo.jpg')}}">
-                    <h4>Argos</h4>
-
-                </div>
-                <div class="jd">
-                    <p>&nbsp;&nbsp;<i class="fa fa-graduation-cap" aria-hidden="true"></i>&nbsp;Chartered Accountant</p>
-                    <p>&nbsp;&nbsp;<i class="fa  fa fa-briefcase" aria-hidden="true"></i>&nbsp; 3 Years</p>
-                    <p>&nbsp;&nbsp;<i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp; London, UK</p>
-                </div>
-            </div>
-        </div>
+        </div> --}}
 
     </div>
 

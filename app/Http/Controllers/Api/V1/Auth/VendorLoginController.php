@@ -415,6 +415,7 @@ class VendorLoginController extends Controller
                      'website' => 'url|nullable',
                     'jobType' => 'required',
                     'jobShift' => 'required',
+                    'logo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
                 ]);
                 if ($validator->fails()) {
                     return response()->json(['errors' => Helpers::error_processor($validator)], 403);
@@ -439,6 +440,7 @@ class VendorLoginController extends Controller
                     'website' => 'url|nullable',
                     'jobType' => 'required',
                     'jobShift' => 'required',
+                    'logo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
                 ]);
                 if ($validator->fails()) {
                     return response()->json(['errors' => Helpers::error_processor($validator)], 403);
@@ -465,6 +467,17 @@ class VendorLoginController extends Controller
             $listing->shift = $request->jobShift;
             $listing->status = 0;
             $listing->module_id = 10;
+            if ($request->hasFile('logo')) {
+                if($listing->logo){
+                    $filePath = public_path('images/post-images/'.$listing->logo) ;
+                    if (file_exists($filePath)) {
+                        unlink($filePath);
+                    }
+                }
+                $imageName = time().'.job_logo-'.$request->logo->extension();
+                $request->logo->move(public_path('images/post-images'), $imageName);
+                $listing->logo = $imageName;
+            }
             $listing->save();
             return response()->json(['status' => 'success', 'message' => $message], 200);
         } catch (\Exception $e) {

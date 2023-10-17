@@ -33,6 +33,7 @@ return new class extends Migration
             $table->tinyInteger('status')->default(0); 
             $table->tinyInteger('is_active')->default(0); 
             $table->integer('module_id')->nullable();
+            $table->string('logo');
             $table->timestamps();
         });
     }
