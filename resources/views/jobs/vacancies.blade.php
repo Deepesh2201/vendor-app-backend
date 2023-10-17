@@ -165,7 +165,7 @@
 
         <div class="second-sec">
             <h4>Popular In Your Area </h4>
-            <p>View All</p>
+            
         </div>
 
 
@@ -183,9 +183,9 @@
                       
                     </div>
                     <div class="jd">
-                    <p><i class="fa fa-graduation-cap" aria-hidden="true"></i>&nbsp;Chartered Accountant</p>
-                    <p><i class="fa  fa fa-briefcase" aria-hidden="true"></i>&nbsp; 3 Years</p>
-                    <p><i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp; London, UK</p>
+                        <p>&nbsp;&nbsp;<i class="fa fa-graduation-cap" aria-hidden="true"></i>&nbsp;Chartered Accountant</p>
+                        <p>&nbsp;&nbsp;<i class="fa  fa fa-briefcase" aria-hidden="true"></i>&nbsp; 3 Years</p>
+                        <p>&nbsp;&nbsp;<i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp; London, UK</p>
                    
                     </div>
 
@@ -206,7 +206,7 @@
 
         <div class="second-sec">
             <h4>New On High Street </h4>
-            <p>View All</p>
+            
         </div>
 
         
@@ -222,10 +222,10 @@
                         <h4>Wilkinson</h4>                 
                       
                     </div>
-                    <div class="jd">
-                    <p><i class="fa fa-graduation-cap" aria-hidden="true"></i>&nbsp;Chartered Accountant</p>
-                    <p><i class="fa  fa fa-briefcase" aria-hidden="true"></i>&nbsp; 3 Years</p>
-                    <p><i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp; London, UK</p>
+                    <div class="jd" >
+                        <p>&nbsp;&nbsp;<i class="fa fa-graduation-cap" aria-hidden="true"></i>&nbsp;Chartered Accountant</p>
+                        <p>&nbsp;&nbsp;<i class="fa  fa fa-briefcase" aria-hidden="true"></i>&nbsp; 3 Years</p>
+                        <p>&nbsp;&nbsp;<i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp; London, UK</p>
                    
                     </div>
 

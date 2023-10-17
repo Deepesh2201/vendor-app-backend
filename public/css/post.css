@@ -585,8 +585,7 @@ label img {
 } */
 
 .second-sec{
-  display: flex;
-  justify-content: space-between;
+ 
   margin-top: 30px;
 }
 
@@ -597,6 +596,4 @@ label img {
   
 }
 
-.jd{
-  margin-left: 10px;
-}
+
