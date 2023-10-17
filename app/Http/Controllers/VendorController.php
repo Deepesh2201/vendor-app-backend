@@ -218,9 +218,27 @@ class VendorController extends Controller
         return view('admin-views.posts.posts-list', get_defined_vars());
     }
 
+    public function postedit(){
+        $posts = Post::all();
+        return view('admin-views.posts.post-edit', get_defined_vars());
+    }
+
+    public function postview(){
+        $posts = Post::all();
+        return view('admin-views.posts.post-view', get_defined_vars());
+    }
+
     public function jobsList(){
         $posts = Vacancy::all();
         return view('admin-views.jobs.jobs-list', get_defined_vars());
+    }
+    public function jobview(){
+        $posts = Vacancy::all();
+        return view('admin-views.jobs.job-view', get_defined_vars());
+    }
+    public function jobedit(){
+        $posts = Vacancy::all();
+        return view('admin-views.jobs.job-edit', get_defined_vars());
     }
 
 

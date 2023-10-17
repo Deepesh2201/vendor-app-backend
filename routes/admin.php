@@ -248,9 +248,13 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
 
         Route::group(['prefix' => 'posts', 'as' => 'posts.'], function () {
             Route::get('list', '\App\Http\Controllers\VendorController@postsList')->name('list');
+            Route::get('edit/{id}', '\App\Http\Controllers\VendorController@postedit')->name('edit');
+            Route::get('view/{id}', '\App\Http\Controllers\VendorController@postview')->name('view');
         });
         Route::group(['prefix' => 'jobs', 'as' => 'jobs.'], function () {
             Route::get('list', '\App\Http\Controllers\VendorController@jobsList')->name('list');
+            Route::get('edit/{id}', '\App\Http\Controllers\VendorController@jobedit')->name('edit');
+            Route::get('view/{id}', '\App\Http\Controllers\VendorController@jobview')->name('view');
 
         });
 

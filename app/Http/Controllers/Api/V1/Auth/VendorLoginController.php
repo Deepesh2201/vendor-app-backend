@@ -356,9 +356,9 @@ class VendorLoginController extends Controller
             $listing->store_address = $request->store_address;
             $listing->latitude = '12.918804202266855';
             $listing->longitude = '77.65186298277348';
-            $listing->module_id = 2;
+            $listing->module_id = $request->category;
             $listing->zone_id = 2;
-            $listing->active = 1;
+            $listing->active = 0;
             $listing->save();
             if(!$request->store_id){
                 $listing->index = $listing->id;
