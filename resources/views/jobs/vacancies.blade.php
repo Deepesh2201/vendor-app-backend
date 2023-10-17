@@ -91,6 +91,10 @@
         opacity: .3;
         pointer-events: none;
     }
+
+    body {
+        overflow-x: hidden !important;
+    }
     </style>
 
 
@@ -165,94 +169,143 @@
 
         <div class="second-sec">
             <h4>Popular In Your Area </h4>
-            
+
         </div>
 
 
 
         <div class="slider">
-  
+
 
             <div class="slides">
                 <div id="slide-1">
                     <!--  -->
                     <div class="complogoName">
                         <img src="{{url('images/restraurantData/argosLogo.jpg')}}">
-                        <i class="fa fa-heart-o" aria-hidden="true"></i>
-                        <h4>Argos</h4>                 
-                      
+                        <h4>Argos</h4>
+
                     </div>
                     <div class="jd">
-                        <p>&nbsp;&nbsp;<i class="fa fa-graduation-cap" aria-hidden="true"></i>&nbsp;Chartered Accountant</p>
+                        <p>&nbsp;&nbsp;<i class="fa fa-graduation-cap" aria-hidden="true"></i>&nbsp;Chartered Accountant
+                        </p>
                         <p>&nbsp;&nbsp;<i class="fa  fa fa-briefcase" aria-hidden="true"></i>&nbsp; 3 Years</p>
                         <p>&nbsp;&nbsp;<i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp; London, UK</p>
-                   
+
                     </div>
 
                 </div>
                 <div id="slide-2">
-                <img src="{{url('images/pic-2.jpg')}}">
+                    <img src="{{url('images/pic-2.jpg')}}">
                 </div>
                 <div id="slide-3">
-                <img src="{{url('images/pic-2.jpg')}}">
+                    <img src="{{url('images/pic-2.jpg')}}">
                 </div>
                 <div id="slide-4">
-                <img src="{{url('images/pic-4.jpg')}}">
+                    <img src="{{url('images/pic-4.jpg')}}">
                 </div>
-                
+
             </div>
         </div>
-     
+
 
         <div class="second-sec">
             <h4>New On High Street </h4>
-            
         </div>
 
-        
+
         <div class="slider">
-  
+
 
             <div class="slides">
                 <div id="slide-1">
                     <!--  -->
                     <div class="complogoName">
                         <img src="{{url('images/restraurantData/wilkinsonlogo.jpg')}}">
-                        <i class="fa fa-heart-o" aria-hidden="true"></i>
-                        <h4>Wilkinson</h4>                 
-                      
+                        <h4>Wilkinson</h4>
+
                     </div>
-                    <div class="jd" >
-                        <p>&nbsp;&nbsp;<i class="fa fa-graduation-cap" aria-hidden="true"></i>&nbsp;Chartered Accountant</p>
+                    <div class="jd">
+                        <p>&nbsp;&nbsp;<i class="fa fa-graduation-cap" aria-hidden="true"></i>&nbsp;Chartered Accountant
+                        </p>
                         <p>&nbsp;&nbsp;<i class="fa  fa fa-briefcase" aria-hidden="true"></i>&nbsp; 3 Years</p>
                         <p>&nbsp;&nbsp;<i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp; London, UK</p>
-                   
+
                     </div>
 
                 </div>
                 <div id="slide-2">
-                <img src="{{url('images/pic-2.jpg')}}">
+                    <img src="{{url('images/pic-2.jpg')}}">
                 </div>
                 <div id="slide-3">
-                <img src="{{url('images/pic-2.jpg')}}">
+                    <img src="{{url('images/pic-2.jpg')}}">
                 </div>
                 <div id="slide-4">
-                <img src="{{url('images/pic-4.jpg')}}">
+                    <img src="{{url('images/pic-4.jpg')}}">
                 </div>
-                
+
             </div>
         </div>
 
 
+        <div class="second-sec">
+            <h4>All Vacancies </h4>
+        </div>
 
+        <div class="allList">
+            <div class="listItem">
+                <!--  -->
+                <div class="itemlogoName">
+                    <img src="{{url('images/restraurantData/argosLogo.jpg')}}">
+                    <h4>Argos</h4>
+
+                </div>
+                <div class="jd">
+                    <p>&nbsp;&nbsp;<i class="fa fa-graduation-cap" aria-hidden="true"></i>&nbsp;Chartered Accountant</p>
+                    <p>&nbsp;&nbsp;<i class="fa  fa fa-briefcase" aria-hidden="true"></i>&nbsp; 3 Years</p>
+                    <p>&nbsp;&nbsp;<i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp; London, UK</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="allList">
+            <div class="listItem">
+                <!--  -->
+                <div class="itemlogoName">
+                    <img src="{{url('images/restraurantData/argosLogo.jpg')}}">
+                    <h4>Argos</h4>
+
+                </div>
+                <div class="jd">
+                    <p>&nbsp;&nbsp;<i class="fa fa-graduation-cap" aria-hidden="true"></i>&nbsp;Chartered Accountant</p>
+                    <p>&nbsp;&nbsp;<i class="fa  fa fa-briefcase" aria-hidden="true"></i>&nbsp; 3 Years</p>
+                    <p>&nbsp;&nbsp;<i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp; London, UK</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="allList">
+            <div class="listItem">
+                <!--  -->
+                <div class="itemlogoName">
+                    <img src="{{url('images/restraurantData/argosLogo.jpg')}}">
+                    <h4>Argos</h4>
+
+                </div>
+                <div class="jd">
+                    <p>&nbsp;&nbsp;<i class="fa fa-graduation-cap" aria-hidden="true"></i>&nbsp;Chartered Accountant</p>
+                    <p>&nbsp;&nbsp;<i class="fa  fa fa-briefcase" aria-hidden="true"></i>&nbsp; 3 Years</p>
+                    <p>&nbsp;&nbsp;<i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp; London, UK</p>
+                </div>
+            </div>
+        </div>
 
     </div>
 
 
 
 
-    
-  
+
+
 
 
 
