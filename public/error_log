@@ -1,0 +1,30 @@
+[11-Sep-2023 12:33:06 UTC] PHP Warning:  require(/home/nextecki/public_html/vendor-app-backend/public/public/../vendor/autoload.php): Failed to open stream: No such file or directory in /home/nextecki/public_html/vendor-app-backend/public/public/index.php on line 34
+[11-Sep-2023 12:33:06 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/nextecki/public_html/vendor-app-backend/public/public/../vendor/autoload.php' (include_path='.:/opt/alt/php81/usr/share/pear:/opt/alt/php81/usr/share/php:/usr/share/pear:/usr/share/php') in /home/nextecki/public_html/vendor-app-backend/public/public/index.php:34
+Stack trace:
+#0 {main}
+  thrown in /home/nextecki/public_html/vendor-app-backend/public/public/index.php on line 34
+[11-Sep-2023 12:33:06 UTC] PHP Warning:  require(/home/nextecki/public_html/vendor-app-backend/public/public/../vendor/autoload.php): Failed to open stream: No such file or directory in /home/nextecki/public_html/vendor-app-backend/public/public/index.php on line 34
+[11-Sep-2023 12:33:06 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/nextecki/public_html/vendor-app-backend/public/public/../vendor/autoload.php' (include_path='.:/opt/alt/php81/usr/share/pear:/opt/alt/php81/usr/share/php:/usr/share/pear:/usr/share/php') in /home/nextecki/public_html/vendor-app-backend/public/public/index.php:34
+Stack trace:
+#0 {main}
+  thrown in /home/nextecki/public_html/vendor-app-backend/public/public/index.php on line 34
+[11-Sep-2023 12:33:07 UTC] PHP Warning:  require(/home/nextecki/public_html/vendor-app-backend/public/public/../vendor/autoload.php): Failed to open stream: No such file or directory in /home/nextecki/public_html/vendor-app-backend/public/public/index.php on line 34
+[11-Sep-2023 12:33:07 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/nextecki/public_html/vendor-app-backend/public/public/../vendor/autoload.php' (include_path='.:/opt/alt/php81/usr/share/pear:/opt/alt/php81/usr/share/php:/usr/share/pear:/usr/share/php') in /home/nextecki/public_html/vendor-app-backend/public/public/index.php:34
+Stack trace:
+#0 {main}
+  thrown in /home/nextecki/public_html/vendor-app-backend/public/public/index.php on line 34
+[11-Sep-2023 12:38:24 UTC] PHP Warning:  require(/home/nextecki/public_html/vendor-app-backend/public/public/../vendor/autoload.php): Failed to open stream: No such file or directory in /home/nextecki/public_html/vendor-app-backend/public/public/index.php on line 34
+[11-Sep-2023 12:38:24 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/nextecki/public_html/vendor-app-backend/public/public/../vendor/autoload.php' (include_path='.:/opt/alt/php81/usr/share/pear:/opt/alt/php81/usr/share/php:/usr/share/pear:/usr/share/php') in /home/nextecki/public_html/vendor-app-backend/public/public/index.php:34
+Stack trace:
+#0 {main}
+  thrown in /home/nextecki/public_html/vendor-app-backend/public/public/index.php on line 34
+[11-Sep-2023 12:38:24 UTC] PHP Warning:  require(/home/nextecki/public_html/vendor-app-backend/public/public/../vendor/autoload.php): Failed to open stream: No such file or directory in /home/nextecki/public_html/vendor-app-backend/public/public/index.php on line 34
+[11-Sep-2023 12:38:24 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/nextecki/public_html/vendor-app-backend/public/public/../vendor/autoload.php' (include_path='.:/opt/alt/php81/usr/share/pear:/opt/alt/php81/usr/share/php:/usr/share/pear:/usr/share/php') in /home/nextecki/public_html/vendor-app-backend/public/public/index.php:34
+Stack trace:
+#0 {main}
+  thrown in /home/nextecki/public_html/vendor-app-backend/public/public/index.php on line 34
+[11-Sep-2023 12:38:25 UTC] PHP Warning:  require(/home/nextecki/public_html/vendor-app-backend/public/public/../vendor/autoload.php): Failed to open stream: No such file or directory in /home/nextecki/public_html/vendor-app-backend/public/public/index.php on line 34
+[11-Sep-2023 12:38:25 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/nextecki/public_html/vendor-app-backend/public/public/../vendor/autoload.php' (include_path='.:/opt/alt/php81/usr/share/pear:/opt/alt/php81/usr/share/php:/usr/share/pear:/usr/share/php') in /home/nextecki/public_html/vendor-app-backend/public/public/index.php:34
+Stack trace:
+#0 {main}
+  thrown in /home/nextecki/public_html/vendor-app-backend/public/public/index.php on line 34
