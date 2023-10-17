@@ -2751,4 +2751,8 @@
   'Total_Items' => 'Total Items',
   'Total_Orders' => 'Total Orders',
   'Featured_?' => 'Featured  ',
+  'post_status_updated' => 'Post status updated',
+  'post_activated' => 'Post activated',
+  'post_activity_updated' => 'Post activity updated',
+  'contact_email' => 'Contact email',
 );

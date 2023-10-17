@@ -250,11 +250,15 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
             Route::get('list', '\App\Http\Controllers\VendorController@postsList')->name('list');
             Route::get('edit/{id}', '\App\Http\Controllers\VendorController@postedit')->name('edit');
             Route::get('view/{id}', '\App\Http\Controllers\VendorController@postview')->name('view');
+            Route::get('status/{post}/{status}', '\App\Http\Controllers\VendorController@changeStatus')->name('status');
+            Route::get('active/{post}/{status}', '\App\Http\Controllers\VendorController@changeActive')->name('active');
         });
         Route::group(['prefix' => 'jobs', 'as' => 'jobs.'], function () {
             Route::get('list', '\App\Http\Controllers\VendorController@jobsList')->name('list');
             Route::get('edit/{id}', '\App\Http\Controllers\VendorController@jobedit')->name('edit');
             Route::get('view/{id}', '\App\Http\Controllers\VendorController@jobview')->name('view');
+            Route::get('status/{post}/{status}', '\App\Http\Controllers\VendorController@changeJobStatus')->name('status');
+            Route::get('active/{post}/{status}', '\App\Http\Controllers\VendorController@changeJobActive')->name('active');
 
         });
 
