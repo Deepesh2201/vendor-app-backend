@@ -2763,4 +2763,16 @@
         messages.yes ' => '
         messages.yes ',
   'House Images' => 'House Images',
+  'you_can_not_edit_this_store_please_add_a_new_store_to_edit' => 'You can not edit this store please add a new store to edit',
+  'Complete-address' => 'Complete-address',
+  'Complete_address' => 'Complete address',
+  'Complete_Address' => 'Complete Address',
+  '
+                messages.please_only_input_png_or_jpg_type_file ' => '
+                messages.please only input png or jpg type file ',
+  '
+                messages.file_size_too_big ' => '
+                messages.file size too big ',
+  'Description' => 'Description',
+  'Full_Name' => 'Full Name',
 );
