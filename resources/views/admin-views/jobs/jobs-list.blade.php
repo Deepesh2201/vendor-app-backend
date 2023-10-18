@@ -10,7 +10,7 @@
     <div class="content container-fluid">
         <!-- Page Header -->
         <div class="page-header">
-            <h1 class="page-header-title"><i class="tio-filter-list"></i> {{translate('messages.jobs')}} <span class="badge badge-soft-dark ml-2" id="itemCount">{{$posts->count()}}</span></h1>
+            <h1 class="page-header-title"><i class="tio-filter-list"></i> {{translate('messages.jobs')}} <span class="badge badge-soft-dark ml-2" id="itemCount">{{$posts->count() ?? '0'}}</span></h1>
             <div class="page-header-select-wrapper">
                 @if(!isset(auth('admin')->user()->zone_id))
                     <div class="select-item">
@@ -36,7 +36,7 @@
             <div class="col-xl-3 col-sm-6">
                 <div class="resturant-card card--bg-1">
                     
-                    <h4 class="title">10</h4>
+                    <h4 class="title">{{$posts->count() ?? '0'}}</h4>
                     <span class="subtitle">Total Job Posts</span>
                     <img class="resturant-icon" src="{{asset('/public/assets/admin/img/total-store.png')}}" alt="store">
                 </div>
@@ -44,7 +44,7 @@
             <div class="col-xl-3 col-sm-6">
                 <div class="resturant-card card--bg-2">
                    
-                    <h4 class="title">05</h4>
+                    <h4 class="title">{{$activePosts ?? '0'}}</h4>
                     <span class="subtitle">Active Job Posts </span>
                     <img class="resturant-icon" src="{{asset('/public/assets/admin/img/active-store.png')}}" alt="store">
                 </div>
@@ -52,14 +52,14 @@
             <div class="col-xl-3 col-sm-6">
                 <div class="resturant-card card--bg-3">
                    
-                    <h4 class="title">02</h4>
+                    <h4 class="title">{{$inActivePosts ?? '0'}}</h4>
                     <span class="subtitle">Inactive Job Posts</span>
                     <img class="resturant-icon" src="{{asset('/public/assets/admin/img/close-store.png')}}" alt="store">
                 </div>
             </div>
             <div class="col-xl-3 col-sm-6">
                 <div class="resturant-card card--bg-4">
-                    <h4 class="title">03</h4>
+                    <h4 class="title">{{$postsThisWeek ?? '0'}}</h4>
                     <span class="subtitle">New Job Posts</span>
                     <img class="resturant-icon" src="{{asset('/public/assets/admin/img/add-store.png')}}" alt="store">
                 </div>
@@ -164,57 +164,61 @@
                         <th class="border-0">{{translate('messages.Post_Title')}}</th>
                         <th class="border-0">{{translate('messages.module')}}</th>
                         <th class="border-0">{{translate('messages.owner_information')}}</th>
-                        <th class="border-0">{{translate('messages.zone')}}</th>
+                        <th class="border-0">{{translate('messages.contact_email')}}</th>
                         <th class="border-0">{{translate('Index')}}</th>
-                        <th class="text-uppercase border-0">{{translate('messages.featured')}}</th>
                         <th class="text-uppercase border-0">{{translate('messages.status')}}</th>
+                        <th class="text-uppercase border-0">{{translate('messages.active')}}</th>
                         <th class="text-center border-0">{{translate('messages.action')}}</th>
                     </tr>
                     </thead>
                     <tbody id="">
-                        <tr>
-                            <td>1</td>
-                            <td>Title</td>
-                            <td>Demo</td>
-                            <td>Owner +1234567890</td>
-                            <td>All</td>
-                            <td>1</td>
-                            <td>
-                            <label class="toggle-switch toggle-switch-sm" for="">
-                                    <input type="checkbox"  class="toggle-switch-input" id="" >
-                                    <span class="toggle-switch-label">
-                                        <span class="toggle-switch-indicator"></span>
-                                    </span>
-                                </label>
-                            </td>
-                            <td>
-                            <label class="toggle-switch toggle-switch-sm" for="">
-                                        <input type="checkbox" class="toggle-switch-input" >
+                        @foreach ($posts as $post)
+                            <tr>
+                                <td>{{$loop->iteration}}</td>
+                                <td>{{Str::limit($post->job_title,20,'...') ?? '-'}}</td>
+                                <td>Jobs</td>
+                                <td> {{$post->company_name ?? ''}} - {{$post->contact_no ?? ''}}</td>
+                                <td>{{$post->contact_email ?? '-'}}</td>
+                                <td>{{$post->index ?? '-'}}</td>
+                                <td>
+                                    <label class="toggle-switch toggle-switch-sm" for="featuredCheckbox{{$post->id}}">
+                                        <input type="checkbox" onclick="location.href='{{route('admin.jobs.status',[$post->id,$post->status?0:1])}}'" class="toggle-switch-input" id="featuredCheckbox{{$post->id}}" {{$post->status?'checked':''}}>
                                         <span class="toggle-switch-label">
                                             <span class="toggle-switch-indicator"></span>
                                         </span>
                                     </label>
-                            </td>
-                            <td>
-                            <div class="btn--container justify-content-center">
-                                    <a class="btn action-btn btn--warning btn-outline-warning"
-                                            href=""
-                                            title="{{ translate('messages.view') }}"><i
-                                                class="tio-visible-outlined"></i>
+
+                                </td>
+                                <td>
+                                    <label class="toggle-switch toggle-switch-sm" for="activeCheckbox{{$post->id}}">
+                                        <input type="checkbox" onclick="location.href='{{route('admin.jobs.active',[$post->id,$post->is_active?0:1])}}'" class="toggle-switch-input" id="activeCheckbox{{$post->id}}" {{$post->is_active?'checked':''}}>
+                                        <span class="toggle-switch-label">
+                                            <span class="toggle-switch-indicator"></span>
+                                        </span>
+                                    </label>
+
+                                </td>
+                                <td>
+                                <div class="btn--container justify-content-center">
+                                        <a class="btn action-btn btn--warning btn-outline-warning"
+                                                href=""
+                                                title="{{ translate('messages.view') }}"><i
+                                                    class="tio-visible-outlined"></i>
+                                            </a>
+                                        <a class="btn action-btn btn--primary btn-outline-primary"
+                                        href=""><i class="tio-edit"></i>
                                         </a>
-                                    <a class="btn action-btn btn--primary btn-outline-primary"
-                                    href=""><i class="tio-edit"></i>
-                                    </a>
-                                    <a class="btn action-btn btn--danger btn-outline-danger" href="javascript:"
-                                     title="{{translate('messages.delete_Post')}}"><i class="tio-delete-outlined"></i>
-                                    </a>
-                                    <form action="" method="post" id="">
-                                        @csrf @method('delete')
-                                    </form>
-                                </div>
-                            </td>
-                           
-                        </tr>
+                                        <a class="btn action-btn btn--danger btn-outline-danger" href="javascript:"
+                                        title="{{translate('messages.delete_Post')}}"><i class="tio-delete-outlined"></i>
+                                        </a>
+                                        <form action="" method="post" id="">
+                                            @csrf @method('delete')
+                                        </form>
+                                    </div>
+                                </td>
+                            
+                            </tr>
+                        @endforeach
                     </tbody>
 
                    

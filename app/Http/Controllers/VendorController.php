@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use MatanYadaev\EloquentSpatial\Objects\Point;
 use Illuminate\Validation\Rules\Password;
+use Carbon\Carbon;
 
 class VendorController extends Controller
 {
@@ -212,9 +213,14 @@ class VendorController extends Controller
         return response()->json($module_data);
     }
 
-    // web for posts, stores , vacancies
+    // admin  web for posts, stores , vacancies
     public function postsList(){
         $posts = Post::all();
+        $activePosts = Post::where('is_active',1)->count();
+        $inActivePosts = Post::where('is_active',0)->count();
+        $currentDate = Carbon::now();
+        $startOfWeek = $currentDate->startOfWeek();
+        $postsThisWeek = Post::where('created_at','>=',$startOfWeek)->count();
         return view('admin-views.posts.posts-list', get_defined_vars());
     }
 
@@ -228,18 +234,64 @@ class VendorController extends Controller
         return view('admin-views.posts.post-view', get_defined_vars());
     }
 
+
+    
+    public function changeStatus(Request $request,$store,$status)
+    {
+        $store = Post::findOrFail($store);
+        $store->status = $status;
+        $store->save();
+        Toastr::success(translate('messages.post_status_updated'));
+        return redirect(url('admin/posts/list'));
+    }
+
+    public function changeActive(Request $request,$store,$active)
+    {
+        $store = Post::findOrFail($store);
+        $store->is_active = $active;
+        $store->save();
+        Toastr::success(translate('messages.post_activity_updated'));
+        return redirect(url('admin/posts/list'));
+    }
+
+
+    //*******************  functions for jobs********************//
+
     public function jobsList(){
         $posts = Vacancy::all();
+        $activePosts = Vacancy::where('is_active',1)->count();
+        $inActivePosts = Vacancy::where('is_active',0)->count();
+        $currentDate = Carbon::now();
+        $startOfWeek = $currentDate->startOfWeek();
+        $postsThisWeek = Vacancy::where('created_at','>=',$startOfWeek)->count();
         return view('admin-views.jobs.jobs-list', get_defined_vars());
-    }
-    public function jobview(){
-        $posts = Vacancy::all();
-        return view('admin-views.jobs.job-view', get_defined_vars());
     }
     public function jobedit(){
         $posts = Vacancy::all();
         return view('admin-views.jobs.job-edit', get_defined_vars());
     }
 
+    public function jobview(){
+        $posts = Vacancy::all();
+        return view('admin-views.jobs.job-view', get_defined_vars());
+    }
+    public function changeJobStatus(Request $request,$store,$status)
+    {
+        $store = Vacancy::findOrFail($store);
+        $store->status = $status;
+        $store->save();
+        Toastr::success(translate('messages.post_status_updated'));
+        return redirect(url('admin/jobs/list'));
+    }
+
+    public function changeJobActive(Request $request,$store,$active)
+    {
+        $store = Vacancy::findOrFail($store);
+        $store->is_active = $active;
+        $store->save();
+        Toastr::success(translate('messages.post_activity_updated'));
+        return redirect(url('admin/jobs/list'));
+    }
+    
 
 }
