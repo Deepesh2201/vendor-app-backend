@@ -2775,4 +2775,5 @@
                 messages.file size too big ',
   'Description' => 'Description',
   'Full_Name' => 'Full Name',
+  'contact_email' => 'Contact email',
 );
