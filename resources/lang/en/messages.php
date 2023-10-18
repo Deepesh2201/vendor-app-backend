@@ -2751,4 +2751,16 @@
   'Total_Items' => 'Total Items',
   'Total_Orders' => 'Total Orders',
   'Featured_?' => 'Featured  ',
+  'ex_:_order_id' => 'Ex : order id',
+  'store_info n' => 'Store info n',
+  '
+        messages.are_you_sure ' => '
+        messages.are you sure ',
+  '
+        messages.no ' => '
+        messages.no ',
+  '
+        messages.yes ' => '
+        messages.yes ',
+  'House Images' => 'House Images',
 );
