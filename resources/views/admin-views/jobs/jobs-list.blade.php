@@ -165,7 +165,7 @@
                         <th class="border-0">{{translate('messages.module')}}</th>
                         <th class="border-0">{{translate('messages.owner_information')}}</th>
                         <th class="border-0">{{translate('messages.contact_email')}}</th>
-                        {{-- <th class="border-0">{{translate('Index')}}</th> --}}
+                        <th class="border-0">{{translate('Index')}}</th>
                         <th class="text-uppercase border-0">{{translate('messages.status')}}</th>
                         <th class="text-uppercase border-0">{{translate('messages.active')}}</th>
                         <th class="text-center border-0">{{translate('messages.action')}}</th>
@@ -179,7 +179,7 @@
                                 <td>Jobs</td>
                                 <td> {{$post->company_name ?? ''}} - {{$post->contact_no ?? ''}}</td>
                                 <td>{{$post->contact_email ?? '-'}}</td>
-                                {{-- <td>1</td> --}}
+                                <td>{{$post->index ?? '-'}}</td>
                                 <td>
                                     <label class="toggle-switch toggle-switch-sm" for="featuredCheckbox{{$post->id}}">
                                         <input type="checkbox" onclick="location.href='{{route('admin.jobs.status',[$post->id,$post->status?0:1])}}'" class="toggle-switch-input" id="featuredCheckbox{{$post->id}}" {{$post->status?'checked':''}}>
