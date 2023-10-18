@@ -143,11 +143,11 @@
                 <span class="page-header-icon">
                     <img src="{{asset('public/assets/admin/img/house.png')}}" alt="deposit" class="w--26">
                 </span>
-                <span>Title</span>
+                <span>{{$post->title ??''}}</span>
             </h1>
         </div>
         <div>
-            <a href="http://127.0.0.1:8000/admin/store/edit/2" class="btn btn--primary float-right">
+            <a href="{{url('admin/posts/edit')}}/{{$post->id}}" class="btn btn--primary float-right">
                 <i class="tio-edit"></i> Edit 
             </a>
         </div>
@@ -188,7 +188,7 @@
                 <!-- Panding Withdraw Card Example -->
                 <div class="col-sm-4">
                     <div class="resturant-card card--bg-2">
-                        <h4 class="title">$ 12000</h4>
+                        <h4 class="title">${{$post->deposit ?? ''}} </h4>
                         <div class="subtitle">Deposit</div>
                         <img class="resturant-icon w--30"
                             src="{{asset('public/assets/admin/img/cash.png')}}" alt="deposit">
@@ -198,7 +198,7 @@
                 <!-- Earnings (Monthly) Card Example -->
                 <div class="col-sm-4">
                     <div class="resturant-card card--bg-3">
-                        <h4 class="title">$1000</h4>
+                        <h4 class="title">${{$post->rent_per_month ?? ''}} </h4>
                         <div class="subtitle">Rent</div>
                         <img class="resturant-icon w--30"
                             src="{{asset('assets/admin/img/transactions/moneyDoller1.png')}}"
@@ -209,7 +209,7 @@
                 <!-- Collected Cash Card Example -->
                 <div class="col-sm-4">
                     <div class="resturant-card card--bg-4">
-                        <h4 class="title">20 Dec 2023</h4>
+                        <h4 class="title">{{ \Carbon\Carbon::parse($post->possession_date)->format('d M Y') }}</h4>
                         <div class="subtitle">Possession</div>
                         <img class="resturant-icon w--30"
                             
@@ -246,28 +246,40 @@
                 <div class="col-lg-12">
                     <div class="resturant--info-address">
                         <div class="logo">
-                            <img onerror="this.src='{{asset('public/assets/admin/img/100x100/1.png')}}'" src=""
+                            @if($post->image1)
+                                @php
+                                    $filePath = public_path('images/post-images/'.$post->image1) ;
+                                @endphp
+                                @if(file_exists($filePath))
+                                    <div data-p="735">
+                                        <img data-u="image" src="{{url('/images/post-images/'.$post->image1)}}" />
+                                    </div>
+                                @endif
+                                @else
+                                <img onerror="this.src='{{asset('public/assets/admin/img/100x100/1.png')}}'" src=""
                                 alt="Logo">
+                            @endif
+                            
                         </div>
                         <div class="left-list">
                             <ul class="address-info list-unstyled list-unstyled-py-3 text-dark">
                                 <li>
-                                    <h5 class="name">name</h5>
+                                    <h5 class="name">{{$post->title ?? ''}}</h5>
                                     
                                 </li>
                                 
                                 <li>
                                     <!-- <i class="tio-city nav-icon"></i> -->
-                                    <span>Address</span> <span>:&nbsp;</span> <span>address</span>
+                                    <span>Address</span> <span>:&nbsp;</span> <span>{{$post->address ?? ''}}</span>
                                 </li>
 
                                 <li>
                                     <!-- <i class="tio-call-talking nav-icon"></i> -->
-                                    <span>Email</span> <span>:&nbsp;</span> <span>email</span>
+                                    <span>Email</span> <span>:&nbsp;</span> <span>{{$post->user->email ?? ''}}</span>
                                 </li>
                                 <li>
                                     <!-- <i class="tio-email nav-icon"></i> -->
-                                    <span>Phone</span> <span>:&nbsp;</span> <span>phone</span>
+                                    <span>Phone</span> <span>:&nbsp;</span> <span>{{$post->user->phone ?? ''}}</span>
                                 </li>
                             </ul>
                         </div>
@@ -279,48 +291,44 @@
                                
                                 <li>
                                     <!-- <i class="tio-bed nav-icon"></i> -->
-                                    <span>Bedroom</span> <span>:&nbsp;</span> <span>2</span>
+                                    <span>Bedroom</span> <span>:&nbsp;</span> <span>{{$post->bedrooms ?? ''}}</span>
                                 </li>
 
                                 <li>
                                     <!-- <i class="tio-tub nav-icon"></i> -->
-                                    <span>Bathroom</span> <span>:&nbsp;</span> <span>1</span>
+                                    <span>Bathroom</span> <span>:&nbsp;</span> <span>{{$post->bathrooms ?? ''}}</span>
                                 </li>
                                 <li>
                                     <!-- <i class="tio-email nav-icon"></i> -->
-                                    <span>Floor</span> <span>:&nbsp;</span> <span>2</span>
+                                    <span>Floor</span> <span>:&nbsp;</span> <span>{{$post->floors ?? ''}}</span>
                                 </li>
                             </ul>
 
                         </div>
 
 
-                        <div class="left-right" style="margin-left:50px">
-                             <ul class="address-info list-unstyled list-unstyled-py-3 text-dark">
-                                <li>
-                                    &nbsp;
-                                </li>
-                               
-                                <li>
-                                    <!-- <i class="tio-bed nav-icon"></i> -->
-                                    <span>Aminity</span> <span>:&nbsp;</span> <span>1</span>
-                                </li>
+                       @if (isset($amenityIdArray) && count($amenityIdArray)>0)
+                            <div class="left-right" style="margin-left:50px">
+                                <ul class="address-info list-unstyled list-unstyled-py-3 text-dark">
+                                    <li>
+                                        &nbsp;
+                                    </li>
 
-                                <li>
-                                    <!-- <i class="tio-tub nav-icon"></i> -->
-                                    <span>Aminity</span> <span>:&nbsp;</span> <span>2</span>
-                                </li>
-                                <li>
-                                    <!-- <i class="tio-email nav-icon"></i> -->
-                                    <span>Aminity</span> <span>:&nbsp;</span> <span>3</span>
-                                </li>
-                            </ul>
+                                    @foreach ($amenities as $amenity)
+                                        @if (in_array($amenity->id,$amenityIdArray))
+                                            <li>
+                                                <span>{{$amenity->name ?? ''}}</span> 
+                                            </li>
+                                        @endif
+                                    @endforeach
+                                </ul>
 
-                        </div>
-                        
+                            </div>
+                       @endif
+                            
                     </div>
                     <br>
-                    <p>Description Description Description Description Description Description Description Description </p>
+                    <p>{{$post->description ?? ''}}</p>
                 </div>
                 <!-- <div class="col-lg-6">
                     
@@ -349,15 +357,15 @@
                         </div>
                         <ul class="address-info address-info-2 list-unstyled list-unstyled-py-3 text-dark">
                             <li>
-                                <h5 class="name">Name</h5>
+                                <h5 class="name">{{$post->user->f_name ?? ''}}</h5>
                             </li>
                             <li>
                                 <i class="tio-call-talking nav-icon"></i>
-                                <span class="pl-1">email</span>
+                                <span class="pl-1">{{$post->user->email ?? ''}}</span>
                             </li>
                             <li>
                                 <i class="tio-email nav-icon"></i>
-                                <span class="pl-1">phone</span>
+                                <span class="pl-1">{{$post->user->phone ?? ''}}</span>
                             </li>
                         </ul>
                     </div>
@@ -378,11 +386,20 @@
                 </div>
                 <div class="card-body">
                 <div class="gallery">
-                    <img src='https://images.unsplash.com/photo-1544568100-847a948585b9?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ' alt=''>
-                    <img src='https://images.unsplash.com/photo-1517423440428-a5a00ad493e8?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ' alt=''>
-                    <img src='https://images.unsplash.com/photo-1510771463146-e89e6e86560e?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ' alt=''>
-                    <img src='https://images.unsplash.com/photo-1507146426996-ef05306b995a?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ' alt=''>
+
                     
+                        @for ($i = 1; $i <= 4; $i++)
+                            @php
+                                $imageColumn = "image" . $i;
+                                $imagePath = public_path('images/post-images/' . $post->$imageColumn);
+                            @endphp
+                    
+                            @if (!empty($post->$imageColumn) && file_exists($imagePath))
+                            <div data-p="735">
+                                <img src="{{ url('/images/post-images/' . $post->$imageColumn) }}" alt="">
+                            </div>
+                            @endif
+                        @endfor
                     </div>
                 </div>
                 </div>

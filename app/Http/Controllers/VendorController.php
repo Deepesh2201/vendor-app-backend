@@ -8,6 +8,7 @@ use App\Models\Module;
 use App\Models\Vendor;
 use App\Models\Post;
 use App\Models\Vacancy;
+use App\Models\Amenity;
 use Illuminate\Http\Request;
 use App\CentralLogics\Helpers;
 use App\Models\BusinessSetting;
@@ -229,8 +230,15 @@ class VendorController extends Controller
         return view('admin-views.posts.post-edit', get_defined_vars());
     }
 
-    public function postview(){
-        $posts = Post::all();
+    public function postview($id){
+        $post = Post::findOrFail($id);
+        $amenities = Amenity::where('parent_id',1)->get();
+        $amenityIdsString = $post->amenities;
+        if($post->amenities){
+            $amenityIdArray = explode(',',  trim($amenityIdsString,'"'));
+        }else{
+            $amenityIdArray = '';
+        }
         return view('admin-views.posts.post-view', get_defined_vars());
     }
 
@@ -271,8 +279,8 @@ class VendorController extends Controller
         return view('admin-views.jobs.job-edit', get_defined_vars());
     }
 
-    public function jobview(){
-        $posts = Vacancy::all();
+    public function jobview($id){
+        $posts = Vacancy::find($id);
         return view('admin-views.jobs.job-view', get_defined_vars());
     }
     public function changeJobStatus(Request $request,$store,$status)

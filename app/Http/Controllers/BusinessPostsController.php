@@ -468,9 +468,9 @@ class BusinessPostsController extends Controller
     public function viewPost(Request $request,$id){
         $post = Post::find($id);
         if($post){
-            $amenities = Amenity::where('parent_id',1)->get();
-            $amenityIdsString = $post->amenities;
-            $amenityIdArray = explode(',',  trim($amenityIdsString,'"'));
+                $amenities = Amenity::where('parent_id',1)->get();
+                $amenityIdsString = $post->amenities;
+                $amenityIdArray = explode(',',  trim($amenityIdsString,'"'));
             return view('posts.post-view',get_defined_vars());
         }else{
             return back();

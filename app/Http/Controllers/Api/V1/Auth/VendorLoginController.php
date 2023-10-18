@@ -412,10 +412,10 @@ class VendorLoginController extends Controller
                     'contactPerson' => 'required|string|max:255',
                     'contactNumber' => 'required|string|max:255',
                     // 'email' => 'required|email',
-                     'website' => 'url|nullable',
+                    //  'website' => 'url|nullable',
                     'jobType' => 'required',
                     'jobShift' => 'required',
-                    'logo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+                    'logo' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
                 ]);
                 if ($validator->fails()) {
                     return response()->json(['errors' => Helpers::error_processor($validator)], 403);
@@ -437,10 +437,10 @@ class VendorLoginController extends Controller
                     'contactPerson' => 'required|string|max:255',
                     'contactNumber' => 'required|string|max:255',
                     // 'email' => 'required|email',
-                    'website' => 'url|nullable',
+                    // 'website' => 'url|nullable',
                     'jobType' => 'required',
                     'jobShift' => 'required',
-                    'logo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+                    'logo' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
                 ]);
                 if ($validator->fails()) {
                     return response()->json(['errors' => Helpers::error_processor($validator)], 403);
