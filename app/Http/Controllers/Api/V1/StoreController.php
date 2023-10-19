@@ -62,18 +62,19 @@ class StoreController extends Controller
 
     public function get_popular_stores(Request $request)
     {
-        if (!$request->hasHeader('zoneId')) {
-            $errors = [];
-            array_push($errors, ['code' => 'zoneId', 'message' => translate('messages.zone_id_required')]);
-            return response()->json([
-                'errors' => $errors
-            ], 403);
-        }
+        // if (!$request->hasHeader('zoneId')) {
+        //     $errors = [];
+        //     array_push($errors, ['code' => 'zoneId', 'message' => translate('messages.zone_id_required')]);
+        //     return response()->json([
+        //         'errors' => $errors
+        //     ], 403);
+        // }
         $type = $request->query('type', 'all');
-        $zone_id= $request->header('zoneId');
-        $longitude= $request->header('longitude');
-        $latitude= $request->header('latitude');
-        $stores = StoreLogic::get_popular_stores($zone_id, $request['limit'], $request['offset'], $type,$longitude,$latitude);
+        // $zone_id= $request->header('zoneId');
+        // $longitude= $request->header('longitude');
+        // $latitude= $request->header('latitude');
+        $stores = StoreLogic::get_popular_stores($request['limit'], $request['offset'], $type);
+        // $stores = StoreLogic::get_popular_stores($zone_id, $request['limit'], $request['offset'], $type,$longitude,$latitude);
         $stores['stores'] = Helpers::store_data_formatting($stores['stores'], true);
 
         return response()->json($stores, 200);

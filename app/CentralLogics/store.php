@@ -129,20 +129,20 @@ class StoreLogic
         ];
     }
 
-    public static function get_popular_stores($zone_id, $limit = 50, $offset = 1, $type = 'all',$longitude=0,$latitude=0)
+    // public static function get_popular_stores($zone_id, $limit = 50, $offset = 1, $type = 'all',$longitude=0,$latitude=0)
+    public static function get_popular_stores($limit = 50, $offset = 1, $type = 'all')
     {
-        $paginator = Store::withOpen($longitude??0,$latitude??0)
-        ->with(['discount'=>function($q){
+        $paginator = Store::with(['discount'=>function($q){
             return $q->validate();
         }])
-        ->when(config('module.current_module_data'), function($query)use($zone_id){
-            $query->whereHas('zone.modules', function($query){
-                $query->where('modules.id', config('module.current_module_data')['id']);
-            })->module(config('module.current_module_data')['id']);
-            if(!config('module.current_module_data')['all_zone_service']) {
-                $query->whereIn('zone_id', json_decode($zone_id, true));
-            }
-        })
+        // ->when(config('module.current_module_data'), function($query)use($zone_id){
+        //     $query->whereHas('zone.modules', function($query){
+        //         $query->where('modules.id', config('module.current_module_data')['id']);
+        //     })->module(config('module.current_module_data')['id']);
+        //     if(!config('module.current_module_data')['all_zone_service']) {
+        //         $query->whereIn('zone_id', json_decode($zone_id, true));
+        //     }
+        // })
         ->Active()
         ->type($type)
         ->withCount('orders')
