@@ -545,13 +545,22 @@ class Helpers
 
     public static function store_data_formatting($data, $multi_data = false)
     {
+        // dd($data);
         $storage = [];
         if ($multi_data == true) {
             foreach ($data as $item) {
                 $ratings = StoreLogic::calculate_store_rating($item['rating']);
-                unset($item['rating']);
-                $item['avg_rating'] = $ratings['rating'];
-                $item['rating_count'] = $ratings['total'];
+                // unset($item['rating']);
+
+            // $ratings = StoreLogic::calculate_store_rating($data['rating']);
+            $count = store_reviews::where('store_id', $item['id'])->count();
+            $averageRating = store_reviews::where('store_id', $item['id'])->avg('ratings');
+
+
+                // $item['avg_rating'] = $ratings['rating'];
+                $item['avg_rating'] = floatval($averageRating);
+                $item['rating_count'] = $count;
+                // $item['rating_count'] = $ratings['total'];
                 $item['positive_rating'] = $ratings['positive_rating'];
                 $item['total_items'] = $item['items']->count();
                 $item['total_campaigns'] = $item['campaigns']->count();
@@ -561,7 +570,7 @@ class Helpers
             }
             $data = $storage;
         } else {
-            $ratings = StoreLogic::calculate_store_rating($data['rating']);
+            // $ratings = StoreLogic::calculate_store_rating($data['rating']);
             $count = store_reviews::where('store_id', $data['id'])->count();
             $averageRating = store_reviews::where('store_id', $data['id'])->avg('ratings');
 
@@ -569,7 +578,7 @@ class Helpers
             $data['avg_rating'] = floatval($averageRating);
 
             $data['rating_count'] = $count;
-            $data['positive_rating'] = $ratings['positive_rating'];
+            // $data['positive_rating'] = $ratings['positive_rating'];
             $data['total_items'] = $data['items']->count();
             $data['total_campaigns'] = $data['campaigns']->count();
             unset($data['campaigns']);
