@@ -427,9 +427,31 @@ class VendorLoginController extends Controller
             return response()->json(['status' => 'error', 'message' => 'Failed to save/Job Vacancy Post'], 500);
         }
     }
-    public function vacancyList(){
-        $vacancyList = Vacancy::all();
-        return response()->json($vacancyList, 200);
+    // public function vacancyList(){
+    //     $vacancyList = Vacancy::all();
+    //     return response()->json($vacancyList, 200);
+    // }
+    public function vacancyList(Request $request,$user_id = null){
+        if($user_id){
+            $posts = Vacancy::where('user_id', $user_id)->get();
+        }elseif($user_id==null || $user_id == '0'){
+            $posts = Vacancy::where('status',1)->get();
+        }
+        if(count($posts) > 0){
+                $postsWithImages = $posts->map(function ($post) {
+                    $post->createdDate =  $post->created_at->format('H:i:s d-m-Y');
+                    if($post->status ==1){
+                       $post->statusName = 'Approved' ;
+                    }else{
+                        $post->statusName = 'In Review';
+                    }
+                    $post->module_id = 10;
+                    return $post;
+                });
+               return response()->json($postsWithImages, 200);
+        }else{
+            return response()->json(['status' => 'error','message' => 'Vacancies not found on your account'], 404);
+        }
     }
 
     public function editVacancy($vacancy_id){
