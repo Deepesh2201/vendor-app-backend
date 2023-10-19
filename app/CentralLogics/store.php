@@ -137,14 +137,14 @@ class StoreLogic
         $paginator = Store::with(['discount'=>function($q){
             return $q->validate();
         }])
-        // ->when(config('module.current_module_data'), function($query)use($zone_id){
-        //     $query->whereHas('zone.modules', function($query){
-        //         $query->where('modules.id', config('module.current_module_data')['id']);
-        //     })->module(config('module.current_module_data')['id']);
-        //     if(!config('module.current_module_data')['all_zone_service']) {
-        //         $query->whereIn('zone_id', json_decode($zone_id, true));
-        //     }
-        // })
+        ->when(config('module.current_module_data'), function($query){
+            $query->whereHas('zone.modules', function($query){
+                $query->where('modules.id', config('module.current_module_data')['id']);
+            })->module(config('module.current_module_data')['id']);
+            // if(!config('module.current_module_data')['all_zone_service']) {
+            //     $query->whereIn('zone_id', json_decode($zone_id, true));
+            // }
+        })
         ->Active()
         ->type($type)
         ->withCount('orders')
