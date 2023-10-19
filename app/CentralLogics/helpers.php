@@ -545,6 +545,7 @@ class Helpers
 
     public static function store_data_formatting($data, $multi_data = false)
     {
+        // dd($data);
         $storage = [];
         if ($multi_data == true) {
             foreach ($data as $item) {
@@ -569,7 +570,7 @@ class Helpers
             }
             $data = $storage;
         } else {
-            $ratings = StoreLogic::calculate_store_rating($data['rating']);
+            // $ratings = StoreLogic::calculate_store_rating($data['rating']);
             $count = store_reviews::where('store_id', $data['id'])->count();
             $averageRating = store_reviews::where('store_id', $data['id'])->avg('ratings');
 
@@ -577,7 +578,7 @@ class Helpers
             $data['avg_rating'] = floatval($averageRating);
 
             $data['rating_count'] = $count;
-            $data['positive_rating'] = $ratings['positive_rating'];
+            // $data['positive_rating'] = $ratings['positive_rating'];
             $data['total_items'] = $data['items']->count();
             $data['total_campaigns'] = $data['campaigns']->count();
             unset($data['campaigns']);
