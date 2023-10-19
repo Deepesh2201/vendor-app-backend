@@ -39,7 +39,7 @@ class VendorController extends Controller
         $custome_recaptcha = new CaptchaBuilder;
         $custome_recaptcha->build();
         Session::put('six_captcha', $custome_recaptcha->getPhrase());
-        
+
         return view('vendor-views.auth.register', compact('custome_recaptcha'));
     }
 
@@ -291,10 +291,6 @@ class VendorController extends Controller
                 $listing = new Post();
                 $message = 'Post Added successfully';
             }
-
-
-
-
             // $listing->user_id = auth()->user()->id ?? 0;
             // $listing->user_id = 2;
             $listing->title = $request->title;
@@ -361,7 +357,7 @@ class VendorController extends Controller
             return back();
     }
     public function deletePostImages($postId,$imgColumn){
-        
+
         $listing = Post::findOrFail($postId);
         // dd($imgColumn);
         if($listing->$imgColumn){
@@ -377,16 +373,31 @@ class VendorController extends Controller
         }
     }
 
-
-
-
+    public function deletePost($postId){
+        $listing = Post::findOrFail($postId);
+        if($listing){
+            $imageColumns = ['image1', 'image2', 'image3', 'image4'];
+            foreach ($imageColumns as $imageColumn) {
+                if ($listing->$imageColumn) {
+                    $filePath = public_path('images/post-images/' . $listing->$imageColumn);
+                    if (file_exists($filePath)) {
+                        unlink($filePath);
+                    }
+                }
+            }
+            $listing->delete();
+            Toastr::success(translate('messages.deleted_successfully'));
+            return back();
+        }
+    }
+    
     
     public function changeStatus(Request $request,$store,$status)
     {
         $store = Post::findOrFail($store);
-        $store->status = $status;
+        $store->featured = $status;
         $store->save();
-        Toastr::success(translate('messages.post_status_updated'));
+        Toastr::success(translate('messages.post_featured_status_updated'));
         return redirect(url('admin/posts/list'));
     }
 
@@ -411,21 +422,124 @@ class VendorController extends Controller
         $postsThisWeek = Vacancy::where('created_at','>=',$startOfWeek)->count();
         return view('admin-views.jobs.jobs-list', get_defined_vars());
     }
-    public function jobedit(){
-        $posts = Vacancy::all();
+    public function jobedit($id){
+        $post = Vacancy::findOrFail($id);
         return view('admin-views.jobs.job-edit', get_defined_vars());
     }
 
+    public function deleteJobLogo($postId){
+
+        $listing = Vacancy::findOrFail($postId);
+        // dd($imgColumn);
+        if($listing->logo){
+            $filePath = public_path('images/post-images/'.$listing->logo) ;
+            if (file_exists($filePath)) {
+                unlink($filePath);
+                $listing->logo = null;
+                $listing->save();
+                return response()->json(['message' => 'Image deleted'], 200);
+            }
+        }else{
+            return response()->json(['message' => 'Not found to delete'], 404);
+        }
+    }
+
+
+
+    public function updateJob(Request $request,$id){
+
+
+            if($id){
+                $vacancy_id = $id;
+                $request->validate([
+                    'company_name' => 'required|string|max:255',
+                    'job_title' => 'required|string|max:255',
+                    'job_description' => 'required|string',
+                    'designation' => 'required|string',
+                    'salary_min' => 'required|integer|min:0',
+                    'salary_max' => 'required|integer|min:0',
+                    'location' => 'required|string|max:255',
+                    'min_education' => 'required|string|max:255',
+                    'experience' => 'required|string|max:255',
+                    'contact_person_name' => 'required|string|max:255',
+                    'contact_no' => 'required|string|max:255',
+                    'contact_email_id' => 'required|email',
+                    'website' => 'required|string|max:255',
+                    'job_type' => 'required',
+                    'shift' => 'required',
+                    'logo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+                ]);
+                $listing = Vacancy::find($vacancy_id);
+                $message = 'Job Vacancy updated successfully';
+            }
+            else{
+                $request->validate([
+                    'company_name' => 'required|string|max:255',
+                    'job_title' => 'required|string|max:255',
+                    'job_description' => 'required|string',
+                    'designation' => 'required|string',
+                    'salary_min' => 'required|integer|min:0',
+                    'salary_max' => 'required|integer|min:0',
+                    'location' => 'required|string|max:255',
+                    'min_education' => 'required|string|max:255',
+                    'experience' => 'required|string|max:255',
+                    'contact_person_name' => 'required|string|max:255',
+                    'contact_no' => 'required|string|max:255',
+                    'contact_email_id' => 'required|email',
+                    'website' => 'required|string|max:255',
+                    'job_type' => 'required',
+                    'shift' => 'required',
+                    'logo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+                ]);
+                $listing = new Vacancy;
+                $message = 'Vacancy Added successfully';
+            }
+            // $listing->user_id = auth()->user()->id ?? 2;
+            $listing->company_name = $request->company_name;
+            $listing->job_title = $request->job_title;
+            $listing->job_description = $request->job_description;
+            $listing->designation = $request->designation;
+            $listing->salary_min = $request->salary_min;
+            $listing->salary_max = $request->salary_max;
+            $listing->location = $request->location;
+            $listing->min_education = $request->min_education;
+            $listing->experience = $request->experience;
+            $listing->contact_person_name = $request->contact_person_name;
+            $listing->contact_no = $request->contact_no;
+            $listing->contact_email = $request->contact_email_id;
+            $listing->website = $request->website;
+            $listing->job_type = $request->job_type;
+            $listing->shift = $request->shift;
+            $listing->status = 1;
+            if ($request->hasFile('logo')) {
+                if($listing->logo){
+                    $filePath = public_path('images/post-images/'.$listing->logo) ;
+                    if (file_exists($filePath)) {
+                        unlink($filePath);
+                    }
+                }
+                $imageName = time().'.logo.'.$request->logo->extension();
+                $request->logo->move(public_path('images/post-images'), $imageName);
+                $listing->logo = $imageName;
+            }
+            $listing->save();
+
+            Toastr::success(translate('messages.updated_successfully'));
+            return back();
+    }
+
+
+
     public function jobview($id){
-        $posts = Vacancy::find($id);
+        $post = Vacancy::findOrFail($id);
         return view('admin-views.jobs.job-view', get_defined_vars());
     }
     public function changeJobStatus(Request $request,$store,$status)
     {
         $store = Vacancy::findOrFail($store);
-        $store->status = $status;
+        $store->featured = $status;
         $store->save();
-        Toastr::success(translate('messages.post_status_updated'));
+        Toastr::success(translate('messages.post_featured_status_updated'));
         return redirect(url('admin/jobs/list'));
     }
 
@@ -437,6 +551,20 @@ class VendorController extends Controller
         Toastr::success(translate('messages.post_activity_updated'));
         return redirect(url('admin/jobs/list'));
     }
-    
+    public function deleteJob($postId){
+        $listing = Vacancy::findOrFail($postId);
+        if($listing){
+            if ($listing->logo) {
+                $filePath = public_path('images/post-images/' . $listing->logo);
+                if (file_exists($filePath)) {
+                    unlink($filePath);
+                }
+            }
+            $listing->delete();
+            Toastr::success(translate('messages.deleted_successfully'));
+            return back();
+        }
+    }
+
 
 }

@@ -1,6 +1,6 @@
 @extends('layouts.admin.app')
 
-@section('title','Update rent/sales info')
+@section('title','View Job')
 @push('css_or_js')
 <link rel="stylesheet" href="{{asset('/public/assets/admin/css/intlTelInput.css')}}" />
 <link rel="stylesheet" href="{{url('https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css')}}">
@@ -20,21 +20,21 @@
 <div class="d-flex justify-content-between">
         <div>
             <h1 class="page-header-title text-break">
-                <span class="page-header-icon"> 
+                <span class="page-header-icon">
                     <img src="{{asset('public/assets/admin/img/briefcase.png')}}" alt="deposit" class="w--26">
                 </span>
                 <span>Job Details</span>
             </h1>
         </div>
         <div>
-            <a href="" class="btn btn--primary float-right">
-                <i class="tio-edit"></i> Edit 
+            <a href="{{url('admin/jobs/edit')}}/{{$post->id}}" class="btn btn--primary float-right">
+                <i class="tio-edit"></i> Edit
             </a>
         </div>
     </div>
     <br>
 
-    
+
 
     <!-- End Page Header -->
     <form method="post" class="js-validate" enctype="multipart/form-data" id="vendor_form">
@@ -45,21 +45,18 @@
                 <div class="card shadow--card-2">
                     <div class="card-body">
 
-
-
-
                         <div class="lang_form" id="default-form">
                             <div class="form-group">
                                 <label class="input-label" for="">Company Name
                                 </label>
                                 <input type="text" name="" id="" class="form-control" placeholder="Company Name"
-                                    value="" disabled>
+                                    value="{{ $post->company_name ?? '' }}" disabled>
                             </div>
 
                             <div class="form-group">
                                 <label class="input-label" for=""> Job Title
                                 </label>
-                                <input type="text" name="" id="" class="form-control" placeholder=" Job Tilte" value=""
+                                <input type="text" name="" id="" class="form-control" placeholder=" Job Tilte" value="{{ $post->job_title ?? '' }}"
                                 disabled>
                             </div>
 
@@ -68,30 +65,30 @@
                                     for="exampleFormControlInput1">{{ translate('messages.Description') }}</label>
                                 <textarea type="text" name="address[]"
                                     placeholder="{{translate('messages.Description')}}"
-                                    class="form-control min-h-90px ckeditor" disabled></textarea>
+                                    class="form-control min-h-90px ckeditor" disabled>{{ $post->job_description ?? '' }}</textarea>
                             </div>
 
 
                             <div class="form-group">
                                 <label class="input-label" for="">Designation
                                 </label>
-                                <input type="text" name="" id="" class="form-control" placeholder="Designation" value=""
+                                <input type="text" name="" id="" class="form-control" placeholder="Designation" value="{{ $post->designation ?? '' }}"
                                 disabled>
                             </div>
 
                             <div class="form-group">
                                 <label class="input-label" for="">Salary
                                 </label>
-                                <input type="text" name="" id="" class="form-control" placeholder="Min Salary" value=""
+                                <input type="text" name="" id="" class="form-control" placeholder="Min Salary" value="{{ intval($post->salary_min) ?? '' }}"
                                 disabled>
-                                <input type="text" name="" id="" class="form-control" placeholder="Max Salary" value=""
+                                <input type="text" name="" id="" class="form-control" placeholder="Max Salary" value="{{ intval($post->salary_max) ?? '' }}"
                                 disabled>
                             </div>
 
                             <div class="form-group">
                                 <label class="input-label" for="">Location
                                 </label>
-                                <input type="text" name="" id="" class="form-control" placeholder="Location" value=""
+                                <input type="text" name="" id="" class="form-control" placeholder="Location" value="{{ $post->location ?? '' }}"
                                 disabled>
                             </div>
 
@@ -99,27 +96,27 @@
                                 <label class="input-label" for="">Min Education
                                 </label>
                                 <input type="text" name="" id="" class="form-control" placeholder="Min Education"
-                                    value="" disabled>
+                                    value="{{ $post->min_education ?? '' }}" disabled>
                             </div>
 
                             <div class="form-group">
                                 <label class="input-label" for="">Experience
                                 </label>
-                                <input type="text" name="" id="" class="form-control" placeholder="Experience" value=""
+                                <input type="text" name="" id="" class="form-control" placeholder="Experience" value="{{ $post->experience ?? '' }}"
                                 disabled>
                             </div>
 
                             <div class="form-group">
                                 <label class="input-label" for="">Contact Personal Name
                                 </label>
-                                <input type="text" name="" id="" class="form-control" placeholder="dd/mm/yyyy" value=""
+                                <input type="text" name="" id="" class="form-control"  value="{{ $post->contact_person_name ?? '' }}"
                                     required>
                             </div>
 
                             <div class="form-group">
                                 <label class="input-label" for="">Contact No.
                                 </label>
-                                <input type="text" name="" id="" class="form-control" placeholder="dd/mm/yyyy" value=""
+                                <input type="text" name="" id="" class="form-control"  value="{{ $post->contact_no ?? '' }}"
                                 disabled>
                             </div>
 
@@ -128,29 +125,28 @@
                             <div class="form-group">
                                 <label class="input-label" for="">Contact Email Id
                                 </label>
-                                <input type="text" name="" id="" class="form-control" placeholder="dd/mm/yyyy" value=""
+                                <input type="text" name="" id="" class="form-control"  value="{{ $post->contact_email ?? '' }}"
                                 disabled>
                             </div>
 
                             <div class="form-group">
                                 <label class="input-label" for="">Website
                                 </label>
-                                <input type="text" name="" id="" class="form-control" placeholder="dd/mm/yyyy" value=""
+                                <input type="text" name="" id="" class="form-control"  value="{{ $post->website ?? '' }}"
                                 disabled>
                             </div>
 
 
                             <div class="form-group">
-                                <label class="input-label" for="">Job Typpe
+                                <label class="input-label" for="">Job Type
                                 </label>
                                 <div class="row">
                                     <div class="col-md-6 col-sm-6 col-6">
-                                        <input type="radio" name="jobType" id="" class="" disabled
-                                            value=""><span class="ml-2">Full time</span>
+                                        <input type="radio" name="jobType" id="" class="" disabled {{ $post->job_type == 1 ? 'checked' : '' }}><span class="ml-2">Full time</span>
                                     </div>
                                     <div class="col-md-6 col-sm-6 col-6">
                                         <input type="radio" name="jobType" id="" class="" disabled
-                                            value=""><span class="ml-2">Part Time</span>
+                                            {{ $post->job_type == 2 ? 'checked' : '' }}><span class="ml-2">Part Time</span>
                                     </div>
                                 </div>
                             </div>
@@ -158,18 +154,21 @@
                             <div class="form-group">
                                 <label class="input-label" for="">Shift
                                 </label>
+                                @php
+                                    $shiftId = explode(',', $post->shift);
+                                @endphp
                                 <div class="row">
                                     <div class="col-md-4 col-sm-4 col-4">
                                         <input type="radio" name="shift" id="" class="" disabled
-                                            value=""><span class="ml-2">Day Shift</span>
+                                        @if (in_array(1, $shiftId)) checked @endif><span class="ml-2">Day Shift</span>
                                     </div>
                                     <div class="col-md-4 col-sm-4 col-4">
                                         <input type="radio" name="shift" id="" class="" disabled
-                                            value=""><span class="ml-2">Night Shift</span>
+                                        @if (in_array(2, $shiftId)) checked @endif><span class="ml-2">Night Shift</span>
                                     </div>
                                     <div class="col-md-4 col-sm-4 col-4">
                                         <input type="radio" name="shift" id="" class="" disabled
-                                            value=""><span class="ml-2">Rotational shift</span>
+                                        @if (in_array(3, $shiftId)) checked @endif><span class="ml-2">Rotational shift</span>
                                     </div>
                                 </div>
                             </div>
@@ -193,17 +192,20 @@
                             <div class="row">
                                 <div class="col-md-12 col-12 col-lg-12">
                                 <label class="__custom-upload-img mr-lg-5">
-                                  
+
                                     <label class="form-label">
-                                        {{ translate('logo') }} 
+                                        {{ translate('logo') }}
                                     </label>
                                     <center>
+                                        @php
+                                            $filePath = public_path('images/post-images/' . $post->logo);
+                                        @endphp
                                         <img class="img--110 min-height-170px min-width-170px" id="viewer"
-                                            onerror="this.src='{{ asset('public/assets/admin/img/pinterest.png') }}'"
+                                            onerror="this.src='{{ file_exists($filePath) ? url('/images/post-images/' . $post->logo) : asset('public/assets/admin/img/upload-img.png') }}'"
                                             src="" alt=""
                                             alt="logo image" />
                                     </center>
-                                   
+
                                 </label>
                             </div>
 
@@ -234,7 +236,7 @@
                     <div class="form-group mb-0">
                         <label class="input-label" for="f_name">{{translate('messages.Full_Name')}}</label>
                         <input type="text" name="f_name" class="form-control"
-                            placeholder="{{translate('messages.first_name')}}" value="" disabled>
+                            placeholder="{{translate('messages.first_name')}}" value="{{$post->user->f_name ?? ''}}" disabled>
                     </div>
                 </div>
                 <div class="col-md-4 col-sm-6">
@@ -242,14 +244,14 @@
                         <label class="input-label"
                             for="exampleFormControlInput1">{{translate('messages.email')}}</label>
                         <input type="email" name="email" class="form-control"
-                            placeholder="{{ translate('messages.Ex:') }} ex@example.com" value="" disabled>
+                            placeholder="{{ translate('messages.Ex:') }} ex@example.com" value="{{$post->user->email ?? ''}}" disabled>
                     </div>
                 </div>
                 <div class="col-md-4 col-sm-6">
                     <div class="form-group mb-0">
                         <label class="input-label" for="phone">{{translate('messages.phone')}}</label>
                         <input type="text" id="phone" name="phone" class="form-control"
-                            placeholder="{{ translate('messages.Ex:') }} 017********" value="" disabled>
+                            placeholder="{{ translate('messages.Ex:') }} 017********" value="{{$post->user->phone ?? ''}}" disabled>
                     </div>
                 </div>
             </div>
@@ -257,12 +259,12 @@
     </div>
 </div>
 
-<div class="col-lg-12">
+{{-- <div class="col-lg-12">
     <div class="btn--container justify-content-end">
         <button type="reset" id="reset_btn" class="btn btn--reset">{{translate('messages.reset')}}</button>
         <button type="submit" class="btn btn--primary">{{translate('messages.submit')}}</button>
     </div>
-</div>
+</div> --}}
 </div>
 </form>
 </div>

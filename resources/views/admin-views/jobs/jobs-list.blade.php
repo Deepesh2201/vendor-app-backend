@@ -26,7 +26,7 @@
                         </select>
                     </div>
                 @endif
-                
+
             </div>
         </div>
         <!-- End Page Header -->
@@ -35,7 +35,7 @@
         <div class="row g-3 mb-3">
             <div class="col-xl-3 col-sm-6">
                 <div class="resturant-card card--bg-1">
-                    
+
                     <h4 class="title">{{$posts->count() ?? '0'}}</h4>
                     <span class="subtitle">Total Job Posts</span>
                     <img class="resturant-icon" src="{{asset('/public/assets/admin/img/total-store.png')}}" alt="store">
@@ -43,7 +43,7 @@
             </div>
             <div class="col-xl-3 col-sm-6">
                 <div class="resturant-card card--bg-2">
-                   
+
                     <h4 class="title">{{$activePosts ?? '0'}}</h4>
                     <span class="subtitle">Active Job Posts </span>
                     <img class="resturant-icon" src="{{asset('/public/assets/admin/img/active-store.png')}}" alt="store">
@@ -51,7 +51,7 @@
             </div>
             <div class="col-xl-3 col-sm-6">
                 <div class="resturant-card card--bg-3">
-                   
+
                     <h4 class="title">{{$inActivePosts ?? '0'}}</h4>
                     <span class="subtitle">Inactive Job Posts</span>
                     <img class="resturant-icon" src="{{asset('/public/assets/admin/img/close-store.png')}}" alt="store">
@@ -106,16 +106,16 @@
                     <h5 class="card-title">{{translate('messages.Job_Post_list')}}</h5>
                     <form  class="search-form">
                                     <!-- Search -->
-                        <div class="input-group input--group">
+                        {{-- <div class="input-group input--group">
                             <input id="datatableSearch_" type="search" value="{{ request()?->search ?? null }}" name="search" class="form-control"
                                     placeholder="{{translate('ex_:_Search_Post_Name')}}" aria-label="{{translate('messages.search')}}" >
                             <button type="submit" class="btn btn--secondary"><i class="tio-search"></i></button>
 
-                        </div>
+                        </div> --}}
                         <!-- End Search -->
                     </form>
                     <!-- Unfold -->
-                    <div class="hs-unfold mr-2">
+                    {{-- <div class="hs-unfold mr-2">
                         <a class="js-hs-unfold-invoker btn btn-sm btn-white dropdown-toggle min-height-40" href="javascript:;"
                             data-hs-unfold-options='{
                                     "target": "#usersExportDropdown",
@@ -142,7 +142,7 @@
                             </a>
 
                         </div>
-                    </div>
+                    </div> --}}
                     <!-- End Unfold -->
                 </div>
             </div>
@@ -166,7 +166,7 @@
                         <th class="border-0">{{translate('messages.owner_information')}}</th>
                         <th class="border-0">{{translate('messages.contact_email')}}</th>
                         <th class="border-0">{{translate('Index')}}</th>
-                        <th class="text-uppercase border-0">{{translate('messages.status')}}</th>
+                        <th class="text-uppercase border-0">{{translate('messages.featured')}}</th>
                         <th class="text-uppercase border-0">{{translate('messages.active')}}</th>
                         <th class="text-center border-0">{{translate('messages.action')}}</th>
                     </tr>
@@ -182,7 +182,7 @@
                                 <td>{{$post->index ?? '-'}}</td>
                                 <td>
                                     <label class="toggle-switch toggle-switch-sm" for="featuredCheckbox{{$post->id}}">
-                                        <input type="checkbox" onclick="location.href='{{route('admin.jobs.status',[$post->id,$post->status?0:1])}}'" class="toggle-switch-input" id="featuredCheckbox{{$post->id}}" {{$post->status?'checked':''}}>
+                                        <input type="checkbox" onclick="location.href='{{route('admin.jobs.status',[$post->id,$post->featured?0:1])}}'" class="toggle-switch-input" id="featuredCheckbox{{$post->id}}" {{$post->featured?'checked':''}}>
                                         <span class="toggle-switch-label">
                                             <span class="toggle-switch-indicator"></span>
                                         </span>
@@ -201,32 +201,35 @@
                                 <td>
                                 <div class="btn--container justify-content-center">
                                         <a class="btn action-btn btn--warning btn-outline-warning"
-                                                href=""
+                                                href="{{url('admin/jobs/view')}}/{{$post->id}}"
                                                 title="{{ translate('messages.view') }}"><i
                                                     class="tio-visible-outlined"></i>
                                             </a>
                                         <a class="btn action-btn btn--primary btn-outline-primary"
-                                        href=""><i class="tio-edit"></i>
+                                        href="{{url('admin/jobs/edit')}}/{{$post->id}}"><i class="tio-edit"></i>
                                         </a>
-                                        <a class="btn action-btn btn--danger btn-outline-danger" href="javascript:"
+                                        <button class="btn action-btn btn--danger btn-outline-danger" data-post-id="{{ $post->id }}" data-toggle="modal" data-target="#deletePostModal">
+                                            <i class="tio-delete-outlined"></i>
+                                        </button>
+                                        {{-- <a class="btn action-btn btn--danger btn-outline-danger" href="javascript:"
                                         title="{{translate('messages.delete_Post')}}"><i class="tio-delete-outlined"></i>
                                         </a>
                                         <form action="" method="post" id="">
                                             @csrf @method('delete')
-                                        </form>
+                                        </form> --}}
                                     </div>
                                 </td>
-                            
+
                             </tr>
                         @endforeach
                     </tbody>
 
-                   
+
                 </table>
-               
+
                 <hr>
-               
-              
+
+
 
             </div>
             <!-- End Table -->
@@ -235,6 +238,29 @@
 
 
     </div>
+
+    
+    <!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deletePostModal" tabindex="-1" role="dialog"  aria-labelledby="deletePostModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deletePostModalLabel">{{ translate('messages.confirm_delete_post') }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                {{ translate('messages.confirm_delete_post') }}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ translate('messages.cancel') }}</button>
+                <a href="" class="btn btn-danger" id="confirmDeleteButton">{{ translate('messages.confirm_delete') }}</a>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 @endsection
 
@@ -297,6 +323,15 @@
             $('.js-select2-custom').each(function () {
                 var select2 = $.HSCore.components.HSSelect2.init($(this));
             });
+
+            
+        });
+
+        $('#deletePostModal').on('show.bs.modal', function (e) {
+            const button = $(e.relatedTarget);
+            const postId = button.data('post-id');
+            const deleteUrl = `{{ url('admin/jobs/delete') }}/${postId}`;
+            $('#confirmDeleteButton').attr('href', deleteUrl);
         });
     </script>
 
