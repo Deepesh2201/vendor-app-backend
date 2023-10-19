@@ -20,9 +20,10 @@ class BannerLogic
                 $query->where('modules.id', config('module.current_module_data')['id']);
             })
             ->module(config('module.current_module_data')['id'])
-            ->when(!config('module.current_module_data')['all_zone_service'], function($query)use($zone_id){
-                // $query->whereIn('zone_id', json_decode($zone_id, true));
-            });
+            // ->when(!config('module.current_module_data')['all_zone_service'], function($query)use($zone_id){
+            //     $query->whereIn('zone_id', json_decode($zone_id, true));
+            // })
+            ;
         }
 
       $banners = $banners

@@ -27,16 +27,17 @@ class BannerController extends Controller
         if(!$request->featured)
         {
             $campaigns = Campaign::
-            whereHas('module.zones',function($query)use($zone_id){
-                // $query->whereIn('zones.id', (array)json_decode($zone_id, true));
-            })
-            ->when(config('module.current_module_data'), function($query)use($zone_id){
+            // whereHas('module.zones',function($query)use($zone_id){
+            //     $query->whereIn('zones.id', (array)json_decode($zone_id, true));
+            // })
+            // ->
+            when(config('module.current_module_data'), function($query)use($zone_id){
                 $query->module(config('module.current_module_data')['id']);
-                if(!config('module.current_module_data')['all_zone_service']) {
-                    $query->whereHas('stores', function($q)use($zone_id){
-                        // $q->whereIn('zone_id', json_decode($zone_id, true));
-                    });
-                }
+                // if(!config('module.current_module_data')['all_zone_service']) {
+                //     $query->whereHas('stores', function($q)use($zone_id){
+                //         $q->whereIn('zone_id', json_decode($zone_id, true));
+                //     });
+                // }
             })
             ->running()->active()->get();
         }
