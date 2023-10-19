@@ -130,6 +130,10 @@ class BusinessPostsController extends Controller
             $listing->amenities = json_encode($request->amenities);
             $listing->post_type = 1;
             $listing->save();
+            if(!$request->id){
+                $listing->index = $listing->id; 
+                $listing->save();
+            }
             // Toastr::success('Post Added successfully');
             return back()->with('success',$message);
         } catch (ValidationException $e) {
@@ -415,6 +419,10 @@ class BusinessPostsController extends Controller
             $listing->post_type = 1;
             $listing->module_id = 13;
             $listing->save();
+            if(!$request->postId){
+                $listing->index = $listing->id;
+                $listing->save();
+            }
             return response()->json(['status' => 'success', 'message' => $message], 200);
         // } catch (\Exception $e) {
         //     info($e->getMessage());
