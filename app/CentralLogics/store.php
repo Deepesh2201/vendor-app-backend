@@ -48,8 +48,8 @@ class StoreLogic
         $paginator = $paginator->Active()
         ->type($type)
         ->when($store_type == 'all', function($q){
-            return $q->orderBy('open', 'desc')
-            ->orderBy('distance');
+            return $q->orderBy('index', 'desc');
+            // ->orderBy('distance');
         })
         ->when($store_type == 'newly_joined', function($q){
             return $q->latest();
