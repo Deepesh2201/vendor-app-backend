@@ -14,12 +14,12 @@ use function Symfony\Component\VarDumper\Dumper\esc;
 
 class StoreLogic
 {
-    public static function get_stores( $zone_id, $filter, $type, $store_type, $limit = 10, $offset = 1, $featured=false,$longitude=0,$latitude=0)
+    public static function get_stores($filter, $type, $store_type, $limit = 10, $offset = 1, $featured=false)
     {
         
         $paginator = Store::
-        withOpen($longitude??0,$latitude??0)
-        ->
+        // withOpen($longitude??0,$latitude??0)
+        // ->
         with(['discount'=>function($q){
             return $q->validate();
         }])
@@ -35,16 +35,16 @@ class StoreLogic
         ->when($featured, function($query){
             $query->featured();
         });
-        if(config('module.current_module_data')) {
-            $paginator = $paginator->whereHas('zone.modules', function($query){
-                $query->where('modules.id', config('module.current_module_data')['id']);
-            })->module(config('module.current_module_data')['id'])
-            ->when(!config('module.current_module_data')['all_zone_service'], function($query)use($zone_id){
-                $query->whereIn('zone_id', json_decode($zone_id,true));
-            });
-        } else {
-            $paginator = $paginator->whereIn('zone_id', (array)json_decode($zone_id,true));
-        }
+        // if(config('module.current_module_data')) {
+        //     $paginator = $paginator->whereHas('zone.modules', function($query){
+        //         $query->where('modules.id', config('module.current_module_data')['id']);
+        //     })->module(config('module.current_module_data')['id'])
+        //     ->when(!config('module.current_module_data')['all_zone_service'], function($query)use($zone_id){
+        //         $query->whereIn('zone_id', json_decode($zone_id,true));
+        //     });
+        // } else {
+        //     $paginator = $paginator->whereIn('zone_id', (array)json_decode($zone_id,true));
+        // }
         $paginator = $paginator->Active()
         ->type($type)
         ->when($store_type == 'all', function($q){
