@@ -31,11 +31,11 @@ class StoreController extends Controller
         $store_type = $request->query('store_type', 'all');
         // $zone_id= $request->header('zoneId');
         //  $zone_id= 2;
-        $longitude= $request->header('longitude');
-        $latitude= $request->header('latitude');
+        // $longitude= $request->header('longitude');
+        // $latitude= $request->header('latitude');
         $stores = StoreLogic::get_stores($filter_data, $type, $store_type, $request['limit'], $request['offset'], $request->query('featured'));
         // $stores = StoreLogic::get_stores( $zone_id, $filter_data, $type, $store_type, $request['limit'], $request['offset'], $request->query('featured'),$longitude,$latitude);
-        $stores['stores'] = Helpers::store_data_formatting($stores['stores'], true);
+        $stores['stores'] = Helpers::store_data_formatting($stores['stores']);
 
         return response()->json($stores, 200);
     }
