@@ -295,30 +295,32 @@ class StoreLogic
         return json_encode($store_ratings);
     }
 
-    public static function search_stores($name, $zone_id, $category_id= null,$limit = 10, $offset = 1, $type = 'all',$longitude=0,$latitude=0)
+    public static function search_stores($name, $category_id= null,$limit = 10, $offset = 1, $type = 'all')
     {
         $key = explode(' ', $name);
-        $paginator = Store::whereHas('zone.modules', function($query){
-            $query->where('modules.id', config('module.current_module_data')['id']);
-        })->withOpen($longitude??0,$latitude??0)->with(['discount'=>function($q){
+        $paginator = Store::
+        // whereHas('zone.modules', function($query){
+        //     $query->where('modules.id', config('module.current_module_data')['id']);
+        // })->withOpen($longitude??0,$latitude??0)->
+        with(['discount'=>function($q){
             return $q->validate();
         }])->weekday()->where(function ($q) use ($key) {
             foreach ($key as $value) {
                 $q->orWhere('name', 'like', "%{$value}%");
             }
         })
-        ->when(config('module.current_module_data'), function($query)use($zone_id){
+        ->when(config('module.current_module_data'), function($query){
             $query->module(config('module.current_module_data')['id']);
-            if(!config('module.current_module_data')['all_zone_service']) {
-                $query->whereIn('zone_id', json_decode($zone_id, true));
-            }
+            // if(!config('module.current_module_data')['all_zone_service']) {
+            //     $query->whereIn('zone_id', json_decode($zone_id, true));
+            // }
         })
-        ->when($category_id, function($query)use($category_id){
-            $query->whereHas('items.category', function($q)use($category_id){
-                return $q->whereId($category_id)->orWhere('parent_id', $category_id);
-            });
-        })
-        ->active()->orderBy('open', 'desc')->orderBy('distance')->type($type)->paginate($limit, ['*'], 'page', $offset);
+        // ->when($category_id, function($query)use($category_id){
+        //     $query->whereHas('items.category', function($q)use($category_id){
+        //         return $q->whereId($category_id)->orWhere('parent_id', $category_id);
+        //     });
+        // })
+        ->active()->orderBy('id', 'desc')->type($type)->paginate($limit, ['*'], 'page', $offset);
 
                 
         $paginator->each(function ($store) {

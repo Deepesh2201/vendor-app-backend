@@ -171,13 +171,13 @@ class StoreController extends Controller
 
     public function get_searched_stores(Request $request)
     {
-        if (!$request->hasHeader('zoneId')) {
-            $errors = [];
-            array_push($errors, ['code' => 'zoneId', 'message' => translate('messages.zone_id_required')]);
-            return response()->json([
-                'errors' => $errors
-            ], 403);
-        }
+        // if (!$request->hasHeader('zoneId')) {
+        //     $errors = [];
+        //     array_push($errors, ['code' => 'zoneId', 'message' => translate('messages.zone_id_required')]);
+        //     return response()->json([
+        //         'errors' => $errors
+        //     ], 403);
+        // }
         $validator = Validator::make($request->all(), [
             'name' => 'required',
         ]);
@@ -188,10 +188,11 @@ class StoreController extends Controller
 
         $type = $request->query('type', 'all');
 
-        $zone_id= $request->header('zoneId');
-        $longitude= $request->header('longitude');
-        $latitude= $request->header('latitude');
-        $stores = StoreLogic::search_stores($request['name'], $zone_id, $request->category_id,$request['limit'], $request['offset'], $type,$longitude,$latitude);
+        // $zone_id= $request->header('zoneId');
+        // $longitude= $request->header('longitude');
+        // $latitude= $request->header('latitude');
+        $stores = StoreLogic::search_stores($request['name'],$request->category_id,$request['limit'], $request['offset'], $type);
+        // $stores = StoreLogic::search_stores($request['name'], $zone_id, $request->category_id,$request['limit'], $request['offset'], $type,$longitude,$latitude);
         $stores['stores'] = Helpers::store_data_formatting($stores['stores'], true);
         return response()->json($stores, 200);
     }
