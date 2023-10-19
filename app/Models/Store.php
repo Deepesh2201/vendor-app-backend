@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 class Store extends Model
 {
-
+    protected $dateFormat = 'Y-m-d H:i:s';
     protected $casts = [
         'minimum_order' => 'float',
         'comission' => 'float',

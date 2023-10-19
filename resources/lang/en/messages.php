@@ -2719,4 +2719,61 @@
   'successfully_updated' => 'Successfully updated',
   'already_in_wishlist' => 'Already in wishlist',
   'The password must be at least 6 characters.' => 'The password must be at least 6 characters.',
+  'vendor_type_required' => 'Vendor type required',
+  'posts_list' => 'Posts list',
+  'posts' => 'Posts',
+  'message.jobs' => 'Message.jobs',
+  'jobs_list' => 'Jobs list',
+  'jobs' => 'Jobs',
+  'message.jobs_list' => 'Message.jobs list',
+  '3. Once you have downloaded and filled the format file, upload it in the form below and submit.Make sure the phone numbers and email addresses are unique.' => '3. Once you have downloaded and filled the format file  upload it in the form below and submit.Make sure the phone numbers and email addresses are unique.',
+  'Posts' => 'Posts',
+  'total_withdraws' => 'Total withdraws',
+  'Post_list' => 'Post list',
+  'ex_:_Search_Post_Name' => 'Ex : Search Post Name',
+  'Index' => 'Index',
+  'Post_Title' => 'Post Title',
+  'S.No' => 'S.No',
+  'delete_Post' => 'Delete Post',
+  'Job_Post_list' => 'Job Post list',
+  'Store_List' => 'Store List',
+  'Total_Store' => 'Total Store',
+  'Active_Store' => 'Active Store',
+  'Inactive_Store' => 'Inactive Store',
+  'Newly_Joined' => 'Newly Joined',
+  'Filter_Criteria' => 'Filter Criteria',
+  'Module' => 'Module',
+  'Store_ID' => 'Store ID',
+  'Store_Logo' => 'Store Logo',
+  'Store_Name' => 'Store Name',
+  'Ratings' => 'Ratings',
+  'Owner_Information' => 'Owner Information',
+  'Total_Items' => 'Total Items',
+  'Total_Orders' => 'Total Orders',
+  'Featured_?' => 'Featured  ',
+  'ex_:_order_id' => 'Ex : order id',
+  'store_info n' => 'Store info n',
+  '
+        messages.are_you_sure ' => '
+        messages.are you sure ',
+  '
+        messages.no ' => '
+        messages.no ',
+  '
+        messages.yes ' => '
+        messages.yes ',
+  'House Images' => 'House Images',
+  'you_can_not_edit_this_store_please_add_a_new_store_to_edit' => 'You can not edit this store please add a new store to edit',
+  'Complete-address' => 'Complete-address',
+  'Complete_address' => 'Complete address',
+  'Complete_Address' => 'Complete Address',
+  '
+                messages.please_only_input_png_or_jpg_type_file ' => '
+                messages.please only input png or jpg type file ',
+  '
+                messages.file_size_too_big ' => '
+                messages.file size too big ',
+  'Description' => 'Description',
+  'Full_Name' => 'Full Name',
+  'contact_email' => 'Contact email',
 );

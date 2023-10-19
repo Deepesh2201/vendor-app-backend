@@ -246,6 +246,24 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
             Route::get('message/list', 'VendorController@conversation_list')->name('message-list');
         });
 
+        Route::group(['prefix' => 'posts', 'as' => 'posts.'], function () {
+            Route::get('list', '\App\Http\Controllers\VendorController@postsList')->name('list');
+            Route::get('edit/{id}', '\App\Http\Controllers\VendorController@postedit')->name('edit');
+            Route::post('update/{id}', '\App\Http\Controllers\VendorController@updatePost')->name('post-update');
+            Route::get('view/{id}', '\App\Http\Controllers\VendorController@postview')->name('view');
+            Route::get('delete-image/{id}/{column}', '\App\Http\Controllers\VendorController@deletePostImages')->name('delete-postImages');
+            Route::get('status/{post}/{status}', '\App\Http\Controllers\VendorController@changeStatus')->name('status');
+            Route::get('active/{post}/{status}', '\App\Http\Controllers\VendorController@changeActive')->name('active');
+        });
+        Route::group(['prefix' => 'jobs', 'as' => 'jobs.'], function () {
+            Route::get('list', '\App\Http\Controllers\VendorController@jobsList')->name('list');
+            Route::get('edit/{id}', '\App\Http\Controllers\VendorController@jobedit')->name('edit');
+            Route::get('view/{id}', '\App\Http\Controllers\VendorController@jobview')->name('view');
+            Route::get('status/{post}/{status}', '\App\Http\Controllers\VendorController@changeJobStatus')->name('status');
+            Route::get('active/{post}/{status}', '\App\Http\Controllers\VendorController@changeJobActive')->name('active');
+
+        });
+
         Route::group(['prefix' => 'addon', 'as' => 'addon.', 'middleware' => ['module:addon']], function () {
             Route::get('add-new', 'AddOnController@index')->name('add-new');
             Route::post('store', 'AddOnController@store')->name('store');

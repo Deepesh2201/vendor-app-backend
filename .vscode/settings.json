@@ -1,3 +1,4 @@
 {
-    "php.version": "8.1.12"
+    "php.version": "8.1.12",
+    "liveServer.settings.port": 5501
 }

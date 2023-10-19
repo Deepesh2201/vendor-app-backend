@@ -6,6 +6,9 @@ use App\Models\Zone;
 use App\Models\Store;
 use App\Models\Module;
 use App\Models\Vendor;
+use App\Models\Post;
+use App\Models\Vacancy;
+use App\Models\Amenity;
 use Illuminate\Http\Request;
 use App\CentralLogics\Helpers;
 use App\Models\BusinessSetting;
@@ -21,7 +24,8 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use MatanYadaev\EloquentSpatial\Objects\Point;
 use Illuminate\Validation\Rules\Password;
-
+use Carbon\Carbon;
+use Illuminate\Validation\ValidationException;
 class VendorController extends Controller
 {
     public function create()
@@ -209,4 +213,230 @@ class VendorController extends Controller
         ->limit(8)->get([DB::raw('modules.id as id, modules.module_name as text')]);
         return response()->json($module_data);
     }
+
+    // admin  web for posts, stores , vacancies
+    public function postsList(){
+        $posts = Post::all();
+        $activePosts = Post::where('is_active',1)->count();
+        $inActivePosts = Post::where('is_active',0)->count();
+        $currentDate = Carbon::now();
+        $startOfWeek = $currentDate->startOfWeek();
+        $postsThisWeek = Post::where('created_at','>=',$startOfWeek)->count();
+        return view('admin-views.posts.posts-list', get_defined_vars());
+    }
+
+    public function postedit($id){
+        $post = Post::findOrFail($id);
+        $amenities = Amenity::where('parent_id',1)->get();
+        $amenityIdsString = $post->amenities;
+        if($post->amenities){
+            $amenityIdArray = explode(',',  trim($amenityIdsString,'"'));
+        }else{
+            $amenityIdArray = '';
+        }
+        return view('admin-views.posts.post-edit', get_defined_vars());
+    }
+
+    public function postview($id){
+        $post = Post::findOrFail($id);
+        $amenities = Amenity::where('parent_id',1)->get();
+        $amenityIdsString = $post->amenities;
+        if($post->amenities){
+            $amenityIdArray = explode(',',  trim($amenityIdsString,'"'));
+        }else{
+            $amenityIdArray = '';
+        }
+        return view('admin-views.posts.post-view', get_defined_vars());
+    }
+
+    public function updatePost(Request $request,$id){
+            if($id){
+                $request->validate([
+                    'title' => 'required|string|max:255',
+                    'address' => 'required|string|max:255',
+                    'rent_per_month' => 'required|numeric|min:0',
+                    'deposit' => 'required|numeric|min:0',
+                    'bedrooms' => 'required|integer|min:0',
+                    'bathrooms' => 'required|integer|min:0',
+                    'floors' => 'required|integer|min:0',
+                    'description' => 'required|string',
+                    'possession_date' => 'required|date', // Ensure that possession_date is a valid date
+                    'image1' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Validating image1 as an example, you can apply similar rules to other images
+                    'image2' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Optional image fields
+                    'image3' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+                    'image4' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+                    // 'amenities' => 'required',
+                ]);
+                $listing = Post::find($id);
+                $message = 'Post updated successfully';
+            }
+            else{
+
+                $request->validate([
+                    'title' => 'required|string|max:255',
+                    'address' => 'required|string|max:255',
+                    'rent_per_month' => 'required|numeric|min:0',
+                    'deposit' => 'required|numeric|min:0',
+                    'bedrooms' => 'required|integer|min:0',
+                    'bathrooms' => 'required|integer|min:0',
+                    'floors' => 'required|integer|min:0',
+                    'description' => 'required|string',
+                    'possession_date' => 'required|date', // Ensure that possession_date is a valid date
+                    'image1' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Validating image1 as an example, you can apply similar rules to other images
+                    'image2' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Optional image fields
+                    'image3' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+                    'image4' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+                    // 'amenities' => 'required',
+                ]);
+                $listing = new Post();
+                $message = 'Post Added successfully';
+            }
+
+
+
+
+            // $listing->user_id = auth()->user()->id ?? 0;
+            // $listing->user_id = 2;
+            $listing->title = $request->title;
+            $listing->address = $request->address;
+            $listing->rent_per_month = $request->rent_per_month;
+            $listing->deposit = $request->deposit;
+            $listing->bedrooms = $request->bedrooms;
+            $listing->bathrooms = $request->bathrooms;
+            $listing->floors = $request->floors;
+            $listing->description = $request->description;
+            $listing->possession_date = $request->possession_date;
+
+            // Handle image uploads
+            if ($request->hasFile('image1')) {
+                if($listing->image1){
+                    $filePath = public_path('images/post-images/'.$listing->image1) ;
+                    if (file_exists($filePath)) {
+                        unlink($filePath);
+                    }
+                }
+                $imageName = time().'.img1.'.$request->image1->extension();
+                $request->image1->move(public_path('images/post-images'), $imageName);
+                $listing->image1 = $imageName;
+            }
+            if ($request->hasFile('image2')) {
+                if($listing->image2){
+                    $filePath = public_path('images/post-images/'.$listing->image2) ;
+                    if (file_exists($filePath)) {
+                        unlink($filePath);
+                    }
+                }
+                $imageName = time().'.img2.'.$request->image2->extension();
+                $request->image2->move(public_path('images/post-images'), $imageName);
+                $listing->image2 = $imageName;
+            }
+            if ($request->hasFile('image3')) {
+                if($listing->image3){
+                    $filePath = public_path('images/post-images/'.$listing->image3) ;
+                    if (file_exists($filePath)) {
+                        unlink($filePath);
+                    }
+                }
+                $imageName = time().'.img3.'.$request->image3->extension();
+                $request->image3->move(public_path('images/post-images'), $imageName);
+                $listing->image3 = $imageName;
+            }
+            if ($request->hasFile('image4')) {
+                if($listing->image4){
+                    $filePath = public_path('images/post-images/'.$listing->image4) ;
+                    if (file_exists($filePath)) {
+                        unlink($filePath);
+                    }
+                }
+                $imageName = time().'.img4.'.$request->image4->extension();
+                $request->image4->move(public_path('images/post-images'), $imageName);
+                $listing->image4 = $imageName;
+            }
+            $amenitiesString = implode(',',$request->amenities) ;
+            $listing->amenities = json_encode($amenitiesString);
+            $listing->post_type = 1;
+            $listing->module_id = 13;
+            $listing->save();
+            Toastr::success(translate('messages.updated_successfully'));
+            return back();
+    }
+    public function deletePostImages($postId,$imgColumn){
+        
+        $listing = Post::findOrFail($postId);
+        // dd($imgColumn);
+        if($listing->$imgColumn){
+            $filePath = public_path('images/post-images/'.$listing->$imgColumn) ;
+            if (file_exists($filePath)) {
+                unlink($filePath);
+                $listing->$imgColumn = null;
+                $listing->save();
+                return response()->json(['message' => 'Image deleted'], 200);
+            }
+        }else{
+            return response()->json(['message' => 'Not found to delete'], 404);
+        }
+    }
+
+
+
+
+    
+    public function changeStatus(Request $request,$store,$status)
+    {
+        $store = Post::findOrFail($store);
+        $store->status = $status;
+        $store->save();
+        Toastr::success(translate('messages.post_status_updated'));
+        return redirect(url('admin/posts/list'));
+    }
+
+    public function changeActive(Request $request,$store,$active)
+    {
+        $store = Post::findOrFail($store);
+        $store->is_active = $active;
+        $store->save();
+        Toastr::success(translate('messages.post_activity_updated'));
+        return redirect(url('admin/posts/list'));
+    }
+
+
+    //*******************  functions for jobs********************//
+
+    public function jobsList(){
+        $posts = Vacancy::all();
+        $activePosts = Vacancy::where('is_active',1)->count();
+        $inActivePosts = Vacancy::where('is_active',0)->count();
+        $currentDate = Carbon::now();
+        $startOfWeek = $currentDate->startOfWeek();
+        $postsThisWeek = Vacancy::where('created_at','>=',$startOfWeek)->count();
+        return view('admin-views.jobs.jobs-list', get_defined_vars());
+    }
+    public function jobedit(){
+        $posts = Vacancy::all();
+        return view('admin-views.jobs.job-edit', get_defined_vars());
+    }
+
+    public function jobview($id){
+        $posts = Vacancy::find($id);
+        return view('admin-views.jobs.job-view', get_defined_vars());
+    }
+    public function changeJobStatus(Request $request,$store,$status)
+    {
+        $store = Vacancy::findOrFail($store);
+        $store->status = $status;
+        $store->save();
+        Toastr::success(translate('messages.post_status_updated'));
+        return redirect(url('admin/jobs/list'));
+    }
+
+    public function changeJobActive(Request $request,$store,$active)
+    {
+        $store = Vacancy::findOrFail($store);
+        $store->is_active = $active;
+        $store->save();
+        Toastr::success(translate('messages.post_activity_updated'));
+        return redirect(url('admin/jobs/list'));
+    }
+    
+
 }

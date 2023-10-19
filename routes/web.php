@@ -30,6 +30,15 @@ use App\Http\Controllers\PaystackController;
 */
 
 Route::get('/', 'HomeController@index')->name('home');
+
+
+Route::get('main/categories', '\App\Http\Controllers\Api\V1\CategoryController@main_categories');
+Route::get('zone/list', '\App\Http\Controllers\Api\V1\ZoneController@get_zones');
+    Route::get('countries/list','\App\Http\Controllers\Api\V1\ZoneController@countries_list');
+    Route::get('states/bycountryid/{id}','\App\Http\Controllers\Api\V1\ZoneController@states_by_country');
+    Route::get('cities/bystateid','\App\Http\Controllers\Api\V1\ZoneController@cities_by_state');
+    Route::get('areas/bycityid/{id}','\App\Http\Controllers\Api\V1\ZoneController@areas_by_city');
+
 Route::get('store-registration', 'HomeController@showregistrationpage')->name('showregistrationpage');
 Route::post('save-store-registration', 'HomeController@saveStoreRegistration')->name('save-store-registration');
 Route::post('posts/save', 'BusinessPostsController@savePost');
@@ -201,16 +210,12 @@ Route::group(['prefix' => 'deliveryman', 'as' => 'deliveryman.'], function () {
     Route::post('apply', 'DeliveryManController@store')->name('store');
 });
 
-Route::group(['prefix' =>'business'], function(){
-    Route::get('list', 'BusinessPostsController@businessList');
-    Route::get('create', 'BusinessPostsController@createBusiness');
-    Route::post('save', 'BusinessPostsController@saveBusiness');
-    Route::get('edit/{id}', 'BusinessPostsController@editBusiness');
-});
-
+// web posts and vacancies
 Route::group(['prefix' =>'posts'], function(){
-    Route::get('list', 'BusinessPostsController@index');
-    Route::get('create', 'BusinessPostsController@create');
-    Route::post('save', 'BusinessPostsController@savePost');
-    Route::get('edit/{id}', 'BusinessPostsController@editPost');
+    Route::get('list', '\App\Http\Controllers\BusinessPostsController@allPostList');
+    Route::get('view/{id}', '\App\Http\Controllers\BusinessPostsController@viewPost');
+});
+Route::group(['prefix' =>'vacancies'], function(){
+    Route::get('list', '\App\Http\Controllers\BusinessPostsController@allJobsList');
+    Route::get('view/{id}', '\App\Http\Controllers\BusinessPostsController@viewJob');
 });

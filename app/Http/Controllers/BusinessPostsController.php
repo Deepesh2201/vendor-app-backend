@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Brian2694\Toastr\Facades\Toastr;
 use App\Models\Amenity;
 use App\Models\Post;
+use App\Models\Banner;
 use App\Models\Store;
 use App\Models\cities;
 use App\Models\Category;
@@ -14,10 +15,10 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 use App\CentralLogics\Helpers;
+use App\Models\Vacancy;
 class BusinessPostsController extends Controller
 {
     public function index(Request $request){
-
         $posts = Post::where('user_id', 2)->get();
         // $posts = Post::where('user_id', $request->userid);
         return view('admin-views.customer.posts.post_list',get_defined_vars());
@@ -25,6 +26,24 @@ class BusinessPostsController extends Controller
     public function create(Request $request){
         $amenities = Amenity::where('parent_id',1)->get();
         return view('admin-views.customer.posts.post_create',get_defined_vars());
+    }
+    public function getAmenities(Request $request,$parent_id){
+        if($parent_id){
+            $amenities = Amenity::where('parent_id',$parent_id)->where('status',1)->get();
+        }else{
+           $amenities = Amenity::where('parent_id',1)->where('status',1)->where('status',1)->get();
+        }
+
+        if(count($amenities) > 0){
+             $amenitiesWithImages = $amenities->map(function ($amenity) {
+                $amenity->icon =   'public/' . $amenity->icon;
+                return $amenity;
+            });
+            return response()->json($amenitiesWithImages, 200);
+        }else{
+            return response()->json(['status' => 'error','message' => 'Amenities not found'], 404);
+        }
+
     }
     public function savePost(Request $request){
 
@@ -111,6 +130,10 @@ class BusinessPostsController extends Controller
             $listing->amenities = json_encode($request->amenities);
             $listing->post_type = 1;
             $listing->save();
+            if(!$request->id){
+                $listing->index = $listing->id; 
+                $listing->save();
+            }
             // Toastr::success('Post Added successfully');
             return back()->with('success',$message);
         } catch (ValidationException $e) {
@@ -165,7 +188,7 @@ class BusinessPostsController extends Controller
                 $listing = Store::find($store_id);
                 $message = 'Store updated successfully';
             }
-            else{
+            elseif($request->store_id == '0' || $request->store_id == null){
 
                 $request->validate([
                     'store_name' => 'required|string|max:255',
@@ -231,6 +254,7 @@ class BusinessPostsController extends Controller
             $listing->module_id = 2;
             $listing->zone_id = 2;
             $listing->active = 1;
+            $listing->status = 0;
             $listing->save();
             return back()->with('success',$message);
         } catch (ValidationException $e) {
@@ -253,29 +277,56 @@ class BusinessPostsController extends Controller
 
 
     // Api functions for posts
-    public function apiindex(Request $request){
-        $posts = Post::where('user_id', 2)->get();
-        return response()->json($posts, 200);
+    public function apiindex(Request $request,$user_id = null){
+        if($user_id){
+            $posts = Post::where('user_id', $user_id)->get();
+        }elseif($user_id==null || $user_id == '0'){
+            $posts = Post::where('status',1)->where('is_active',1)->get();
+        }
+        if(count($posts) > 0){
+                $postsWithImages = $posts->map(function ($post) {
+                    $imageFields = ['image1', 'image2', 'image3', 'image4'];
+                    foreach ($imageFields as $field) {
+                        if($post->$field){
+                            $post->$field = 'public/images/post-images/' . $post->$field;
+                        }else{
+                            $post->$field = null;
+                        }
+                    }
+                    $post->createdDate =  $post->created_at->format('H:i:s d-m-Y') ;
+                    $post->module_id = 11;
+                    if($post->status ==1){
+                       $post->statusName = 'Approved' ;
+                    }else{
+                        $post->statusName = 'In Review';
+                    }
+                    return $post;
+                });
+               return response()->json($postsWithImages, 200);
+        }else{
+            return response()->json(['status' => 'error','message' => 'Posts not found on your account'], 404);
+        }
     }
 
     public function apisavePost(Request $request){
-        try {
-            if($request->post_id){
-                $post_id = $request->post_id;
+        // return $request->amenities;
+        // try {
+            if($request->postId && ($request->postId!='0' || $request->postId!=null)){
+                $post_id = $request->postId;
                 $validator = Validator::make($request->all(), [
-                    'title' => 'required|string|max:255',
+                   'title' => 'required|string|max:255',
                     'address' => 'required|string|max:255',
-                    'rent_per_month' => 'required|numeric|min:0',
+                    'rent' => 'required|numeric|min:0',
                     'deposit' => 'required|numeric|min:0',
                     'bedrooms' => 'required|integer|min:0',
                     'bathrooms' => 'required|integer|min:0',
                     'floors' => 'required|integer|min:0',
                     'description' => 'required|string',
-                    'possession_date' => 'required|date', // Ensure that possession_date is a valid date
-                    'image1' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Validating image1 as an example, you can apply similar rules to other images
-                    'image2' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Optional image fields
-                    'image3' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-                    'image4' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+                    'possession' => 'required|date_format:d/m/Y', // Ensure that possession_date is a valid date
+                    'pic1' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Validating image1 as an example, you can apply similar rules to other images
+                    'pic2' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Optional image fields
+                    'pic3' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+                    'pic4' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
                     // 'amenities' => 'required',
                 ]);
                 if ($validator->fails()) {
@@ -284,21 +335,21 @@ class BusinessPostsController extends Controller
                 $listing = Post::find($post_id);
                 $message = 'Post updated successfully';
             }
-            else{
+            elseif($request->postId== null || $request->postId=='0'){
                 $validator = Validator::make($request->all(), [
                     'title' => 'required|string|max:255',
                     'address' => 'required|string|max:255',
-                    'rent_per_month' => 'required|numeric|min:0',
+                    'rent' => 'required|numeric|min:0',
                     'deposit' => 'required|numeric|min:0',
                     'bedrooms' => 'required|integer|min:0',
                     'bathrooms' => 'required|integer|min:0',
                     'floors' => 'required|integer|min:0',
                     'description' => 'required|string',
-                    'possession_date' => 'required|date',
-                    'image1' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-                    'image2' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-                    'image3' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-                    'image4' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+                    'possession' => 'required|date_format:d/m/Y',
+                    'pic1' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+                    'pic2' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+                    'pic3' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+                    'pic4' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
                     // 'amenities' => 'required',
                 ]);
                 if ($validator->fails()) {
@@ -308,46 +359,75 @@ class BusinessPostsController extends Controller
                 $message = 'Post Added successfully';
             }
             // $listing->user_id = auth()->user()->id ?? 0;
-            $listing->user_id = 2;
+            $listing->user_id = $request->userId;
             $listing->title = $request->title;
             $listing->address = $request->address;
-            $listing->rent_per_month = $request->rent_per_month;
+            $listing->rent_per_month = $request->rent;
             $listing->deposit = $request->deposit;
             $listing->bedrooms = $request->bedrooms;
             $listing->bathrooms = $request->bathrooms;
             $listing->floors = $request->floors;
             $listing->description = $request->description;
-            $listing->possession_date = $request->possession_date;
+            $listing->possession_date = $request->possession;
 
             // Handle image uploads
-            if ($request->hasFile('image1')) {
-                $imageName = time().'.img1-'.$request->image1->extension();
-                $request->image1->move(public_path('images/post-images'), $imageName);
+            if ($request->hasFile('pic1')) {
+                if($listing->image1){
+                    $filePath = public_path('images/post-images/'.$listing->image1) ;
+                    if (file_exists($filePath)) {
+                        unlink($filePath);
+                    }
+                }
+                $imageName = time().'.img1.'.$request->pic1->extension();
+                $request->pic1->move(public_path('images/post-images'), $imageName);
                 $listing->image1 = $imageName;
             }
-            if ($request->hasFile('image2')) {
-                $imageName = time().'.img2-'.$request->image2->extension();
-                $request->image2->move(public_path('images/post-images'), $imageName);
+            if ($request->hasFile('pic2')) {
+                if($listing->image2){
+                    $filePath = public_path('images/post-images/'.$listing->image2) ;
+                    if (file_exists($filePath)) {
+                        unlink($filePath);
+                    }
+                }
+                $imageName = time().'.img2.'.$request->pic2->extension();
+                $request->pic2->move(public_path('images/post-images'), $imageName);
                 $listing->image2 = $imageName;
             }
-            if ($request->hasFile('image3')) {
-                $imageName = time().'.img3-'.$request->image3->extension();
-                $request->image3->move(public_path('images/post-images'), $imageName);
+            if ($request->hasFile('pic3')) {
+                if($listing->image3){
+                    $filePath = public_path('images/post-images/'.$listing->image3) ;
+                    if (file_exists($filePath)) {
+                        unlink($filePath);
+                    }
+                }
+                $imageName = time().'.img3.'.$request->pic3->extension();
+                $request->pic3->move(public_path('images/post-images'), $imageName);
                 $listing->image3 = $imageName;
             }
-            if ($request->hasFile('image4')) {
-                $imageName = time().'.img4-'.$request->image4->extension();
-                $request->image4->move(public_path('images/post-images'), $imageName);
+            if ($request->hasFile('pic4')) {
+                if($listing->image4){
+                    $filePath = public_path('images/post-images/'.$listing->image4) ;
+                    if (file_exists($filePath)) {
+                        unlink($filePath);
+                    }
+                }
+                $imageName = time().'.img4.'.$request->pic4->extension();
+                $request->pic4->move(public_path('images/post-images'), $imageName);
                 $listing->image4 = $imageName;
             }
-            $listing->amenities = json_encode($request->amenities);
+            $listing->amenities = $request->amenities ? json_encode($request->amenities) : null;
             $listing->post_type = 1;
+            $listing->module_id = 13;
             $listing->save();
+            if(!$request->postId){
+                $listing->index = $listing->id;
+                $listing->save();
+            }
             return response()->json(['status' => 'success', 'message' => $message], 200);
-        } catch (\Exception $e) {
-            info($e->getMessage());
-            return response()->json(['status' => 'error', 'message' => 'Failed to save/store business'], 500);
-        }
+        // } catch (\Exception $e) {
+        //     info($e->getMessage());
+        //     return response()->json(['status' => 'error', 'message' => 'Failed to save/store post'], 500);
+        // }
     }
 
 
@@ -355,6 +435,12 @@ class BusinessPostsController extends Controller
 
         try {
             $post = Post::select('*')->where('id',$post_id)->first();
+            if($post){
+                $post->image1 =   'public/images/post-images/' . $post->image1;
+                $post->image2 =   'public/images/post-images/' . $post->image2;
+                $post->image3 =   'public/images/post-images/' . $post->image3;
+                $post->image4 =   'public/images/post-images/' . $post->image4;
+            }
             if (!$post) {
                 return response()->json(['status' => 'error','message' => 'Post not found'], 404);
             }
@@ -368,5 +454,42 @@ class BusinessPostsController extends Controller
         }
 
     }
+
+
+
+    // web posts and jobs
+
+    public function allPostList(Request $request){
+        $posts = Post::where('status', 1)->where('is_active',1)->get();
+        return view('posts.posts',get_defined_vars());
+    }
+
+    
+    public function allJobsList(Request $request){
+        $vacancyList = Vacancy::where('status', 1)->where('is_active',1)->get();
+        $banners = Banner::where('module_id',10)->get();
+        $randomPosts = Vacancy::inRandomOrder(4)->where(['status'=>1,'is_active'=>1])->get();
+        $latestPosts = Vacancy::latest()->take(4)->where(['status'=>1,'is_active'=>1])->get();
+        return view('jobs.vacancies',get_defined_vars());
+    }
+
+    public function viewPost(Request $request,$id){
+        $post = Post::find($id);
+        if($post){
+                $amenities = Amenity::where('parent_id',1)->get();
+                $amenityIdsString = $post->amenities;
+                $amenityIdArray = explode(',',  trim($amenityIdsString,'"'));
+            return view('posts.post-view',get_defined_vars());
+        }else{
+            return back();
+        }
+       
+    }
+    public function viewJob(Request $request,$id){
+        $vacancy = Vacancy::find($id);
+        return view('jobs.job-view',get_defined_vars());
+    }
+    
+
 
 }
