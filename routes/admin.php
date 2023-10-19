@@ -254,6 +254,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
             Route::get('delete-image/{id}/{column}', '\App\Http\Controllers\VendorController@deletePostImages')->name('delete-postImages');
             Route::get('status/{post}/{status}', '\App\Http\Controllers\VendorController@changeStatus')->name('status');
             Route::get('active/{post}/{status}', '\App\Http\Controllers\VendorController@changeActive')->name('active');
+            Route::get('delete/{post}', '\App\Http\Controllers\VendorController@deletePost')->name('delete-post');
         });
         Route::group(['prefix' => 'jobs', 'as' => 'jobs.'], function () {
             Route::get('list', '\App\Http\Controllers\VendorController@jobsList')->name('list');
@@ -261,6 +262,9 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
             Route::get('view/{id}', '\App\Http\Controllers\VendorController@jobview')->name('view');
             Route::get('status/{post}/{status}', '\App\Http\Controllers\VendorController@changeJobStatus')->name('status');
             Route::get('active/{post}/{status}', '\App\Http\Controllers\VendorController@changeJobActive')->name('active');
+            Route::post('update/{id}', '\App\Http\Controllers\VendorController@updateJob')->name('job-update');
+            Route::get('delete-logo/{id}', '\App\Http\Controllers\VendorController@deleteJobLogo')->name('delete-joblogo');
+            Route::get('delete/{post}', '\App\Http\Controllers\VendorController@deleteJob')->name('delete-job');
 
         });
 

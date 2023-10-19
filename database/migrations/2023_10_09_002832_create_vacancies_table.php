@@ -29,7 +29,9 @@ return new class extends Migration
             $table->string('website');
             $table->integer('job_type')->comment('1: Full Time, 2: Part Time');
             $table->integer('shift')->comment('1: Day Shift, 2: Night Shift, 3: Rotational Shift');
-            $table->tinyInteger('status')->default(1); // You can change the default status as needed
+            $table->tinyInteger('status')->default(1);
+            $table->tinyInteger('featured')->default(0);
+            $table->integer('index')->nullable();
             $table->timestamps();
         });
     }

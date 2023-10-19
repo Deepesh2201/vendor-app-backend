@@ -95,7 +95,7 @@ class BusinessPostsController extends Controller
 
 
             // $listing->user_id = auth()->user()->id ?? 0;
-            $listing->user_id = 2;
+            $listing->user_id = 0;
             $listing->title = $request->title;
             $listing->address = $request->address;
             $listing->rent_per_month = $request->rent_per_month;
