@@ -215,30 +215,69 @@ class VendorLoginController extends Controller
 
     // api functions for business registration
 
-    public function businessList(){
-        $businessList = Store::all();
-        return response()->json($businessList, 200);
+    // public function businessList(){
+    //     $businessList = Store::all();
+    //     return response()->json($businessList, 200);
+    // }
+
+    public function businessList($id){
+        if($id){
+            $businessList = Store::selectRaw('*, name as storeName')->where('vendor_id',$id)->get();
+           
+            if(count($businessList) > 0){
+                 $businessListWithImages = $businessList->map(function ($business) {
+                    // $business->offer_image =   'public/images/business-images/' . $business->offer_image;
+                    // $business->storeImage = 'public/images/business-images/' . $business->logo;
+                    // $business->cover_photo = 'public/images/business-images/' . $business->cover_photo;
+                    $fieldsToUpdate = ['offer_image', 'logo', 'cover_photo'];
+                    foreach ($fieldsToUpdate as $field) {
+                        $fieldName = ($field === 'logo') ? 'storeImage' : $field;
+                        if($business->$field){
+                            $business->$fieldName = 'public/images/business-images/' . $business->$field;
+                        }else{
+                             $business->$fieldName = null;
+                        }
+                    }
+                    if($business->status ==1){
+                       $business->statusName = 'Approved' ;
+                    }else{
+                        $business->statusName = 'In Review';
+                    }
+                    // $business->storeName = $business->name;
+                    $business->storeDescription = $business->meta_description;
+                    $business->createdDate = $business->created_at->format('H:i:s d-m-Y');
+                    $business->statusId = $business->status;
+                    $business->isActive = $business->active;
+                    return $business;
+                });
+                return response()->json($businessListWithImages, 200);
+            }else{
+                return response()->json(['status' => 'error','message' => 'Stores not found on your account'], 404);
+            }
+        }
+        
     }
     public function saveBusiness(Request $request){
+   
         try {
             if($request->store_id){
                 $store_id = $request->store_id;
                 $validator = Validator::make($request->all(), [
                     'store_name' => 'required|string|max:255',
                     'description' => 'required',
-                    'city' => 'required',
-                    'area' => 'required',
+                    'city_id' => 'required',
+                    'area_id' => 'required',
                     'category' => 'required',
-                    // 'sub_category' => 'nullable|numeric',
-                    'google_map_link' => 'required|string',
-                    'owner_name' => 'required|string|max:255',
-                    'mobile' => 'required|unique:stores,phone,' . $store_id,
+                    'store_address' => 'required|string',
+                    'gmpLink' => 'required',
+                    'f_name' => 'required|string|max:255',
+                    'phone' => 'required|unique:stores,phone,' . $store_id,
                     'email' => 'required|email',
-                    // 'password' => 'required',
-                    'offer_percentage' => 'required|numeric',
-                    'offer_image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-                    'store_logo' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-                    'store_banner' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+                    'discPer' => 'required|numeric',
+                    'discDesc' => 'required',
+                    'logo' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+                    'cover_photo' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+                    'offer_photo' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
                 ]);
                 if ($validator->fails()) {
                     return response()->json(['errors' => Helpers::error_processor($validator)], 403);
@@ -250,71 +289,84 @@ class VendorLoginController extends Controller
                 $validator = Validator::make($request->all(), [
                     'store_name' => 'required|string|max:255',
                     'description' => 'required',
-                    'city' => 'required',
-                    'area' => 'required',
+                    'city_id' => 'required',
+                    'area_id' => 'required',
                     'category' => 'required',
-                    // 'sub_category' => 'nullable|numeric',
-                    'google_map_link' => 'required|string',
-                    'owner_name' => 'required|string|max:255',
-                    'mobile' => 'required|unique:stores,phone',
+                    'store_address' => 'required|string',
+                    'f_name' => 'required|string|max:255',
+                    'phone' => 'required|unique:stores,phone',
                     'email' => 'required|email',
-                    // 'password' => 'required',
-                    'offer_percentage' => 'required|numeric',
-                    'offer_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-                    'store_logo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-                    'store_banner' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+                    'gmpLink' => 'required',
+                    'discPer' => 'required|numeric',
+                    'discDesc' => 'required',
+                    'offer_photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+                    'logo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+                    'cover_photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
                 ]);
                 if ($validator->fails()) {
                     return response()->json(['errors' => Helpers::error_processor($validator)], 403);
                 }
                 $listing = new Store;
+                $listing->status = 0;
                 $message = 'Store Added successfully';
             }
             $listing->name = $request->store_name;
-            $listing->phone  = $request->mobile;
+            $listing->phone  = $request->phone;
             $listing->email = $request->email;
-            if ($request->hasFile('offer_image')) {
-                $filePath = public_path('images/business-images/'.$listing->offer_image) ;
-                if (file_exists($filePath)) {
-                    unlink($filePath);
+            if ($request->hasFile('offer_photo')) {
+                if($listing->offer_image){
+                    $filePath = public_path('images/business-images/'.$listing->offer_image) ;
+                    if (file_exists($filePath)) {
+                        unlink($filePath);
+                    }
                 }
-                $imageName = time().'.offer_image-'.$request->offer_image->extension();
-                $request->offer_image->move(public_path('images/business-images'), $imageName);
+                $imageName = time().'.offer_image-'.$request->offer_photo->extension();
+                $request->offer_photo->move(public_path('images/business-images'), $imageName);
                 $listing->offer_image = $imageName;
             }
-            if ($request->hasFile('store_logo')) {
-                $filePath = public_path('images/business-images/'.$listing->logo) ;
-                if (file_exists($filePath)) {
-                    unlink($filePath);
+            if ($request->hasFile('logo')) {
+                if($listing->logo){
+                    $filePath = public_path('images/business-images/'.$listing->logo) ;
+                    if (file_exists($filePath)) {
+                        unlink($filePath);
+                    }
                 }
-                $imageName = time().'.store_logo-'.$request->store_logo->extension();
-                $request->store_logo->move(public_path('images/business-images'), $imageName);
+                
+                $imageName = time().'.store_logo-'.$request->logo->extension();
+                $request->logo->move(public_path('images/business-images'), $imageName);
                 $listing->logo = $imageName;
             }
-            if ($request->hasFile('store_banner')) {
-                $filePath = public_path('images/business-images/'.$listing->cover_photo) ;
-                if (file_exists($filePath)) {
-                    unlink($filePath);
+            if ($request->hasFile('cover_photo')) {
+                if($listing->cover_photo){
+                    $filePath = public_path('images/business-images/'.$listing->cover_photo) ;
+                    if (file_exists($filePath)) {
+                        unlink($filePath);
+                    }
                 }
-                $imageName = time().'.store_banner-'.$request->store_banner->extension();
-                $request->store_banner->move(public_path('images/business-images'), $imageName);
+                $imageName = time().'.store_banner-'.$request->cover_photo->extension();
+                $request->cover_photo->move(public_path('images/business-images'), $imageName);
                 $listing->cover_photo = $imageName;
             }
-            $listing->vendor_id = auth()->user()->id ?? 1;
+            $listing->vendor_id =$request->user_id ?? 1;
             $listing->meta_description = $request->description;
-            $listing->city_id = $request->city;
-            $listing->area_id = $request->area;
+            $listing->city_id = $request->city_id;
+            $listing->area_id = $request->area_id;
             $listing->store_category = $request->category;
-            $listing->owner_name = $request->owner_name;
-            $listing->offer_percentage = $request->offer_percentage;
-            // $listing->password = $request->password;
-            $listing->map_location_link = $request->google_map_link;
+            $listing->owner_name = $request->f_name;
+            $listing->offer_percentage = $request->discPer;
+            $listing->offer_description = $request->discDesc;
+            $listing->map_location_link = $request->gmpLink;
+            $listing->store_address = $request->store_address;
             $listing->latitude = '12.918804202266855';
             $listing->longitude = '77.65186298277348';
-            $listing->module_id = 2;
+            $listing->module_id = $request->category;
             $listing->zone_id = 2;
-            $listing->active = 1;
+            $listing->active = 0;
             $listing->save();
+            if(!$request->store_id){
+                $listing->index = $listing->id;
+                $listing->save();
+            }
             return response()->json(['status' => 'success', 'message' => $message], 200);
         } catch (\Exception $e) {
             info($e->getMessage());
@@ -325,6 +377,11 @@ class VendorLoginController extends Controller
     public function editBusiness($store_id){
         try {
             $store = Store::find($store_id);
+            if($store){
+                $store->offer_image =   'public/images/business-images/' . $store->offer_image;
+                $store->logo = 'public/images/business-images/' . $store->logo;
+                $store->cover_photo = 'public/images/business-images/' . $store->cover_photo;
+            }
             if (!$store) {
                 return response()->json(['status' => 'error','message' => 'Store not found'], 404);
             }
@@ -343,24 +400,24 @@ class VendorLoginController extends Controller
     // api functions for job vacancies
     public function saveVacancy(Request $request){
         try {
-            if($request->vacancy_id){
-                $vacancy_id = $request->vacancy_id;
+            if($request->id){
+                $vacancy_id = $request->id;
                 $validator = Validator::make($request->all(), [
-                    'company_name' => 'required|string|max:255',
-                    'job_title' => 'required|string|max:255',
-                    'job_description' => 'required|string',
-                    'designation' => 'required|string',
-                    'salary_min' => 'required|integer|min:0',
-                    'salary_max' => 'required|integer|min:0',
+                    'companyName' => 'required|string|max:255',
+                    'jobTitle' => 'required|string|max:255',
+                    'jobDescription' => 'required|string',
+                    // 'designation' => 'required|string',
+                    'minSalary' => 'required|integer|min:0',
+                    // 'maxSalary' => 'required|integer|min:0',
                     'location' => 'required|string|max:255',
-                    'min_education' => 'required|string|max:255',
-                    'experience' => 'required|string|max:255',
-                    'contact_person_name' => 'required|string|max:255',
-                    'contact_no' => 'required|string|max:255',
-                    'contact_email_id' => 'required|email',
-                    'website' => 'required|string|max:255',
-                    'job_type' => 'required',
-                    'shift' => 'required',
+                    'education' => 'required|string|max:255',
+                     'experience' => 'numeric',
+                    'contactPerson' => 'required|string|max:255',
+                    'contactNumber' => 'required|string|max:255',
+                    // 'email' => 'required|email',
+                     'website' => 'url|nullable',
+                    'jobType' => 'required',
+                    'jobShift' => 'required',
                     'logo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
                 ]);
                 if ($validator->fails()) {
@@ -371,21 +428,21 @@ class VendorLoginController extends Controller
             }
             else{
                 $validator = Validator::make($request->all(), [
-                    'company_name' => 'required|string|max:255',
-                    'job_title' => 'required|string|max:255',
-                    'job_description' => 'required|string',
-                    'designation' => 'required|string',
-                    'salary_min' => 'required|integer|min:0',
-                    'salary_max' => 'required|integer|min:0',
+                    'companyName' => 'required|string|max:255',
+                    'jobTitle' => 'required|string|max:255',
+                    'jobDescription' => 'required|string',
+                    // 'designation' => 'required|string',
+                    'minSalary' => 'required|integer|min:0',
+                    // 'maxSalary' => 'required|integer|min:0',
                     'location' => 'required|string|max:255',
-                    'min_education' => 'required|string|max:255',
-                    'experience' => 'required|string|max:255',
-                    'contact_person_name' => 'required|string|max:255',
-                    'contact_no' => 'required|string|max:255',
-                    'contact_email_id' => 'required|email',
-                    'website' => 'required|string|max:255',
-                    'job_type' => 'required',
-                    'shift' => 'required',
+                    'education' => 'required|string|max:255',
+                    'experience' => 'numeric',
+                    'contactPerson' => 'required|string|max:255',
+                    'contactNumber' => 'required|string|max:255',
+                    // 'email' => 'required|email',
+                    'website' => 'url|nullable',
+                    'jobType' => 'required',
+                    'jobShift' => 'required',
                     'logo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
                 ]);
                 if ($validator->fails()) {
@@ -394,43 +451,49 @@ class VendorLoginController extends Controller
                 $listing = new Vacancy;
                 $message = 'Vacancy Added successfully';
             }
-            $listing->user_id = auth()->user()->id ?? 2;
-            $listing->company_name = $request->company_name;
-            $listing->job_title = $request->job_title;
-            $listing->job_description = $request->job_description;
+              
+            $listing->user_id = $request->userId;
+            $listing->company_name = $request->companyName;
+            $listing->job_title = $request->jobTitle;
+            $listing->job_description = $request->jobDescription;
             $listing->designation = $request->designation;
-            $listing->salary_min = $request->salary_min;
-            $listing->salary_max = $request->salary_max;
+            $listing->salary_min = $request->minSalary;
+            $listing->salary_max = $request->maxSalary;
             $listing->location = $request->location;
-            $listing->min_education = $request->min_education;
+            $listing->min_education = $request->education;
             $listing->experience = $request->experience;
-            $listing->contact_person_name = $request->contact_person_name;
-            $listing->contact_no = $request->contact_no;
-            $listing->contact_email = $request->contact_email_id;
+            $listing->contact_person_name = $request->contactPerson;
+            $listing->contact_no = $request->contactNumber;
+            $listing->contact_email = $request->email;
             $listing->website = $request->website;
-            $listing->job_type = $request->job_type;
-            $listing->shift = $request->shift;
-            $listing->status = 1;
+            $listing->job_type = $request->jobType;
+            $listing->shift = $request->jobShift;
+            $listing->status = 0;
+            $listing->module_id = 10;
             if ($request->hasFile('logo')) {
-                $filePath = public_path('images/post-images/'.$listing->logo) ;
-                if (file_exists($filePath)) {
-                    unlink($filePath);
+                if($listing->logo){
+                    $filePath = public_path('images/post-images/'.$listing->logo) ;
+                    if (file_exists($filePath)) {
+                        unlink($filePath);
+                    }
                 }
-                $imageName = time().'.logo.'.$request->logo->extension();
+                $imageName = time().'.job_logo.'.$request->logo->extension();
                 $request->logo->move(public_path('images/post-images'), $imageName);
                 $listing->logo = $imageName;
             }
             $listing->save();
+            if(!$request->id){
+                $listing->index =  $listing->id;
+                $listing->save();
+            }
             return response()->json(['status' => 'success', 'message' => $message], 200);
         } catch (\Exception $e) {
             info($e->getMessage());
             return response()->json(['status' => 'error', 'message' => 'Failed to save/Job Vacancy Post'], 500);
         }
     }
-    // public function vacancyList(){
-    //     $vacancyList = Vacancy::all();
-    //     return response()->json($vacancyList, 200);
-    // }
+
+    
     public function vacancyList(Request $request,$user_id = null){
         if($user_id){
             $posts = Vacancy::where('user_id', $user_id)->get();
@@ -469,5 +532,19 @@ class VendorLoginController extends Controller
             ], 500);
         }
 
+    }
+
+    // get banners by module Id
+    public function getBannerByModuleId($module_id){
+        if($module_id){
+            $banners = Banner::where('module_id',$module_id)->get();
+            if(count($banners) >0){
+                return response()->json(['status' => 'success', 'data' => $banners], 200);  
+            }else{
+                return response()->json(['status' => 'error','message' => 'Banners  not found'], 404);  
+            }
+        }else{
+            return response()->json(['status' => 'error','message' => 'Banners  not found'], 404);  
+        }
     }
 }
