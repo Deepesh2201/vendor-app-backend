@@ -35,20 +35,21 @@ class StoreLogic
         ->when($featured, function($query){
             $query->featured();
         });
-        // if(config('module.current_module_data')) {
-        //     $paginator = $paginator->whereHas('zone.modules', function($query){
-        //         $query->where('modules.id', config('module.current_module_data')['id']);
-        //     })->module(config('module.current_module_data')['id'])
-        //     ->when(!config('module.current_module_data')['all_zone_service'], function($query)use($zone_id){
-        //         $query->whereIn('zone_id', json_decode($zone_id,true));
-        //     });
-        // } else {
+        if(config('module.current_module_data')) {
+            $paginator = $paginator->whereHas('zone.modules', function($query){
+                $query->where('modules.id', config('module.current_module_data')['id']);
+            })->module(config('module.current_module_data')['id']);
+            // ->when(!config('module.current_module_data')['all_zone_service'], function($query)use($zone_id){
+            //     $query->whereIn('zone_id', json_decode($zone_id,true));
+            // });
+        } 
+        // else {
         //     $paginator = $paginator->whereIn('zone_id', (array)json_decode($zone_id,true));
         // }
         $paginator = $paginator->Active()
         ->type($type)
         ->when($store_type == 'all', function($q){
-            return $q->orderBy('index', 'desc');
+            return $q->orderBy('id', 'desc');
             // ->orderBy('distance');
         })
         ->when($store_type == 'newly_joined', function($q){
