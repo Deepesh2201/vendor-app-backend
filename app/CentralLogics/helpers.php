@@ -567,6 +567,7 @@ class Helpers
                 unset($item['campaigns']);
                 unset($item['pivot']);
                 $item['store_open'] = 1;
+                $item['offer_percentage'] = $item['offer_percentage'] ? $item['offer_percentage'] : 0;
                 array_push($storage, $item);
             }
             $data = $storage;
