@@ -223,7 +223,7 @@ class VendorLoginController extends Controller
     public function businessList($id){
         if($id){
             $businessList = Store::selectRaw('*, name as storeName')->where('vendor_id',$id)->get();
-           
+
             if(count($businessList) > 0){
                  $businessListWithImages = $businessList->map(function ($business) {
                     // $business->offer_image =   'public/images/business-images/' . $business->offer_image;
@@ -255,10 +255,10 @@ class VendorLoginController extends Controller
                 return response()->json(['status' => 'error','message' => 'Stores not found on your account'], 404);
             }
         }
-        
+
     }
     public function saveBusiness(Request $request){
-   
+
         try {
             if($request->store_id){
                 $store_id = $request->store_id;
@@ -320,7 +320,7 @@ class VendorLoginController extends Controller
                         unlink($filePath);
                     }
                 }
-                $imageName = time().'.offer_image-'.$request->offer_photo->extension();
+                $imageName = time().'.offer_image.'.$request->offer_photo->extension();
                 $request->offer_photo->move(public_path('images/business-images'), $imageName);
                 $listing->offer_image = $imageName;
             }
@@ -331,8 +331,8 @@ class VendorLoginController extends Controller
                         unlink($filePath);
                     }
                 }
-                
-                $imageName = time().'.store_logo-'.$request->logo->extension();
+
+                $imageName = time().'.store_logo.'.$request->logo->extension();
                 $request->logo->move(public_path('images/business-images'), $imageName);
                 $listing->logo = $imageName;
             }
@@ -343,7 +343,7 @@ class VendorLoginController extends Controller
                         unlink($filePath);
                     }
                 }
-                $imageName = time().'.store_banner-'.$request->cover_photo->extension();
+                $imageName = time().'.store_banner.'.$request->cover_photo->extension();
                 $request->cover_photo->move(public_path('images/business-images'), $imageName);
                 $listing->cover_photo = $imageName;
             }
@@ -451,7 +451,7 @@ class VendorLoginController extends Controller
                 $listing = new Vacancy;
                 $message = 'Vacancy Added successfully';
             }
-              
+
             $listing->user_id = $request->userId;
             $listing->company_name = $request->companyName;
             $listing->job_title = $request->jobTitle;
@@ -493,7 +493,7 @@ class VendorLoginController extends Controller
         }
     }
 
-    
+
     public function vacancyList(Request $request,$user_id = null){
         if($user_id){
             $posts = Vacancy::where('user_id', $user_id)->get();
@@ -539,12 +539,12 @@ class VendorLoginController extends Controller
         if($module_id){
             $banners = Banner::where('module_id',$module_id)->get();
             if(count($banners) >0){
-                return response()->json(['status' => 'success', 'data' => $banners], 200);  
+                return response()->json(['status' => 'success', 'data' => $banners], 200);
             }else{
-                return response()->json(['status' => 'error','message' => 'Banners  not found'], 404);  
+                return response()->json(['status' => 'error','message' => 'Banners  not found'], 404);
             }
         }else{
-            return response()->json(['status' => 'error','message' => 'Banners  not found'], 404);  
+            return response()->json(['status' => 'error','message' => 'Banners  not found'], 404);
         }
     }
 }
