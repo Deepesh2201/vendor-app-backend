@@ -12,7 +12,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <!-- Latest compiled JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="{{url('css/post.css')}}">
+    <link rel="stylesheet" href="{{url('public/css/post.css')}}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/freeps2/a7rarpress@main/swiper-bundle.min.css">
     <style>
     /*jssor slider loading skin double-tail-spin css*/
@@ -106,7 +106,7 @@
         <a href="#"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
     </div>
 
-    
+
 
     <div class="container">
 
@@ -181,7 +181,7 @@
                         <!--  -->
                         <div class="complogoName">
                             @if($vacancy->logo)
-                            <img src="{{url('images/post-images/'.$vacancy->logo)}}">
+                            <img src="{{url('public/images/post-images/'.$vacancy->logo)}}">
                             @endif
                             <h4>{{$vacancy->company_name ?? ''}}</h4>
 
@@ -193,7 +193,7 @@
                         </div>
                     </div>
                 @endforeach
-                
+
                 {{-- <div id="slide-1">
                     <!--  -->
                     <div class="complogoName">
@@ -228,7 +228,7 @@
                         <!--  -->
                         <div class="complogoName">
                             @if($vacancy->logo)
-                            <img src="{{url('images/post-images/'.$vacancy->logo)}}">
+                            <img src="{{url('public/images/post-images/'.$vacancy->logo)}}">
                             @endif
                             <h4>{{$vacancy->company_name ?? ''}}</h4>
 
@@ -254,7 +254,7 @@
                     <!--  -->
                     <div class="itemlogoName">
                         @if($vacancy->logo)
-                         <img src="{{url('images/post-images/'.$vacancy->logo)}}">
+                         <img src="{{url('public/images/post-images/'.$vacancy->logo)}}">
                         @endif
                         <h4>{{$vacancy->company_name ?? ''}}</h4>
 
@@ -268,7 +268,7 @@
             </div>
         @endforeach
 
-        
+
 
         {{-- <div class="allList">
             <div class="listItem">
@@ -666,10 +666,10 @@
     <script type="text/javascript">
     jssor_1_slider_init();
     </script>
-    <script src="{{url('js/jquery.min.js')}}"></script>
-    <script src="{{url('js/popper.js')}}"></script>
-    <script src="{{url('js/bootstrap.min.js')}}"></script>
-    <script src="{{url('js/main.js')}}"></script>
+    <script src="{{url('public/js/jquery.min.js')}}"></script>
+    <script src="{{url('public/js/popper.js')}}"></script>
+    <script src="{{url('public/js/bootstrap.min.js')}}"></script>
+    <script src="{{url('public/js/main.js')}}"></script>
 </body>
 
 </html>
