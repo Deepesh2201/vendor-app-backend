@@ -585,7 +585,7 @@ class Helpers
             $data['total_items'] = $data['items']->count();
             $data['total_campaigns'] = $data['campaigns']->count();
             $data['offer_percentage'] = $data['offer_percentage'] ? $data['offer_percentage'] : 0;
-            $data['offer_image'] = $data['offer_image']  ? $data['offer_image'] : 'public/images/business-images/advertise_here.png';
+            $data['offer_image'] = $data['offer_image']  ? 'public/images/business-images/'.$data['offer_image'] : 'public/images/business-images/advertise_here.png';
             unset($data['campaigns']);
             unset($data['pivot']);
         }
