@@ -583,7 +583,7 @@ class Helpers
             // $data['positive_rating'] = $ratings['positive_rating'];
             $data['total_items'] = $data['items']->count();
             $data['total_campaigns'] = $data['campaigns']->count();
-            $item['offer_percentage'] = $item['offer_percentage'] ? $item['offer_percentage'] : 0;
+            $data['offer_percentage'] = $item['offer_percentage'] ? $item['offer_percentage'] : 0;
             unset($data['campaigns']);
             unset($data['pivot']);
         }
