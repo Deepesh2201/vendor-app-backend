@@ -219,7 +219,7 @@ class Store extends Model
                 return $query->where('locale', app()->getLocale());
             }]);
         });
-    }   
+    }
 
     public function scopeType($query, $type)
     {
@@ -235,12 +235,12 @@ class Store extends Model
         return $query;
 
     }
-    
+
     private function generateSlug($name)
     {
         $slug = Str::slug($name);
         if ($max_slug = static::where('slug', 'like',"{$slug}%")->latest('id')->value('slug')) {
-            
+
             if($max_slug == $slug) return "{$slug}-2";
 
             $max_slug = explode('-',$max_slug);
@@ -251,7 +251,7 @@ class Store extends Model
             }
         }
         return $slug;
-    } 
+    }
 
 
     protected static function boot()
@@ -263,5 +263,5 @@ class Store extends Model
         });
     }
 
-    
+
 }

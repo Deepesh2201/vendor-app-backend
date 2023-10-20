@@ -119,10 +119,10 @@ class StoreController extends Controller
 
         usort($stores['stores'], function ($a, $b) {
             $key = 'avg_rating';
-            return $b[$key] - $a[$key]; 
+            return $b[$key] - $a[$key];
         });
 
-        return response()->json($stores, 200);  
+        return response()->json($stores, 200);
     }
 
     public function get_popular_store_items($id)
@@ -162,10 +162,12 @@ class StoreController extends Controller
             $store = Helpers::store_data_formatting($store);
             $store['category_ids'] = array_map('intval', $category_ids->pluck('categories')->toArray());
             $store['category_details'] = Category::whereIn('id',$store['category_ids'])->get();
+            $store['store_open'] = 1; // we couldnt find open field in response thats why using this instead of 'open'
             $store['price_range']  = Item::withoutGlobalScopes()->where('store_id', $store->id)
             ->select(DB::raw('MIN(price) AS min_price, MAX(price) AS max_price'))
             ->get(['min_price','max_price']);
         }
+        // dd($store);
         return response()->json($store, 200);
     }
 
@@ -257,12 +259,12 @@ class StoreController extends Controller
 
     public function submit_store_reviews(Request $request){
         $data = store_reviews::where('store_id',$request->storeId)->where('user_id',$request->userId)->first();
-        
+
         if(!$data){
             $data = new store_reviews();
-            
+
         }
-         
+
             $data->store_id = $request->storeId;
             $data->user_id = $request->userId;
             $data->ratings = $request->ratings;

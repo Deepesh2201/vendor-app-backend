@@ -32,7 +32,7 @@ Route::group(['namespace' => 'Api\V1', 'middleware'=>'localization'], function (
     Route::get('areas/bycityid/{id}','ZoneController@areas_by_city');
     Route::get('category/subcategories/{id}','CategoryController@get_sub_categories');
     Route::get('category/subcategories/{id}','CategoryController@get_sub_categories');
-    
+
 
     Route::group(['prefix' => 'auth', 'namespace' => 'Auth'], function () {
         Route::post('sign-up', 'CustomerAuthController@register');
@@ -255,7 +255,7 @@ Route::group(['namespace' => 'Api\V1', 'middleware'=>'localization'], function (
         });
         Route::group(['prefix' =>'banner'], function(){
             Route::get('getBanners/{id}', '\App\Http\Controllers\Api\V1\Auth\VendorLoginController@getBannerByModuleId');
-           
+
         });
     });
 

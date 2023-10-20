@@ -26,10 +26,9 @@
                         </select>
                     </div>
                 @endif
-
             </div>
         </div>
-        <!-- End Page Header -->
+        <!-- End Page Header -->    
 
         <!-- rent Card Wrapper -->
         <div class="row g-3 mb-3">
@@ -239,7 +238,7 @@
 
     </div>
 
-    
+
     <!-- Delete Confirmation Modal -->
 <div class="modal fade" id="deletePostModal" tabindex="-1" role="dialog"  aria-labelledby="deletePostModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -324,7 +323,7 @@
                 var select2 = $.HSCore.components.HSSelect2.init($(this));
             });
 
-            
+
         });
 
         $('#deletePostModal').on('show.bs.modal', function (e) {
