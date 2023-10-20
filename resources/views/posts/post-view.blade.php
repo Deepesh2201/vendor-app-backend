@@ -11,7 +11,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
         <!-- Latest compiled JavaScript -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-        <link rel="stylesheet" href="{{url('css/post.css')}}">
+        <link rel="stylesheet" href="{{url('public/css/post.css')}}">
 
         <style>
             /*jssor slider loading skin double-tail-spin css*/
@@ -21,12 +21,12 @@
                 animation-iteration-count: infinite;
                 animation-timing-function: linear;
             }
-    
+
             @keyframes jssorl-004-double-tail-spin {
                 from { transform: rotate(0deg); }
                 to { transform: rotate(360deg); }
             }
-    
+
             /*jssor slider bullet skin 071 css*/
             .jssorb071 .i {position:absolute;color:#fff;font-family:"Helvetica neue",Helvetica,Arial,sans-serif;text-align:center;cursor:pointer;z-index:0;}
             .jssorb071 .i .b {fill:#000;opacity:.2;}
@@ -34,7 +34,7 @@
             .jssorb071 .iav {color:#000;}
             .jssorb071 .iav .b {fill:#fff;opacity:1;}
             .jssorb071 .i.idn {opacity:.3;}
-    
+
             /*jssor slider arrow skin 051 css*/
             .jssora051 {display:block;position:absolute;cursor:pointer;}
             .jssora051 .a {fill:none;stroke:#fff;stroke-width:360;stroke-miterlimit:10;}
@@ -43,7 +43,7 @@
             .jssora051.jssora051ds {opacity:.3;pointer-events:none;}
         </style>
 
-        
+
     </head>
     <body>
         <div class="container-fluid" style="padding:0px; margin:0px;">
@@ -52,7 +52,7 @@
             </div>
             <div id="jssor_1" style="position:relative;margin:0 auto;top:0px;left:0px;width:960px;height:490px;overflow:hidden;visibility:hidden; margin-top: 35px;">
                 <!-- Loading Screen -->
-            
+
                 <div data-u="slides" style="cursor:default;position:relative;top:0px;left:0px;width:980px;height:490px;overflow:hidden;">
                     @if($post->image1)
                         @php
@@ -60,7 +60,7 @@
                         @endphp
                         @if(file_exists($filePath))
                             <div data-p="735">
-                                <img data-u="image" src="{{url('/images/post-images/'.$post->image1)}}" />
+                                <img data-u="image" src="{{url('public/images/post-images/'.$post->image1)}}" />
                             </div>
                         @endif
                     @endif
@@ -70,7 +70,7 @@
                         @endphp
                         @if(file_exists($filePath))
                             <div data-p="735">
-                                <img data-u="image" src="{{url('/images/post-images/'.$post->image2)}}" />
+                                <img data-u="image" src="{{url('public/images/post-images/'.$post->image2)}}" />
                             </div>
                         @endif
                     @endif
@@ -80,7 +80,7 @@
                         @endphp
                         @if(file_exists($filePath))
                             <div data-p="735">
-                                <img data-u="image" src="{{url('/images/post-images/'.$post->image3)}}" />
+                                <img data-u="image" src="{{url('public/images/post-images/'.$post->image3)}}" />
                             </div>
                         @endif
                     @endif
@@ -90,7 +90,7 @@
                         @endphp
                         @if(file_exists($filePath))
                             <div data-p="735">
-                                <img data-u="image" src="{{url('/images/post-images/'.$post->image4)}}" />
+                                <img data-u="image" src="{{url('public/images/post-images/'.$post->image4)}}" />
                             </div>
                         @endif
                     @endif
@@ -116,35 +116,35 @@
                         <polyline class="a" points="4960,1920 11040,8000 4960,14080 "></polyline>
                     </svg>
                 </div>
-                
+
             </div>
         </div>
-       
+
         <div class="container">
             <h3 style="color: #4caf4f;">{{ $post->title }}</h3>
             <p>Address- {{ $post->address }}</p>
             <p>{{ $post->description }}</p>
             <table class="table tables">
                 <tr>
-                    <td><img src="{{url('images/icons/icons8-british-pound-80.png')}}"><span>Rent/Month- </span><span><b>&#163;{{ $post->rent_per_month }}</b></span></td>
-                    <td><img src="{{url('images/icons/icons8-deposit-50.png')}}"><span>Deposit- </span> <span><b>&#163;{{ $post->deposit }}</b></span></td>
-                   
-                </tr>
-                <tr>
-                    <td><img src="{{url('images/icons/icons8-bedroom-50.png')}}"><span>Bedrooms-</span><span><b>{{ $post->bedrooms }}</b></span></td>
-                    <td><img src="{{url('images/icons/icons8-bathroom-50.png')}}"><span>Bathroom-</span><span><b>{{ $post->bathrooms }}</b></span></td>
-                </tr>
-               
-                <tr>
-                    <td><img src="{{url('images/icons/icons8-building-80.png')}}"><span>Floor- </span><span><b>{{ $post->floors }}</b></span></td>
-                    <td><img src="{{url('images/icons/icons8-calender-64.png')}}"><span>Possession- </span><br><span style="margin-left: 40px !important;"><b>{{ $post->possession_date }}</b></span></td>
-                </tr>
-               
-            </table>
-           
-           
+                    <td><img src="{{url('public/images/icons/icons8-british-pound-80.png')}}"><span>Rent/Month- </span><span><b>&#163;{{ $post->rent_per_month }}</b></span></td>
+                    <td><img src="{{url('public/images/icons/icons8-deposit-50.png')}}"><span>Deposit- </span> <span><b>&#163;{{ $post->deposit }}</b></span></td>
 
-        
+                </tr>
+                <tr>
+                    <td><img src="{{url('public/images/icons/icons8-bedroom-50.png')}}"><span>Bedrooms-</span><span><b>{{ $post->bedrooms }}</b></span></td>
+                    <td><img src="{{url('public/images/icons/icons8-bathroom-50.png')}}"><span>Bathroom-</span><span><b>{{ $post->bathrooms }}</b></span></td>
+                </tr>
+
+                <tr>
+                    <td><img src="{{url('public/images/icons/icons8-building-80.png')}}"><span>Floor- </span><span><b>{{ $post->floors }}</b></span></td>
+                    <td><img src="{{url('public/images/icons/icons8-calender-64.png')}}"><span>Possession- </span><br><span style="margin-left: 40px !important;"><b>{{ $post->possession_date }}</b></span></td>
+                </tr>
+
+            </table>
+
+
+
+
             @if(isset($amenityIdArray) && count($amenityIdArray)>0)
                 <div>
                     <h3 style="margin-top: 60px; color: #4caf4f;">Aminities</h3>
@@ -172,20 +172,20 @@
                     <button class="btn  subBtn"><i class="fa fa-phone" aria-hidden="true"></i> Call Now</button>
                     </div>
                 </div>
-            
 
-                
-                
-                
-                
+
+
+
+
+
         </div>
 
 
 
-        <script src="{{url('js/jssor.slider-28.1.0.min.js')}}" type="text/javascript"></script>
+        <script src="{{url('public/js/jssor.slider-28.1.0.min.js')}}" type="text/javascript"></script>
         <script type="text/javascript">
             window.jssor_1_slider_init = function() {
-    
+
                 var jssor_1_SlideoTransitions = [
                   [{b:0,d:1000,o:1}],
                   [{b:0,d:1000,y:-88,ls:0.1,e:{y:3,ls:1}}],
@@ -220,7 +220,7 @@
                   [{b:3500,d:1200,y:-40,o:1},{b:4700,d:1200,y:-80,o:0}],
                   [{b:4100,d:1200,y:-40,o:1},{b:5300,d:1200,y:-80,o:0}]
                 ];
-    
+
                 var jssor_1_options = {
                   $AutoPlay: 1,
                   $CaptionSliderOptions: {
@@ -237,30 +237,30 @@
                     $SpacingY: 20
                   }
                 };
-    
+
                 var jssor_1_slider = new $JssorSlider$("jssor_1", jssor_1_options);
-    
+
                 /*#region responsive code begin*/
-    
+
                 var MAX_WIDTH = 980;
-    
+
                 function ScaleSlider() {
                     var containerElement = jssor_1_slider.$Elmt.parentNode;
                     var containerWidth = containerElement.clientWidth;
-    
+
                     if (containerWidth) {
-    
+
                         var expectedWidth = Math.min(MAX_WIDTH || containerWidth, containerWidth);
-    
+
                         jssor_1_slider.$ScaleWidth(expectedWidth);
                     }
                     else {
                         window.setTimeout(ScaleSlider, 30);
                     }
                 }
-    
+
                 ScaleSlider();
-    
+
                 $Jssor$.$AddEvent(window, "load", ScaleSlider);
                 $Jssor$.$AddEvent(window, "resize", ScaleSlider);
                 $Jssor$.$AddEvent(window, "orientationchange", ScaleSlider);
@@ -270,15 +270,12 @@
 
 <script type="text/javascript">jssor_1_slider_init();
 </script>
-       
-   
- 
-       
-     
-  
-    <script src="{{url('js/jquery.min.js')}}"></script>
-    <script src="{{url('js/popper.js')}}"></script>
-    <script src="{{url('js/bootstrap.min.js')}}"></script>
-    <script src="{{url('js/main.js')}}"></script>
+
+
+
+    <script src="{{url('public/js/jquery.min.js')}}"></script>
+    <script src="{{url('public/js/popper.js')}}"></script>
+    <script src="{{url('public/js/bootstrap.min.js')}}"></script>
+    <script src="{{url('public/js/main.js')}}"></script>
 </body>
 </html>

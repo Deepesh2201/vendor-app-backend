@@ -11,17 +11,17 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
         <!-- Latest compiled JavaScript -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-        <link rel="stylesheet" href="{{url('css/post.css')}}">
+        <link rel="stylesheet" href="{{url('public/css/post.css')}}">
 
-      
-        
+
+
     </head>
     <body>
 
         <div class="back">
             <a href="storelist.html"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
         </div>
-       
+
         <div class="container">
             <div class="logosec" >
                 <div>
@@ -55,10 +55,10 @@
                             @elseif ($shiftTypeId == 3)
                                 (Rotational Shift)
                             @endif
-                        @endforeach 
+                        @endforeach
                     </span>
                 @endif
-                
+
             </p>
 
                 <p><i class="fa fa-user" aria-hidden="true"></i> {{$vacancy->contact_person_name ?? ''}}</p>
@@ -70,21 +70,21 @@
                 <p>{{$vacancy->job_description ?? ''}}</p>
             </div>
 
-            
+
             <div class="row" style="margin-top: 30px;">
                 <div class="col-xs-12 col-12 col-sm-12">
                 <button class="btn  subBtn"> Apply Now</button>
                 </div>
             </div>
-        
-                
+
+
         </div>
 
 
-  
-    <script src="{{url('js/jquery.min.js')}}"></script>
-    <script src="{{url('js/popper.js')}}"></script>
-    <script src="{{url('js/bootstrap.min.js')}}"></script>
-    <script src="{{url('js/main.js')}}"></script>
+
+    <script src="{{url('public/js/jquery.min.js')}}"></script>
+    <script src="{{url('public/js/popper.js')}}"></script>
+    <script src="{{url('public/js/bootstrap.min.js')}}"></script>
+    <script src="{{url('public/js/main.js')}}"></script>
 </body>
 </html>
