@@ -25,7 +25,19 @@
         <div class="container">
             <div class="logosec" >
                 <div>
-                    <img src="images/restraurantData/MorrisonLogo.jpg" width="70px" height="70px">
+                    @if($vacancy->logo)
+                        @php
+                            $filePath = public_path('images/post-images/'.$vacancy->logo) ;
+                        @endphp
+                        @if(file_exists($filePath))
+
+                                <img data-u="image" src="{{url('public/images/post-images/'.$vacancy->logo)}}" width="70px" height="70px"/>
+
+                                @else
+                                <img src="{{url('public/images/restraurantData/MorrisonLogo.jpg')}}" width="70px" height="70px">
+                        @endif
+                    @endif
+
                 </div>
                 <div class="share">
                     <i class="fa fa-bookmark" aria-hidden="true"></i>

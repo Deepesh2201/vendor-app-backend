@@ -177,21 +177,23 @@
 
             <div class="slides">
                 @foreach ($randomPosts as $vacancy)
-                    <div id="slide-1">
-                        <!--  -->
-                        <div class="complogoName">
-                            @if($vacancy->logo)
-                            <img src="{{url('public/images/post-images/'.$vacancy->logo)}}">
-                            @endif
-                            <h4>{{$vacancy->company_name ?? ''}}</h4>
+                    <a href="{{url('vacancies/view')}}/{{$vacancy->id}}">
+                        <div id="slide-1">
+                            <!--  -->
+                            <div class="complogoName">
+                                @if($vacancy->logo)
+                                <img src="{{url('public/images/post-images/'.$vacancy->logo)}}">
+                                @endif
+                                <h4>{{$vacancy->company_name ?? ''}}</h4>
 
+                            </div>
+                            <div class="jd">
+                                <p>&nbsp;&nbsp;<i class="fa fa-graduation-cap" aria-hidden="true"></i>&nbsp;{{$vacancy->min_education ?? ''}}</p>
+                                <p>&nbsp;&nbsp;<i class="fa  fa fa-briefcase" aria-hidden="true"></i>&nbsp; {{$vacancy->experience ?? '0'}} years</p>
+                                <p>&nbsp;&nbsp;<i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp; {{$vacancy->location ?? ''}}</p>
+                            </div>
                         </div>
-                        <div class="jd">
-                            <p>&nbsp;&nbsp;<i class="fa fa-graduation-cap" aria-hidden="true"></i>&nbsp;{{$vacancy->min_education ?? ''}}</p>
-                            <p>&nbsp;&nbsp;<i class="fa  fa fa-briefcase" aria-hidden="true"></i>&nbsp; {{$vacancy->experience ?? '0'}} years</p>
-                            <p>&nbsp;&nbsp;<i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp; {{$vacancy->location ?? ''}}</p>
-                        </div>
-                    </div>
+                    </a>
                 @endforeach
 
                 {{-- <div id="slide-1">
@@ -224,21 +226,23 @@
 
             <div class="slides">
                 @foreach ($latestPosts as $vacancy)
-                    <div id="slide-1">
-                        <!--  -->
-                        <div class="complogoName">
-                            @if($vacancy->logo)
-                            <img src="{{url('public/images/post-images/'.$vacancy->logo)}}">
-                            @endif
-                            <h4>{{$vacancy->company_name ?? ''}}</h4>
+                    <a href="{{url('vacancies/view')}}/{{$vacancy->id}}">
+                        <div id="slide-1">
+                            <!--  -->
+                            <div class="complogoName">
+                                @if($vacancy->logo)
+                                <img src="{{url('public/images/post-images/'.$vacancy->logo)}}">
+                                @endif
+                                <h4>{{$vacancy->company_name ?? ''}}</h4>
 
+                            </div>
+                            <div class="jd">
+                                <p>&nbsp;&nbsp;<i class="fa fa-graduation-cap" aria-hidden="true"></i>&nbsp;{{$vacancy->min_education  ?? ''}}</p>
+                                <p>&nbsp;&nbsp;<i class="fa  fa fa-briefcase" aria-hidden="true"></i>&nbsp; {{$vacancy->experience ?? '0'}} years</p>
+                                <p>&nbsp;&nbsp;<i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp; {{$vacancy->location ?? ''}}</p>
+                            </div>
                         </div>
-                        <div class="jd">
-                            <p>&nbsp;&nbsp;<i class="fa fa-graduation-cap" aria-hidden="true"></i>&nbsp;{{$vacancy->min_education  ?? ''}}</p>
-                            <p>&nbsp;&nbsp;<i class="fa  fa fa-briefcase" aria-hidden="true"></i>&nbsp; {{$vacancy->experience ?? '0'}} years</p>
-                            <p>&nbsp;&nbsp;<i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp; {{$vacancy->location ?? ''}}</p>
-                        </div>
-                    </div>
+                    </a>
                 @endforeach
             </div>
         </div>
@@ -249,6 +253,7 @@
         </div>
 
         @foreach ($vacancyList as $vacancy)
+         <a href="{{url('vacancies/view')}}/{{$vacancy->id}}">
             <div class="allList">
                 <div class="listItem">
                     <!--  -->
@@ -266,6 +271,8 @@
                     </div>
                 </div>
             </div>
+         </a>
+
         @endforeach
 
 
