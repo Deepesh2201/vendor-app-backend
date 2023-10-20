@@ -140,9 +140,11 @@
                                         {{ translate('logo') }} <span class="text--primary">({{ translate('1:1') }})</span>
                                     </label>
                                     <center>
+                                        {{-- previous path for images --}}
+                                        {{-- {{asset('storage/app/public/store').'/'.$store->logo}} --}}
                                         <img class="img--110 min-height-170px min-width-170px" id="viewer"
                                             onerror="this.src='{{ asset('public/assets/admin/img/upload.png') }}'"
-                                            src="{{asset('storage/app/public/store').'/'.$store->logo}}" alt="{{$store->name}}"
+                                            src="{{url('images/business-images').'/'.$store->logo}}" alt="{{$store->name}}"
                                             alt="logo image" />
                                     </center>
                                     <input type="file" name="logo" id="customFileEg1" class="custom-file-input"
@@ -156,9 +158,10 @@
                                         {{ translate('Store Cover') }}  <span class="text--primary">({{ translate('2:1') }})</span>
                                     </label>
                                     <center>
+                                        {{-- {{asset('storage/app/public/store/cover/'.$store->cover_photo)}} --}}
                                         <img class="img--vertical min-height-170px min-width-170px" id="coverImageViewer"
                                             onerror="this.src='{{ asset('public/assets/admin/img/upload-img.png') }}'"
-                                            src="{{asset('storage/app/public/store/cover/'.$store->cover_photo)}}"
+                                            src="{{url('images/business-images').'/'.$store->cover_photo}}"
                                             alt="Fav icon" />
                                     </center>
                                     <input type="file" name="cover_photo" id="coverImageUpload"  class="custom-file-input"

@@ -162,6 +162,7 @@ class StoreController extends Controller
             $store = Helpers::store_data_formatting($store);
             $store['category_ids'] = array_map('intval', $category_ids->pluck('categories')->toArray());
             $store['category_details'] = Category::whereIn('id',$store['category_ids'])->get();
+            // unset( $store['open']);
             $store['store_open'] = 1; // we couldnt find open field in response thats why using this instead of 'open'
             $store['price_range']  = Item::withoutGlobalScopes()->where('store_id', $store->id)
             ->select(DB::raw('MIN(price) AS min_price, MAX(price) AS max_price'))

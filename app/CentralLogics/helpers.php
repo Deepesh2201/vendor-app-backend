@@ -566,6 +566,7 @@ class Helpers
                 $item['total_campaigns'] = $item['campaigns']->count();
                 unset($item['campaigns']);
                 unset($item['pivot']);
+                $item['store_open'] = 1;
                 array_push($storage, $item);
             }
             $data = $storage;
