@@ -510,7 +510,7 @@ class VendorController extends Controller
             $listing->website = $request->website;
             $listing->job_type = $request->job_type;
             $listing->shift = $request->shift;
-            $listing->status = 1;
+            // $listing->status = 1;
             if ($request->hasFile('logo')) {
                 if($listing->logo){
                     $filePath = public_path('images/post-images/'.$listing->logo) ;
