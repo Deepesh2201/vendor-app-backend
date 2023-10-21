@@ -138,6 +138,7 @@ class ConfigController extends Controller
                 'react_landing_page_images' => asset('storage/react_landing') ,
                 'react_landing_page_feature_images' => asset('storage/react_landing/feature') ,
                 'gateway_image_url' => asset('storage/payment_modules/gateway_image'),
+                'areas_icon_url' => asset('storage/app/public/area-icons'),
             ],
             'country' => $settings['country'],
             'default_location'=> [ 'lat'=> $default_location?$default_location['lat']:'23.757989', 'lng'=> $default_location?$default_location['lng']:'90.360587' ],
@@ -389,7 +390,7 @@ class ConfigController extends Controller
                 $settings[$key] = $single_value;
             }
         }
-        
+
         $reviews = ReactTestimonial::get();
 
         return  response()->json(
@@ -467,7 +468,7 @@ class ConfigController extends Controller
                         $settings[$key] = $single_value;
                     }
                 }
-        
+
         $criterias = FlutterSpecialCriteria::get();
 
         return  response()->json(
@@ -495,7 +496,7 @@ class ConfigController extends Controller
                 'download_user_app_title'=>(isset($settings['download_user_app_title']) )  ? $settings['download_user_app_title'] : null ,
                 'download_user_app_sub_title'=>(isset($settings['download_user_app_sub_title']) )  ? $settings['download_user_app_sub_title'] : null ,
                 'download_user_app_image'=>(isset($settings['download_user_app_image']) )  ? $settings['download_user_app_image'] : null ,
-                
+
                 'special_criterias'=>(isset($criterias) )  ? $criterias : null ,
 
 
