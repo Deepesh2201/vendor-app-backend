@@ -155,7 +155,7 @@
                                 <div class="aminiBox">
                                     <!-- <input type="checkbox" id="myCheckbox1" /> -->
                                     <label for="myCheckbox1">
-                                        <img src="{{url('/'.$amenity->icon)}}">
+                                        <img src="{{url('public/'.$amenity->icon)}}">
                                         </label>
                                 </div>
                                 <span>{{$amenity->name}}</span>

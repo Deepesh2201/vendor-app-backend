@@ -19,7 +19,7 @@
     <body>
 
         <div class="back">
-            <a href="storelist.html"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
+            <a href="{{url('vacancies/list')}}"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
         </div>
 
         <div class="container">

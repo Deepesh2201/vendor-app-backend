@@ -125,7 +125,8 @@
                 style="cursor:default;position:relative;top:0px;left:0px;width:980px;height:490px;overflow:hidden;">
                 @foreach ($banners as $item)
                     @php
-                     $filePath = storage_path('app/public/banner/' . $item->image);;
+                     $filePath = storage_path('app/public/banner/' . $item->image);
+
                     @endphp
                     @if (file_exists($filePath))
                         <div data-p="735">
