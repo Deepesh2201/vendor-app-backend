@@ -103,79 +103,78 @@
 <body>
 
     <div class="back">
-        <a href="#"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
+    <h4 style="text-align:center; color: white;">Vacancies</h4>
     </div>
 
 
 
-    <div class="container">
+    <div class="container" style="margin-bottom:80px">
 
         <div class="search-container">
+        <input type="text" class="search-input" placeholder="Search...">
             <button type="submit" class="search-button">
                 <i class="fa fa-search"></i> <!-- You can use an actual search icon font here -->
             </button>
-            <input type="text" class="search-input" placeholder="Search...">
+           
         </div>
 
-        <div id="jssor_1"
-            style="position:relative;margin:0 auto;top:0px;left:0px;width:960px;height:490px;overflow:hidden;visibility:hidden; margin-top: 35px;">
-            <!-- Loading Screen -->
+        <div style="width:100%">
+            <div id="jssor_1"  style="position:relative; margin:0 auto; top:0px;left:0px;width:960px;height:490px;overflow:hidden;visibility:hidden; margin-top: 35px;">
+                <!-- Loading Screen -->
 
-            <div data-u="slides"
-                style="cursor:default;position:relative;top:0px;left:0px;width:980px;height:490px;overflow:hidden;">
-                @foreach ($banners as $item)
-                    @php
-                     $filePath = storage_path('app/public/banner/' . $item->image);
+                <div data-u="slides"
+                    style="cursor:default;position:relative;top:0px;left:0px;width:980px;height:490px;overflow:hidden;">
+                    @foreach ($banners as $item)
+                        @php
+                        $filePath = storage_path('app/public/banner/' . $item->image);
 
-                    @endphp
-                    @if (file_exists($filePath))
-                        <div data-p="735">
-                            <img data-u="image" src="{{url('storage/app/public/banner')}}/{{$item->image}}" />
-                        </div>
-                    @endif
-                @endforeach
-            </div>
-            <!-- <a data-scale="0" href="https://www.jssor.com" style="display:none;position:absolute;">animation</a> -->
-            <!-- Bullet Navigator -->
-            <div data-u="navigator" class="jssorb071" style="position:absolute;bottom:20px;right:20px;"
-                data-autocenter="1" data-scale="0.5" data-scale-bottom="0.75">
-                <div data-u="prototype" class="i" style="width:24px;height:24px;font-size:12px;line-height:24px;">
-                    <svg viewbox="0 0 16000 16000"
-                        style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:-1;">
-                        <circle class="b" cx="8000" cy="8000" r="6666.7"></circle>
-                    </svg>
-                    <div data-u="numbertemplate" class="n"></div>
+                        @endphp
+                        @if (file_exists($filePath))
+                            <div data-p="735">
+                                <img data-u="image" src="{{url('storage/app/public/banner')}}/{{$item->image}}" />
+                            </div>
+                        @endif
+                    @endforeach
                 </div>
-            </div>
-            <!-- Arrow Navigator -->
-            <div data-u="arrowleft" class="jssora051" style="width:55px;height:55px;top:0px;left:25px;"
-                data-autocenter="2" data-scale="0.75" data-scale-left="0.75">
-                <svg viewbox="0 0 16000 16000" style="position:absolute;top:0;left:0;width:100%;height:100%;">
-                    <polyline class="a" points="11040,1920 4960,8000 11040,14080 "></polyline>
-                </svg>
-            </div>
-            <div data-u="arrowright" class="jssora051" style="width:55px;height:55px;top:0px;right:25px;"
-                data-autocenter="2" data-scale="0.75" data-scale-right="0.75">
-                <svg viewbox="0 0 16000 16000" style="position:absolute;top:0;left:0;width:100%;height:100%;">
-                    <polyline class="a" points="4960,1920 11040,8000 4960,14080 "></polyline>
-                </svg>
+                <!-- <a data-scale="0" href="https://www.jssor.com" style="display:none;position:absolute;">animation</a> -->
+                <!-- Bullet Navigator -->
+                <div data-u="navigator" class="jssorb071" style="position:absolute;bottom:20px;right:20px;"
+                    data-autocenter="1" data-scale="0.5" data-scale-bottom="0.75">
+                    <div data-u="prototype" class="i" style="width:24px;height:24px;font-size:12px;line-height:24px;">
+                        <svg viewbox="0 0 16000 16000"
+                            style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:-1;">
+                            <circle class="b" cx="8000" cy="8000" r="6666.7"></circle>
+                        </svg>
+                        <div data-u="numbertemplate" class="n"></div>
+                    </div>
+                </div>
+                <!-- Arrow Navigator -->
+                <div data-u="arrowleft" class="jssora051" style="width:55px;height:55px;top:0px;left:25px;"
+                    data-autocenter="2" data-scale="0.75" data-scale-left="0.75">
+                    <svg viewbox="0 0 16000 16000" style="position:absolute;top:0;left:0;width:100%;height:100%;">
+                        <polyline class="a" points="11040,1920 4960,8000 11040,14080 "></polyline>
+                    </svg>
+                </div>
+                <div data-u="arrowright" class="jssora051" style="width:55px;height:55px;top:0px;right:25px;"
+                    data-autocenter="2" data-scale="0.75" data-scale-right="0.75">
+                    <svg viewbox="0 0 16000 16000" style="position:absolute;top:0;left:0;width:100%;height:100%;">
+                        <polyline class="a" points="4960,1920 11040,8000 4960,14080 "></polyline>
+                    </svg>
+                </div>
+
             </div>
 
         </div>
-
 
 
 
         <div class="second-sec">
             <h4>Popular In Your Area </h4>
-
         </div>
 
 
 
         <div class="slider">
-
-
             <div class="slides">
                 @foreach ($randomPosts as $vacancy)
 
@@ -223,8 +222,6 @@
 
 
         <div class="slider">
-
-
             <div class="slides">
                 @foreach ($latestPosts as $vacancy)
 

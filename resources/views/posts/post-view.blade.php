@@ -48,9 +48,9 @@
     <body>
         <div class="container-fluid" style="padding:0px; margin:0px;">
             <div class="back">
-                <a href="postlistforcx.html"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
+                <a href="{{url('posts/list')}}"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
             </div>
-            <div id="jssor_1" style="position:relative;margin:0 auto;top:0px;left:0px;width:960px;height:490px;overflow:hidden;visibility:hidden; margin-top: 35px;">
+            <div id="jssor_1" style="position:relative;margin:0 auto;top:0px;left:0px;width:960px;height:490px;overflow:hidden;visibility:hidden; margin-top: 36px;">
                 <!-- Loading Screen -->
 
                 <div data-u="slides" style="cursor:default;position:relative;top:0px;left:0px;width:980px;height:490px;overflow:hidden;">
@@ -146,8 +146,8 @@
 
 
             @if(isset($amenityIdArray) && count($amenityIdArray)>0)
-                <div>
-                    <h3 style="margin-top: 60px; color: #4caf4f;">Aminities</h3>
+                <div style="margin-bottom:80px">
+                    <h3 style="margin-top: 60px; color: #4caf4f;">Amenities</h3>
                     <div class="row aminity">
                         @foreach ($amenities as $amenity)
                           @if(in_array($amenity->id, $amenityIdArray))
@@ -167,11 +167,13 @@
                 </div>
             @endif
 
-                <div class="row" style="margin-top: 30px;">
+                <div class="row" style="margin-top: 30px;" hidden>
                     <div class="col-xs-12 col-12 col-sm-12">
                     <button class="btn  subBtn"><i class="fa fa-phone" aria-hidden="true"></i> Call Now</button>
                     </div>
                 </div>
+                
+                
 
 
 

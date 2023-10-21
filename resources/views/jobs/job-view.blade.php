@@ -23,26 +23,24 @@
         </div>
 
         <div class="container">
+            <div class="jobDesc">
             <div class="logosec" >
-                <div>
+                
                     @if($vacancy->logo)
                         @php
                             $filePath = public_path('images/post-images/'.$vacancy->logo) ;
                         @endphp
                         @if(file_exists($filePath))
 
-                                <img data-u="image" src="{{url('public/images/post-images/'.$vacancy->logo)}}" width="70px" height="70px"/>
+                                <img data-u="image" src="{{url('public/images/post-images/'.$vacancy->logo)}}" width="150px" height="150px"/>
 
                                 @else
-                                <img src="{{url('public/images/restraurantData/MorrisonLogo.jpg')}}" width="70px" height="70px">
+                                <img src="{{url('public/images/restraurantData/MorrisonLogo.jpg')}}" width="150px" height="150px">
                         @endif
                     @endif
 
-                </div>
-                <div class="share">
-                    <i class="fa fa-bookmark" aria-hidden="true"></i>
-                    <i class="fa fa-share-alt" aria-hidden="true"></i>
-                </div>
+                
+               
             </div>
 
             <div class="jobDescrip">
@@ -54,24 +52,26 @@
                 <p><i class="fa fa-users" aria-hidden="true"></i> <span>1</span> Opening</p>
                 <p><i class="fa fa-map-marker" aria-hidden="true"></i> <span>{{$vacancy->location ?? ''}}</span></p>
                 <p><i class="fa fa-money" aria-hidden="true"></i> &#163;({{$vacancy->salary_min ?? ''}} - {{$vacancy->salary_max ?? ''}})</p>
-                <p><i class="fa fa-clock-o" aria-hidden="true"></i> <span>@if($vacancy->job_type ==
-                1 )Full Time @else Part Time @endif</span>
+                <p>
+                    <i class="fa fa-clock-o" aria-hidden="true"></i> 
+                    <span>@if($vacancy->job_type ==
+                    1 )Full Time @else Part Time @endif</span>
 
-                @if($vacancy->shift)
-                    <span>
-                        @foreach(explode(',', $vacancy->shift) as $shiftTypeId)
-                            @if ($shiftTypeId == 1)
-                                (Day Shift)
-                            @elseif ($shiftTypeId == 2)
-                                (Night Shift)
-                            @elseif ($shiftTypeId == 3)
-                                (Rotational Shift)
-                            @endif
-                        @endforeach
-                    </span>
-                @endif
+                    @if($vacancy->shift)
+                        <span>
+                            @foreach(explode(',', $vacancy->shift) as $shiftTypeId)
+                                @if ($shiftTypeId == 1)
+                                    (Day Shift)
+                                @elseif ($shiftTypeId == 2)
+                                    (Night Shift)
+                                @elseif ($shiftTypeId == 3)
+                                    (Rotational Shift)
+                                @endif
+                            @endforeach
+                        </span>
+                    @endif
 
-            </p>
+                </p>
 
                 <p><i class="fa fa-user" aria-hidden="true"></i> {{$vacancy->contact_person_name ?? ''}}</p>
                 <p><i class="fa fa-mobile" aria-hidden="true"></i>{{$vacancy->contact_no ?? ''}} </p>
@@ -83,10 +83,11 @@
             </div>
 
 
-            <div class="row" style="margin-top: 30px;">
+            <div class="row" style="margin-top: 30px; margin-bottom:30px" hiddenpublic>
                 <div class="col-xs-12 col-12 col-sm-12">
                 <button class="btn  subBtn"> Apply Now</button>
                 </div>
+            </div>
             </div>
 
 

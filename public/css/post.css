@@ -83,6 +83,7 @@ input[type="text"] {
     width: 100%;
     box-sizing: border-box;
     letter-spacing: 1px;
+    padding-left: 20px;
 }
 
 .effect {
@@ -446,7 +447,7 @@ label img {
     border: 1px solid #ccc;
     border-radius: 20px;
     overflow: hidden;
-    margin-top: 45px;
+    margin-top: 80px !important;
 }
 
 .search-input {
@@ -458,10 +459,11 @@ label img {
 
 .search-button {
     border: none;
-    color: #d8d8d8;
+    color: #4caf4f;
     padding: 5px 10px;
     border-radius: 0 20px 20px 0;
     cursor: pointer;
+    
 }
 
 /* ////////// */
@@ -486,16 +488,17 @@ label img {
    
 }
 .slides::-webkit-scrollbar {
-    width: 10px;
-    height: 5px;
+    /* width: 10px;
+    height: 5px; */
+    display: none;
 }
-.slides::-webkit-scrollbar-thumb {
+/* .slides::-webkit-scrollbar-thumb {
     background: #53af4f;
     border-radius: 10px;
-}
-.slides::-webkit-scrollbar-track {
+} */
+/* .slides::-webkit-scrollbar-track {
     background: transparent;
-}
+} */
 .slides > div {
     scroll-snap-align: start;
     flex-shrink: 0;
@@ -503,7 +506,8 @@ label img {
     height: 160px;
     margin-right: 15px;
     border-radius: 20px;
-    background: #ccf3d9;
+    /* background: #ccf3d9; */
+    border: #4caf4f 1px solid;
     transform-origin: center center;
     transform: scale(1);
     transition: transform 0.5s;
@@ -554,7 +558,8 @@ label img {
   height: 160px;
   /* margin-right: 15px; */
   border-radius: 20px;
-  background: #eff5be;
+  /* background: #eff5be; */
+  border: 1px solid darkgray;
   margin-bottom: 10px;
 
 }
@@ -566,4 +571,23 @@ label img {
   height: 50px;
   margin: 10px;
   border-radius: 10px;
+}
+
+.jobDesc{
+    margin-top: 80px;
+}
+
+.logosec {
+    display: flex;
+    justify-content: center;
+}
+.jobDescrip h4, .jobDescrip .fa{
+    color:#4caf4f;
+    line-height: 1.6;
+}
+
+.jobDescrip .fa{
+    padding-right: 10px;
+    font-size: 20px;
+    
 }
