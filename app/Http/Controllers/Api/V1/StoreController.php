@@ -26,6 +26,7 @@ class StoreController extends Controller
         //         'errors' => $errors
         //     ], 403);
         // }
+        
 
         $type = $request->query('type', 'all');
         $store_type = $request->query('store_type', 'all');
@@ -33,7 +34,8 @@ class StoreController extends Controller
         //  $zone_id= 2;
         $longitude= $request->header('longitude');
         $latitude= $request->header('latitude');
-        $stores = StoreLogic::get_stores($filter_data, $type, $store_type, $request['limit'], $request['offset'], $request->query('featured'));
+        $area_id= $request->header('areaId');
+        $stores = StoreLogic::get_stores($filter_data, $type, $store_type, $request['limit'], $request['offset'], $request->query('featured'),$area_id);
         // $stores = StoreLogic::get_stores( $zone_id, $filter_data, $type, $store_type, $request['limit'], $request['offset'], $request->query('featured'),$longitude,$latitude);
         $stores['stores'] = Helpers::store_data_formatting($stores['stores'], true);
 

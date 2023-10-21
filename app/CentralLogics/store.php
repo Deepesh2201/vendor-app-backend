@@ -14,9 +14,9 @@ use function Symfony\Component\VarDumper\Dumper\esc;
 
 class StoreLogic
 {
-    public static function get_stores($filter, $type, $store_type, $limit = 10, $offset = 1, $featured=false)
+    public static function get_stores($filter, $type, $store_type, $limit = 10, $offset = 1, $featured=false,$area_id=null)
     {
-        
+
         $paginator = Store::
         // withOpen($longitude??0,$latitude??0)
         // ->
@@ -42,7 +42,7 @@ class StoreLogic
             // ->when(!config('module.current_module_data')['all_zone_service'], function($query)use($zone_id){
             //     $query->whereIn('zone_id', json_decode($zone_id,true));
             // });
-        } 
+        }
         // else {
         //     $paginator = $paginator->whereIn('zone_id', (array)json_decode($zone_id,true));
         // }
@@ -58,9 +58,14 @@ class StoreLogic
         ->when($store_type == 'popular', function($q){
             return $q->withCount('orders')
             ->orderBy('orders_count', 'desc');
-        })
+        });
+        // newly added to filer data by area_id
+        if ($area_id) {
+            $paginator = $paginator->where('area_id', $area_id);
+        }
+        $paginator = $paginator->paginate($limit, ['*'], 'page', $offset);
 
-        ->paginate($limit, ['*'], 'page', $offset);
+        // ->paginate($limit, ['*'], 'page', $offset);
 
         $paginator->each(function ($store) {
             $category_ids = DB::table('items')
@@ -88,12 +93,12 @@ class StoreLogic
             }
 
             $category_ids = array_values(array_unique($mergedIds));
-            
+
             $store->category_ids = $category_ids;
 
             $store->discount_status = !empty($store->items->where('discount', '>', 0));
         });
-        
+
         /*$paginator->total();*/
         return [
             'total_size' => $paginator->total(),
@@ -208,7 +213,7 @@ class StoreLogic
             }
 
             $category_ids = array_values(array_unique($mergedIds));
-            
+
             $store->category_ids = $category_ids;
 
             $store->discount_status = !empty($store->items->where('discount', '>', 0));
@@ -238,7 +243,7 @@ class StoreLogic
         })
         ->Active()
         ->type($type)
-        ->whereRaw("LENGTH(rating) > 0") 
+        ->whereRaw("LENGTH(rating) > 0")
         ->paginate($limit??50, ['*'], 'page', $offset??1);
 
         return [
@@ -251,7 +256,7 @@ class StoreLogic
 
     public static function get_store_details($store_id,$longitude=0,$latitude=0)
     {
-        
+
         return Store::with(['discount'=>function($q){
             return $q->validate();
         }, 'campaigns', 'schedules','activeCoupons'])->withOpen($longitude??0,$latitude??0)
@@ -322,7 +327,7 @@ class StoreLogic
         // })
         ->active()->orderBy('id', 'desc')->type($type)->paginate($limit, ['*'], 'page', $offset);
 
-                
+
         $paginator->each(function ($store) {
             $category_ids = DB::table('items')
             ->join('categories', 'items.category_id', '=', 'categories.id')
@@ -349,7 +354,7 @@ class StoreLogic
             }
 
             $category_ids = array_values(array_unique($mergedIds));
-            
+
             $store->category_ids = $category_ids;
             $store->discount_status = !empty($store->items->where('discount', '>', 0));
         });

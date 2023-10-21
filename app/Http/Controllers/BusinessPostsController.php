@@ -131,7 +131,7 @@ class BusinessPostsController extends Controller
             $listing->post_type = 1;
             $listing->save();
             if(!$request->id){
-                $listing->index = $listing->id; 
+                $listing->index = $listing->id;
                 $listing->save();
             }
             // Toastr::success('Post Added successfully');
@@ -464,9 +464,18 @@ class BusinessPostsController extends Controller
         return view('posts.posts',get_defined_vars());
     }
 
-    
+
     public function allJobsList(Request $request){
-        $vacancyList = Vacancy::where('status', 1)->where('is_active',1)->get();
+
+        $query = Vacancy::where('status', 1)->where('is_active', 1);
+
+        // Check if a search term is provided
+        if ($request->has('search')) {
+            $searchTerm = $request->search;
+            $query->where('company_name', 'like', '%' . $searchTerm . '%');
+        }
+
+        $vacancyList = $query->get();
         $banners = Banner::where('module_id',10)->get();
         $randomPosts = Vacancy::inRandomOrder(4)->where(['status'=>1,'is_active'=>1])->get();
         $latestPosts = Vacancy::latest()->take(4)->where(['status'=>1,'is_active'=>1])->get();
@@ -483,13 +492,13 @@ class BusinessPostsController extends Controller
         }else{
             return back();
         }
-       
+
     }
     public function viewJob(Request $request,$id){
         $vacancy = Vacancy::find($id);
         return view('jobs.job-view',get_defined_vars());
     }
-    
+
 
 
 }

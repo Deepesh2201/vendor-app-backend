@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->integer('city_id');
             $table->integer('status')->nullable()->default('1');
+            $table->string('icon')->nullable();
             $table->timestamps();
         });
     }

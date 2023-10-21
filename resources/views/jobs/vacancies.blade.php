@@ -110,13 +110,14 @@
 
     <div class="container" style="margin-bottom:80px">
 
-        <div class="search-container">
-        <input type="text" class="search-input" placeholder="Search...">
-            <button type="submit" class="search-button">
-                <i class="fa fa-search"></i> <!-- You can use an actual search icon font here -->
-            </button>
-           
-        </div>
+        <form action="{{ url('vacancies/list') }}" method="get">
+            <div class="search-container">
+                <input type="text" class="search-input" name="search" placeholder="Search...">
+                <button type="submit" class="search-button">
+                    <i class="fa fa-search"></i> <!-- You can use an actual search icon font here -->
+                </button>
+            </div>
+        </form>
 
         <div style="width:100%">
             <div id="jssor_1"  style="position:relative; margin:0 auto; top:0px;left:0px;width:960px;height:490px;overflow:hidden;visibility:hidden; margin-top: 35px;">
