@@ -11,7 +11,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
         <!-- Latest compiled JavaScript -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-        <link rel="stylesheet" href="{{url('css/post.css')}}">
+        <link rel="stylesheet" href="{{url('public/css/post.css')}}">
 
         <style>
             /*jssor slider loading skin double-tail-spin css*/
@@ -70,7 +70,7 @@
                                 @endphp
                                 @if(file_exists($filePath))
                                     <div data-p="735">
-                                        <img data-u="image" src="{{url('images/post-images/'.$post->image1)}}" />
+                                        <img data-u="image" src="{{url('public/images/post-images/'.$post->image1)}}" />
                                     </div>
                                 @endif
                             @endif
@@ -80,7 +80,7 @@
                                 @endphp
                                 @if(file_exists($filePath))
                                     <div data-p="735">
-                                        <img data-u="image" src="{{url('images/post-images/'.$post->image2)}}" />
+                                        <img data-u="image" src="{{url('public/images/post-images/'.$post->image2)}}" />
                                     </div>
                                 @endif
                             @endif
@@ -90,7 +90,7 @@
                                 @endphp
                                 @if(file_exists($filePath))
                                     <div data-p="735">
-                                        <img data-u="image" src="{{url('images/post-images/'.$post->image3)}}" />
+                                        <img data-u="image" src="{{url('public/images/post-images/'.$post->image3)}}" />
                                     </div>
                                 @endif
                             @endif
@@ -100,7 +100,7 @@
                                 @endphp
                                 @if(file_exists($filePath))
                                     <div data-p="735">
-                                        <img data-u="image" src="{{url('images/post-images/'.$post->image4)}}" />
+                                        <img data-u="image" src="{{url(public/images/post-images/'.$post->image4)}}" />
                                     </div>
                                 @endif
                             @endif
@@ -151,7 +151,7 @@
 
 
 
-        <script src="{{url('js/jssor.slider-28.1.0.min.js')}}" type="text/javascript"></script>
+        <script src="{{url('public/js/jssor.slider-28.1.0.min.js')}}" type="text/javascript"></script>
         <script type="text/javascript">
         @foreach($posts as $post)
             window.jssor_{{ $loop->iteration }}_slider_init = function() {
@@ -245,9 +245,9 @@
                 jssor_{{ $loop->iteration }}_slider_init();
  @endforeach
 </script>
-    <script src="{{url('js/jquery.min.js')}}"></script>
-    <script src="{{url('js/popper.js')}}"></script>
-    <script src="{{url('js/bootstrap.min.js')}}"></script>
-    <script src="{{url('js/main.js')}}"></script>
+    <script src="{{url('public/js/jquery.min.js')}}"></script>
+    <script src="{{url('public/js/popper.js')}}"></script>
+    <script src="{{url('public/js/bootstrap.min.js')}}"></script>
+    <script src="{{url('public/js/main.js')}}"></script>
 </body>
 </html>
