@@ -124,6 +124,8 @@
             <h3 style="color: #4caf4f;">{{ $post->title }}</h3>
             <p>Address- {{ $post->address }}</p>
             <p>{{ $post->description }}</p>
+            <p>Email  - {{ $post->email ?? '' }}</p>
+            <p>Mobile - {{ $post->mobile ?? '' }}</p>
             <table class="table tables">
                 <tr>
                     <td><img src="{{url('public/images/icons/icons8-british-pound-80.png')}}"><span>Rent/Month- </span><span><b>&#163;{{ $post->rent_per_month }}</b></span></td>
@@ -172,8 +174,8 @@
                     <button class="btn  subBtn"><i class="fa fa-phone" aria-hidden="true"></i> Call Now</button>
                     </div>
                 </div>
-                
-                
+
+
 
 
 

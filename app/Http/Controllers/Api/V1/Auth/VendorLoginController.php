@@ -258,7 +258,6 @@ class VendorLoginController extends Controller
 
     }
     public function saveBusiness(Request $request){
-
         try {
             if($request->store_id){
                 $store_id = $request->store_id;
@@ -269,7 +268,8 @@ class VendorLoginController extends Controller
                     'area_id' => 'required',
                     'category' => 'required',
                     'store_address' => 'required|string',
-                    'gmpLink' => 'required',
+                    // 'gmpLink' => 'required',
+                    'website' => 'required',
                     'f_name' => 'required|string|max:255',
                     'phone' => 'required|unique:stores,phone,' . $store_id,
                     'email' => 'required|email',
@@ -286,6 +286,14 @@ class VendorLoginController extends Controller
                 $message = 'Store updated successfully';
             }
             else{
+                $existingListing = Store::where('vendor_id', $request->user_id)
+                    ->whereDate('created_at', now()->toDateString())
+                    ->first();
+
+                if ($existingListing) {
+                    return response()->json(['status' => 'error', 'message' => 'You can only add one Storte per day.'], 403);
+                }
+
                 $validator = Validator::make($request->all(), [
                     'store_name' => 'required|string|max:255',
                     'description' => 'required',
@@ -296,7 +304,8 @@ class VendorLoginController extends Controller
                     'f_name' => 'required|string|max:255',
                     'phone' => 'required|unique:stores,phone',
                     'email' => 'required|email',
-                    'gmpLink' => 'required',
+                    // 'gmpLink' => 'required',
+                    'website' => 'required',
                     'discPer' => 'required|numeric',
                     'discDesc' => 'required',
                     'offer_photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -307,7 +316,6 @@ class VendorLoginController extends Controller
                     return response()->json(['errors' => Helpers::error_processor($validator)], 403);
                 }
                 $listing = new Store;
-                $listing->status = 0;
                 $message = 'Store Added successfully';
             }
             $listing->name = $request->store_name;
@@ -356,18 +364,53 @@ class VendorLoginController extends Controller
             $listing->offer_percentage = $request->discPer;
             $listing->offer_description = $request->discDesc;
             $listing->map_location_link = $request->gmpLink;
+            $listing->website_link = $request->website;
             $listing->store_address = $request->store_address;
             $listing->latitude = '12.918804202266855';
             $listing->longitude = '77.65186298277348';
             $listing->module_id = $request->category;
             $listing->zone_id = 2;
             $listing->active = 0;
+            $listing->status = 0;
             $listing->save();
             if(!$request->store_id){
                 $listing->index = $listing->id;
                 $listing->save();
             }
-            return response()->json(['status' => 'success', 'message' => $message], 200);
+
+            // // Save store schedules
+            // $schedules = $requestschedules;
+            // if($schedules){
+            //     foreach ($schedules as $schedule) {
+            //         $store_id = $listing->id;
+            //         $day_id = $schedule['day_id'];
+            //         $starting_time = $schedule['starting_time'];
+            //         $ending_time = $schedule['ending_time'];
+
+            //         StoreSchedule::updateOrCreate(
+            //             ['store_id' => $store_id, 'day_id' => $day_id],
+            //             ['starting_time' => $starting_time, 'ending_time' => $ending_time]
+            //         );
+            //     }
+            // }
+
+            // front end format should be
+            // [
+            //     {
+            //         "day_id": 1,
+            //         "starting_time": "09:00",
+            //         "ending_time": "18:00"
+            //     },
+            //     {
+            //         "day_id": 2,
+            //         "starting_time": "10:00",
+            //         "ending_time": "19:00"
+            //     },
+
+            // ]
+
+
+          return response()->json(['status' => 'success', 'message' => $message], 200);
         } catch (\Exception $e) {
             info($e->getMessage());
             return response()->json(['status' => 'error', 'message' => 'Failed to save/store business'], 500);
@@ -415,7 +458,7 @@ class VendorLoginController extends Controller
                     'contactPerson' => 'required|string|max:255',
                     'contactNumber' => 'required|string|max:255',
                     // 'email' => 'required|email',
-                     'website' => 'url|nullable',
+                     'website' => 'nullable',
                     'jobType' => 'required',
                     'jobShift' => 'required',
                     'logo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -427,6 +470,13 @@ class VendorLoginController extends Controller
                 $message = 'Job Vacancy updated successfully';
             }
             else{
+                $existingListing = Vacancy::where('user_id', $request->userId)
+                    ->whereDate('created_at', now()->toDateString())
+                    ->first();
+
+                if ($existingListing) {
+                    return response()->json(['status' => 'error', 'message' => 'You can only add one Job Vacancy per day.'], 403);
+                }
                 $validator = Validator::make($request->all(), [
                     'companyName' => 'required|string|max:255',
                     'jobTitle' => 'required|string|max:255',
@@ -440,7 +490,7 @@ class VendorLoginController extends Controller
                     'contactPerson' => 'required|string|max:255',
                     'contactNumber' => 'required|string|max:255',
                     // 'email' => 'required|email',
-                    'website' => 'url|nullable',
+                    'website' => 'nullable',
                     'jobType' => 'required',
                     'jobShift' => 'required',
                     'logo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',

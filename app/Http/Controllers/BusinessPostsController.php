@@ -318,6 +318,8 @@ class BusinessPostsController extends Controller
                     'address' => 'required|string|max:255',
                     'rent' => 'required|numeric|min:0',
                     'deposit' => 'required|numeric|min:0',
+                    'email' => 'required|email',
+                    'mobile' => 'required',
                     'bedrooms' => 'required|integer|min:0',
                     'bathrooms' => 'required|integer|min:0',
                     'floors' => 'required|integer|min:0',
@@ -336,6 +338,13 @@ class BusinessPostsController extends Controller
                 $message = 'Post updated successfully';
             }
             elseif($request->postId== null || $request->postId=='0'){
+                $existingListing = Post::where('user_id', $request->userId)
+                    ->whereDate('created_at', now()->toDateString())
+                    ->first();
+
+                if ($existingListing) {
+                    return response()->json(['status' => 'error', 'message' => 'You can only add one Rent/Sales per day.'], 403);
+                }
                 $validator = Validator::make($request->all(), [
                     'title' => 'required|string|max:255',
                     'address' => 'required|string|max:255',
@@ -344,6 +353,8 @@ class BusinessPostsController extends Controller
                     'bedrooms' => 'required|integer|min:0',
                     'bathrooms' => 'required|integer|min:0',
                     'floors' => 'required|integer|min:0',
+                    'email' => 'required|email',
+                    'mobile' => 'required',
                     'description' => 'required|string',
                     'possession' => 'required|date_format:d/m/Y',
                     'pic1' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -369,6 +380,8 @@ class BusinessPostsController extends Controller
             $listing->floors = $request->floors;
             $listing->description = $request->description;
             $listing->possession_date = $request->possession;
+            $listing->email = $request->email;
+            $listing->mobile = $request->mobile;
 
             // Handle image uploads
             if ($request->hasFile('pic1')) {
@@ -418,6 +431,7 @@ class BusinessPostsController extends Controller
             $listing->amenities = $request->amenities ? json_encode($request->amenities) : null;
             $listing->post_type = 1;
             $listing->module_id = 13;
+            $listing->status = 0;
             $listing->save();
             if(!$request->postId){
                 $listing->index = $listing->id;

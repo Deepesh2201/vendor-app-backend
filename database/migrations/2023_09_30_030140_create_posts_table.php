@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
+            $table->string('email');
+            $table->string('mobile');
             $table->string('title');
             $table->string('address');
             $table->decimal('rent_per_month', 10, 2);
