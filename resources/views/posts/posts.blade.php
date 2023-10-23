@@ -100,7 +100,7 @@
                                 @endphp
                                 @if(file_exists($filePath))
                                     <div data-p="735">
-                                        <img data-u="image" src="{{url(public/images/post-images/'.$post->image4)}}" />
+                                        <img data-u="image" src="{{url('public/images/post-images/'.$post->image4)}}" />
                                     </div>
                                 @endif
                             @endif
