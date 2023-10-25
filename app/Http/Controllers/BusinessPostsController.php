@@ -41,7 +41,7 @@ class BusinessPostsController extends Controller
             });
             return response()->json($amenitiesWithImages, 200);
         }else{
-            return response()->json(['status' => 'error','message' => 'Amenities not found'], 404);
+            return response()->json(['status' => 'error','message' => 'Amenities not found'], 200);
         }
 
     }
@@ -304,7 +304,7 @@ class BusinessPostsController extends Controller
                 });
                return response()->json($postsWithImages, 200);
         }else{
-            return response()->json(['status' => 'error','message' => 'Posts not found on your account'], 404);
+            return response()->json(['status' => 'error','message' => 'Posts not found on your account'], 200);
         }
     }
 
@@ -456,7 +456,7 @@ class BusinessPostsController extends Controller
                 $post->image4 =   'public/images/post-images/' . $post->image4;
             }
             if (!$post) {
-                return response()->json(['status' => 'error','message' => 'Post not found'], 404);
+                return response()->json(['status' => 'error','message' => 'Post not found'], 200);
             }
             return response()->json(['status' => 'success', 'data' => $post], 200);
 

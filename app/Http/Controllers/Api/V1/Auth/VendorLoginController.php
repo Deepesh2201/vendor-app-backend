@@ -252,7 +252,7 @@ class VendorLoginController extends Controller
                 });
                 return response()->json($businessListWithImages, 200);
             }else{
-                return response()->json(['status' => 'error','message' => 'Stores not found on your account'], 404);
+                return response()->json(['status' => 'error','message' => 'Stores not found on your account'], 200);
             }
         }
 
@@ -291,7 +291,7 @@ class VendorLoginController extends Controller
                     ->first();
 
                 if ($existingListing) {
-                    return response()->json(['status' => 'error', 'message' => 'You can only add one Storte per day.'], 403);
+                    return response()->json(['status' => 'error', 'message' => 'You can only add one Store per day.'], 403);
                 }
 
                 $validator = Validator::make($request->all(), [
@@ -426,7 +426,7 @@ class VendorLoginController extends Controller
                 $store->cover_photo = 'public/images/business-images/' . $store->cover_photo;
             }
             if (!$store) {
-                return response()->json(['status' => 'error','message' => 'Store not found'], 404);
+                return response()->json(['status' => 'error','message' => 'Store not found'], 200);
             }
             return response()->json(['status' => 'success', 'data' => $store], 200);
 
@@ -563,7 +563,7 @@ class VendorLoginController extends Controller
                 });
                return response()->json($postsWithImages, 200);
         }else{
-            return response()->json(['status' => 'error','message' => 'Vacancies not found on your account'], 404);
+            return response()->json(['status' => 'error','message' => 'Vacancies not found on your account'], 200);
         }
     }
 
@@ -571,7 +571,7 @@ class VendorLoginController extends Controller
         try {
             $vacancy = Vacancy::find($vacancy_id);
             if (!$vacancy) {
-                return response()->json(['status' => 'error','message' => 'Job Vacancy Post  not found'], 404);
+                return response()->json(['status' => 'error','message' => 'Job Vacancy Post  not found'], 200);
             }
             return response()->json(['status' => 'success', 'data' => $vacancy], 200);
 
@@ -591,10 +591,10 @@ class VendorLoginController extends Controller
             if(count($banners) >0){
                 return response()->json(['status' => 'success', 'data' => $banners], 200);
             }else{
-                return response()->json(['status' => 'error','message' => 'Banners  not found'], 404);
+                return response()->json(['status' => 'error','message' => 'Banners  not found'], 200);
             }
         }else{
-            return response()->json(['status' => 'error','message' => 'Banners  not found'], 404);
+            return response()->json(['status' => 'error','message' => 'Banners  not found'], 200);
         }
     }
 }
