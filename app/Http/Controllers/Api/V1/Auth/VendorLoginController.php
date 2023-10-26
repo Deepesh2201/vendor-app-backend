@@ -272,7 +272,8 @@ class VendorLoginController extends Controller
                     // 'gmpLink' => 'required',
                     // 'website' => 'required',
                     'f_name' => 'required|string|max:255',
-                    'phone' => 'required|unique:stores,phone,' . $store_id,
+                    // 'phone' => 'required|unique:stores,phone,' . $store_id,
+                    'phone' => 'required',
                     'email' => 'required|email',
                     'discPer' => 'required|numeric',
                     'discDesc' => 'required',
@@ -303,10 +304,11 @@ class VendorLoginController extends Controller
                     'category' => 'required',
                     'store_address' => 'required|string',
                     'f_name' => 'required|string|max:255',
-                    'phone' => 'required|unique:stores,phone',
+                    // 'phone' => 'required|unique:stores,phone',
                     'email' => 'required|email',
                     // 'gmpLink' => 'required',
                     // 'website' => 'required',
+                    'phone' => 'required',
                     'discPer' => 'required|numeric',
                     'discDesc' => 'required',
                     'offer_photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -371,7 +373,7 @@ class VendorLoginController extends Controller
             $listing->longitude = '77.65186298277348';
             $listing->module_id = $request->category;
             $listing->zone_id = 2;
-            $listing->active = 0;
+            $listing->active = $request->active ?? 0;
             $listing->status = 0;
             $listing->save();
             if(!$request->store_id){
@@ -521,6 +523,7 @@ class VendorLoginController extends Controller
             $listing->shift = $request->jobShift;
             $listing->status = 0;
             $listing->module_id = 10;
+            $listing->is_active = $request->active ?? 0;
             if ($request->hasFile('logo')) {
                 if($listing->logo){
                     $filePath = public_path('images/post-images/'.$listing->logo) ;

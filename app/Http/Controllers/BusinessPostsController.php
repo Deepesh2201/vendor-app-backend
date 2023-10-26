@@ -433,6 +433,7 @@ class BusinessPostsController extends Controller
             $listing->post_type = 1;
             $listing->module_id = 13;
             $listing->status = 0;
+            $listing->is_active =  $request->active ?? 0;
             $listing->save();
             if(!$request->postId){
                 $listing->index = $listing->id;
