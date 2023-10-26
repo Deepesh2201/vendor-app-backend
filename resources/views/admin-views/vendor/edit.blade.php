@@ -68,6 +68,69 @@
                                         for="exampleFormControlInput1">{{ translate('messages.address') }} ({{ translate('messages.default') }})</label>
                                     <textarea type="text" name="address[]" placeholder="{{translate('messages.store')}}" class="form-control min-h-90px ckeditor">{{$store->getRawOriginal('address')}}</textarea>
                                 </div>
+
+                                <div class="row mt-3">
+                                    <div class="col-6 col-md-6 col-sm-6">
+                                    <label class="input-label"
+                                        for="default_name">Email </label>
+                                    <input type="text" name="name[]" id="default_name"
+                                        class="form-control" placeholder="Email" value=""
+                                        required>
+                                    </div>
+                                    <div class="col-6 col-md-6 col-sm-6">
+                                    <label class="input-label"
+                                        for="default_name">Websile </label>
+                                    <input type="text" name="name[]" id="default_name"
+                                        class="form-control" placeholder="Websile" value=""
+                                        required>
+                                    </div>
+                                </div>
+
+                                <div class="row mt-3">
+                                    <div class="col-6 col-md-6 col-sm-6">
+                                    <label class="input-label"
+                                        for="default_name">Index </label>
+                                    <input type="text" name="name[]" id="default_name"
+                                        class="form-control" placeholder="Index" value=""
+                                        required>
+                                    </div>
+                                    <div class="col-6 col-md-6 col-sm-6">
+                                    <label class="input-label"
+                                        for="default_name">Status </label>
+                                    <select type="text" name="name[]" id="default_name"
+                                        class="form-control" placeholder="Websile" value=""
+                                        required>
+                                        <option value="0">In Review</option>
+                                        <option value="1">Approved</option>
+                                        <option value="2">Rejected</option>
+                                    </select>
+                                    </div>
+                                </div>
+
+                                <div class="row mt-3">
+                                    <div class="col-6 col-md-6 col-sm-6">
+                                    <label class="input-label"
+                                        for="default_name">Offer % </label>
+                                    <input type="text" name="name[]" id="default_name"
+                                        class="form-control" placeholder="Offer %" value=""
+                                        required>
+                                    </div>
+                                    <div class="col-6 col-md-6 col-sm-6">
+                                    <label class="input-label"
+                                        for="default_name">Offer Description </label>
+                                    <input type="text" name="name[]" id="default_name"
+                                        class="form-control" placeholder="Offer Description" value=""
+                                        required>
+                                    </div>
+                                </div>
+
+                                <div class="form-group mt-3">
+                                    <label class="input-label"
+                                        for="default_name">Google Map Link </label>
+                                    <input type="text" name="name[]" id="default_name"
+                                        class="form-control" placeholder="Link" value=""
+                                        required>
+                                </div>
                             </div>
                                 @foreach (json_decode($language) as $lang)
                                 <?php
@@ -167,6 +230,35 @@
                                     <input type="file" name="cover_photo" id="coverImageUpload"  class="custom-file-input"
                                         accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*">
                                 </label>
+
+
+
+                                
+                            </div>
+
+                            <div class="d-flex flex-wrap flex-sm-nowrap __gap-12px mt-5">
+                               
+
+                                <label class="__custom-upload-img">
+                                    @php($icon = \App\Models\BusinessSetting::where('key', 'icon')->first())
+                                    @php($icon = $icon->value ?? '')
+                                    <label class="form-label">
+                                        {{ translate('Offer Image') }}  <span class="text--primary">({{ translate('2:1') }})</span>
+                                    </label>
+                                    <center>
+                                        {{-- {{asset('storage/app/public/store/cover/'.$store->cover_photo)}} --}}
+                                        <img class="img--vertical min-height-170px min-width-170px" id="coverImageViewer"
+                                            onerror="this.src='{{ asset('public/assets/admin/img/upload-img.png') }}'"
+                                            src="{{url('images/business-images').'/'.$store->cover_photo}}"
+                                            alt="Fav icon" />
+                                    </center>
+                                    <input type="file" name="cover_photo" id="coverImageUpload"  class="custom-file-input"
+                                        accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*">
+                                </label>
+
+
+
+                                
                             </div>
                         </div>
                     </div>

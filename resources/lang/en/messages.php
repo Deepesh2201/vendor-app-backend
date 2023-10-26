@@ -2783,16 +2783,18 @@
                                     messages.file_size_too_big ' => '
                                     messages.file size too big ',
   'post_featured_status_updated' => 'Post featured status updated',
-  '
-                messages.please_only_input_png_or_jpg_type_file ' => '
-                messages.please only input png or jpg type file ',
-  '
-                messages.file_size_too_big ' => '
-                messages.file size too big ',
   'Featured' => 'Featured',
   'post_status_updated' => 'Post status updated',
   'confirm_delete_post' => 'Confirm delete post',
   'confirm_delete_post_message' => 'Confirm delete post message',
   'confirm_delete' => 'Confirm delete',
   'deleted_successfully' => 'Deleted successfully',
+  'Pagination Navigation' => 'Pagination Navigation',
+  'Showing' => 'Showing',
+  'results' => 'Results',
+  'Go to page :page' => 'Go to page :page',
+  'update_storesss' => 'Update storesss',
+  'Offer Image' => 'Offer Image',
+  'Offer%' => 'Offer%',
+  'Offer Description' => 'Offer Description',
 );

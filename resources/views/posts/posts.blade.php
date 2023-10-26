@@ -48,7 +48,7 @@
     <body>
 
         <div class="back">
-        <h4 style="text-align:center; color: white;">Rent / Sale</h4>
+        <h4 style="text-align:center; color: white;">Rent / Sale </h4>
         </div>
 
         <div class="container">

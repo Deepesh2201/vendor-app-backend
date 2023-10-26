@@ -184,6 +184,8 @@
                         <th class="border-0">{{translate('messages.store_information')}}</th>
                         <th class="border-0">{{translate('messages.module')}}</th>
                         <th class="border-0">{{translate('messages.owner_information')}}</th>
+                        <th class="border-0">{{translate('messages.Offer%')}}</th>
+                        <th class="border-0">{{translate('messages.Offer Description')}}</th>
                         <th class="border-0">{{translate('messages.zone')}}</th>
                         <th>{{translate('messages.Index')}}</th>
                         <th class="text-uppercase border-0">{{translate('messages.featured')}}</th>
@@ -224,6 +226,8 @@
                                     {{$store['phone']}}
                                 </div>
                             </td>
+                            <td></td>
+                            <td></td>
                             <td>
                                 {{$store->zone?$store->zone->name:translate('messages.zone_deleted')}}
                                 {{--<span class="d-block font-size-sm">{{$banner['image']}}</span>--}}
