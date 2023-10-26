@@ -252,7 +252,8 @@ class VendorLoginController extends Controller
                 });
                 return response()->json($businessListWithImages, 200);
             }else{
-                return response()->json(['status' => 'error','message' => 'Stores not found on your account'], 200);
+                return response()->json($businessListWithImages = [], 200);
+                // return response()->json(['status' => 'error','message' => 'Stores not found on your account'], 200);
             }
         }
 
@@ -563,7 +564,8 @@ class VendorLoginController extends Controller
                 });
                return response()->json($postsWithImages, 200);
         }else{
-            return response()->json(['status' => 'error','message' => 'Vacancies not found on your account'], 200);
+            return response()->json($postsWithImages = [], 200);
+            // return response()->json(['status' => 'error','message' => 'Vacancies not found on your account'], 200);
         }
     }
 
