@@ -2797,4 +2797,5 @@
   'Offer Image' => 'Offer Image',
   'Offer%' => 'Offer%',
   'Offer Description' => 'Offer Description',
+  'store_description' => 'Store description',
 );

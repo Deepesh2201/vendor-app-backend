@@ -199,7 +199,7 @@ class VendorController extends Controller
 
     public function update(Request $request, Store $store)
     {
-        // dd($request->address);
+        
         $validator = Validator::make($request->all(), [
             'f_name' => 'nullable|max:100',
             'l_name' => 'nullable|max:100',
@@ -212,6 +212,7 @@ class VendorController extends Controller
             'index'=> 'required',
             'latitude' => 'required',
             'longitude' => 'required',
+            'store_description'=> 'required',
             // 'offer_percentage' => 'required',
             // 'offer_description' => 'required',
             // 'google_map_link' => 'required',
@@ -272,6 +273,7 @@ class VendorController extends Controller
         $store->name = $request->name[array_search('default', $request->lang)];
         // $store->address = $request->address[array_search('default', $request->lang)];
         $store->address = $request->store_address;
+        $store->meta_description = $request->store_description;
         $store->latitude = $request->latitude;
         $store->longitude = $request->longitude;
         $store->offer_percentage = $request->offer_percentage;
@@ -302,58 +304,59 @@ class VendorController extends Controller
         $store->status = $request->status;
         $store->delivery_time = $request->minimum_delivery_time .'-'. $request->maximum_delivery_time.' '.$request->delivery_time_type;
         $store->save();
-        $default_lang = str_replace('_', '-', app()->getLocale());
-        foreach($request->lang as $index=>$key)
-        {
-            if($default_lang == $key && !($request->name[$index])){
-                if ($key != 'default') {
-                    Translation::updateOrInsert(
-                        [
-                            'translationable_type' => 'App\Models\Store',
-                            'translationable_id' => $store->id,
-                            'locale' => $key,
-                            'key' => 'name'
-                        ],
-                        ['value' => $store->name]
-                    );
-                }
-            }else{
+        // $default_lang = str_replace('_', '-', app()->getLocale());
+        // foreach($request->lang as $index=>$key)
+        // {
+        //     if($default_lang == $key && !($request->name[$index])){
+        //         if ($key != 'default') {
+        //             Translation::updateOrInsert(
+        //                 [
+        //                     'translationable_type' => 'App\Models\Store',
+        //                     'translationable_id' => $store->id,
+        //                     'locale' => $key,
+        //                     'key' => 'name'
+        //                 ],
+        //                 ['value' => $store->name]
+        //             );
+        //         }
+        //     }else{
 
-                if ($request->name[$index] && $key != 'default') {
-                    Translation::updateOrInsert(
-                        ['translationable_type'  => 'App\Models\Store',
-                            'translationable_id'    => $store->id,
-                            'locale'                => $key,
-                            'key'                   => 'name'],
-                        ['value'                 => $request->name[$index]]
-                    );
-                }
-            }
-            if($default_lang == $key && !($request->address[$index])){
-                if ($key != 'default') {
-                    Translation::updateOrInsert(
-                        [
-                            'translationable_type' => 'App\Models\Store',
-                            'translationable_id' => $store->id,
-                            'locale' => $key,
-                            'key' => 'address'
-                        ],
-                        ['value' => $store->address]
-                    );
-                }
-            }else{
+        //         if ($request->name[$index] && $key != 'default') {
+        //             Translation::updateOrInsert(
+        //                 ['translationable_type'  => 'App\Models\Store',
+        //                     'translationable_id'    => $store->id,
+        //                     'locale'                => $key,
+        //                     'key'                   => 'name'],
+        //                 ['value'                 => $request->name[$index]]
+        //             );
+        //         }
+        //     }
+        //     if($default_lang == $key && !($request->address[$index])){
+        //         if ($key != 'default') {
+        //             Translation::updateOrInsert(
+        //                 [
+        //                     'translationable_type' => 'App\Models\Store',
+        //                     'translationable_id' => $store->id,
+        //                     'locale' => $key,
+        //                     'key' => 'address'
+        //                 ],
+        //                 ['value' => $store->address]
+        //             );
+        //         }
+        //     }else{
 
-                if ($request->address[$index] && $key != 'default') {
-                    Translation::updateOrInsert(
-                        ['translationable_type'  => 'App\Models\Store',
-                            'translationable_id'    => $store->id,
-                            'locale'                => $key,
-                            'key'                   => 'address'],
-                        ['value'                 => $request->address[$index]]
-                    );
-                }
-            }
-        }
+        //         if ($request->address[$index] && $key != 'default') {
+        //             Translation::updateOrInsert(
+        //                 ['translationable_type'  => 'App\Models\Store',
+        //                     'translationable_id'    => $store->id,
+        //                     'locale'                => $key,
+        //                     'key'                   => 'address'],
+        //                 ['value'                 => $request->address[$index]]
+        //             );
+        //         }
+        //     }
+        // }
+
         // if ($vendor->userinfo) {
         //     $userinfo = $vendor->userinfo;
         //     $userinfo->f_name = $store->name;

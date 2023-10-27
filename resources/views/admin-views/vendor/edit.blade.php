@@ -62,11 +62,19 @@
                                         required
                                         oninvalid="document.getElementById('en-link').click()">
                                 </div>
+                                <div class="form-group mb-0">
+                                    <label class="input-label"
+                                        for="exampleFormControlInput11">{{ translate('messages.store_description') }} </label>
+                                    {{-- <textarea type="text" name="address[]" placeholder="{{translate('messages.store')}}" class="form-control min-h-90px ckeditor">{{$store->getRawOriginal('address')}}</textarea> --}}
+                                    <textarea type="text" name="store_description" placeholder="{{translate('messages.store_description')}}" class="form-control min-h-90px ckeditor">{{$store->meta_description ?? ''}}</textarea>
+                                </div>
+
                                 <input type="hidden" name="lang[]" value="default">
                                 <div class="form-group mb-0">
                                     <label class="input-label"
                                         for="exampleFormControlInput1">{{ translate('messages.address') }} ({{ translate('messages.default') }})</label>
-                                    <textarea type="text" name="address[]" placeholder="{{translate('messages.store')}}" class="form-control min-h-90px ckeditor">{{$store->getRawOriginal('address')}}</textarea>
+                                    {{-- <textarea type="text" name="address[]" placeholder="{{translate('messages.store')}}" class="form-control min-h-90px ckeditor">{{$store->getRawOriginal('address')}}</textarea> --}}
+                                    <textarea type="text" name="store_address" placeholder="{{translate('messages.store')}}" class="form-control min-h-90px ckeditor">{{$store->getRawOriginal('address')}}</textarea>
                                 </div>
 
                                 <div class="row mt-3">
@@ -179,8 +187,8 @@
                                         <label class="input-label"
                                             for="exampleFormControlInput1">{{ translate('messages.address') }}
                                         </label>
-                                        {{-- <textarea type="text" name="address[]" placeholder="{{translate('messages.store')}}" class="form-control min-h-90px ckeditor"></textarea> --}}
-                                        <textarea type="text" name="store_address" placeholder="{{translate('messages.store')}}" class="form-control min-h-90px ckeditor"></textarea>
+                                        <textarea type="text" name="address[]" placeholder="{{translate('messages.store')}}" class="form-control min-h-90px ckeditor"></textarea>
+                                        {{-- <textarea type="text" name="store_address" placeholder="{{translate('messages.store')}}" class="form-control min-h-90px ckeditor"></textarea> --}}
                                     </div>
                                 </div>
                             @endif
