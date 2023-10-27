@@ -355,18 +355,18 @@ class VendorController extends Controller
         $key = explode(' ', request()->search);
 
         $store = Store::find($store_id);
-        $wallet = $store->vendor->wallet;
-        if(!$wallet)
-        {
-            $wallet= new StoreWallet();
-            $wallet->vendor_id = $store->vendor->id;
-            $wallet->total_earning= 0.0;
-            $wallet->total_withdrawn=0.0;
-            $wallet->pending_withdraw=0.0;
-            $wallet->created_at=now();
-            $wallet->updated_at=now();
-            $wallet->save();
-        }
+        // $wallet = $store->vendor->wallet;
+        // if(!$wallet)
+        // {
+        //     $wallet= new StoreWallet();
+        //     $wallet->vendor_id = $store->vendor->id;
+        //     $wallet->total_earning= 0.0;
+        //     $wallet->total_withdrawn=0.0;
+        //     $wallet->pending_withdraw=0.0;
+        //     $wallet->created_at=now();
+        //     $wallet->updated_at=now();
+        //     $wallet->save();
+        // }
         if($tab == 'settings')
         {
             return view('admin-views.vendor.view.settings', compact('store'));
