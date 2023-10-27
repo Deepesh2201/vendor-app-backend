@@ -28,7 +28,7 @@
                 @endif
             </div>
         </div>
-        @if($store->vendor->status)
+        {{-- @if($store->vendor->status)
         <!-- Nav Scroller -->
         <div class="js-nav-scroller hs-nav-scroller-horizontal">
             <span class="hs-nav-scroller-arrow-prev d-none">
@@ -76,6 +76,6 @@
             <!-- End Nav -->
         </div>
         <!-- End Nav Scroller -->
-        @endif
+        @endif --}}
     </div>
     <!-- End Page Header -->
