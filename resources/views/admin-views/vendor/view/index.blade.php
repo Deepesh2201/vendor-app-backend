@@ -133,7 +133,7 @@
             </div>
         </div>
     </div>
-    <div class="row pt-3 g-3">
+    {{-- <div class="row pt-3 g-3">
         <div class="col-lg-6">
             <div class="card h-100">
                 <div class="card-header">
@@ -203,7 +203,7 @@
             </div>
         </div>
         @endif
-    </div>
+    </div> --}}
 </div>
 
 <div class="modal fade" id="collect-cash" tabindex="-1">
