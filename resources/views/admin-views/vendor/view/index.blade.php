@@ -26,7 +26,9 @@
                         <div class="cash-icon mr-3">
                             <img src="{{asset('public/assets/admin/img/cash.png')}}" alt="img">
                         </div>
-                        <h2 class="cash--title text-white">{{\App\CentralLogics\Helpers::format_currency($wallet->collected_cash) ?? '-'}}</h2>
+                        <h2 class="cash--title text-white">
+                            {{-- {{\App\CentralLogics\Helpers::format_currency($wallet->collected_cash) ?? '-'}} --}}
+                        </h2>
                     </div>
                 </div>
                 <div class="card-footer pt-0 bg-transparent border-0">
@@ -43,7 +45,9 @@
                 <!-- Panding Withdraw Card Example -->
                 <div class="col-sm-6">
                     <div class="resturant-card card--bg-2">
-                        <h4 class="title">{{\App\CentralLogics\Helpers::format_currency($wallet->pending_withdraw) ?? '-'}}</h4>
+                        <h4 class="title">
+                            {{-- {{\App\CentralLogics\Helpers::format_currency($wallet->pending_withdraw) ?? '-'}} --}}
+                        </h4>
                         <div class="subtitle">{{translate('messages.pending_withdraw')}}</div>
                         <img class="resturant-icon w--30" src="{{asset('public/assets/admin/img/transactions/pending.png')}}" alt="transaction">
                     </div>
@@ -52,7 +56,9 @@
                 <!-- Earnings (Monthly) Card Example -->
                 <div class="col-sm-6">
                     <div class="resturant-card card--bg-3">
-                        <h4 class="title">{{\App\CentralLogics\Helpers::format_currency($wallet->total_withdrawn) ?? '-'}}</h4>
+                        <h4 class="title">
+                            {{-- {{\App\CentralLogics\Helpers::format_currency($wallet->total_withdrawn) ?? '-'}} --}}
+                        </h4>
                         <div class="subtitle">{{translate('messages.total_withdrawal_amount')}}</div>
                         <img class="resturant-icon w--30" src="{{asset('public/assets/admin/img/transactions/withdraw-amount.png')}}" alt="transaction">
                     </div>
@@ -61,7 +67,9 @@
                 <!-- Collected Cash Card Example -->
                 <div class="col-sm-6">
                     <div class="resturant-card card--bg-4">
-                        <h4 class="title">{{\App\CentralLogics\Helpers::format_currency($wallet->balance) ?? '-'}}</h4>
+                        <h4 class="title">
+                            {{-- {{\App\CentralLogics\Helpers::format_currency($wallet->balance) ?? '-'}} --}}
+                        </h4>
                         <div class="subtitle">{{translate('messages.withdraw_able_balance')}}</div>
                         <img class="resturant-icon w--30" src="{{asset('public/assets/admin/img/transactions/withdraw-balance.png')}}" alt="transaction">
                     </div>
@@ -70,7 +78,9 @@
                 <!-- Pending Requests Card Example -->
                 <div class="col-sm-6">
                     <div class="resturant-card card--bg-1">
-                        <h4 class="title">{{\App\CentralLogics\Helpers::format_currency($wallet->total_earning) ?? '-'}}</h4>
+                        <h4 class="title">
+                            {{-- {{\App\CentralLogics\Helpers::format_currency($wallet->total_earning) ?? '-'}} --}}
+                        </h4>
                         <div class="subtitle">{{translate('messages.total_earning')}}</div>
                         <img class="resturant-icon w--30" src="{{asset('public/assets/admin/img/transactions/earning.png')}}" alt="transaction">
                     </div>
