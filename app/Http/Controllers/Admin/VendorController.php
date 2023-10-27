@@ -440,10 +440,10 @@ class VendorController extends Controller
         $zone_id = $request->query('zone_id', 'all');
         $type = $request->query('type', 'all');
         $module_id = $request->query('module_id', 'all');
-        $stores = Store::with('vendor','module')
-        ->whereHas('vendor', function($query){
-            return $query->where('status', 1);
-        })
+        $stores = Store::with('vendor','module')->where('status', 1)
+        // ->whereHas('vendor', function($query){
+        //     return $query->where('status', 1);
+        // })
         ->when(is_numeric($zone_id), function($query)use($zone_id){
                 return $query->where('zone_id', $zone_id);
         })
