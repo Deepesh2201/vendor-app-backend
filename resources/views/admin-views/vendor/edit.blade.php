@@ -179,7 +179,8 @@
                                         <label class="input-label"
                                             for="exampleFormControlInput1">{{ translate('messages.address') }}
                                         </label>
-                                        <textarea type="text" name="address[]" placeholder="{{translate('messages.store')}}" class="form-control min-h-90px ckeditor"></textarea>
+                                        {{-- <textarea type="text" name="address[]" placeholder="{{translate('messages.store')}}" class="form-control min-h-90px ckeditor"></textarea> --}}
+                                        <textarea type="text" name="store_address" placeholder="{{translate('messages.store')}}" class="form-control min-h-90px ckeditor"></textarea>
                                     </div>
                                 </div>
                             @endif

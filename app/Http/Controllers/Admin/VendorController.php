@@ -199,22 +199,22 @@ class VendorController extends Controller
 
     public function update(Request $request, Store $store)
     {
-        // dd($store);
+        // dd($request->address);
         $validator = Validator::make($request->all(), [
             'f_name' => 'nullable|max:100',
             'l_name' => 'nullable|max:100',
             'name' => 'required|max:191',
             'store_email' => 'required|email',
-            'website' => 'required',
+            // 'website' => 'required',
             // 'email' => 'required|unique:vendors,email,'.$store->vendor->id,
             // 'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10|max:20|unique:vendors,phone,'.$store->vendor->id,
             'zone_id'=>'required',
             'index'=> 'required',
             'latitude' => 'required',
             'longitude' => 'required',
-            'offer_percentage' => 'required',
-            'offer_description' => 'required',
-            'google_map_link' => 'required',
+            // 'offer_percentage' => 'required',
+            // 'offer_description' => 'required',
+            // 'google_map_link' => 'required',
             'tax' => 'required',
             'password' => ['nullable', Password::min(8)->mixedCase()->letters()->numbers()->symbols()->uncompromised()],
             'minimum_delivery_time' => 'required',
@@ -270,13 +270,14 @@ class VendorController extends Controller
         $store->offer_image = $request->has('offer_photo') ? Helpers::update('store/cover/', $store->offer_image, 'png', $request->file('offer_photo')) : $store->offer_image;
 
         $store->name = $request->name[array_search('default', $request->lang)];
-        $store->address = $request->address[array_search('default', $request->lang)];
+        // $store->address = $request->address[array_search('default', $request->lang)];
+        $store->address = $request->store_address;
         $store->latitude = $request->latitude;
         $store->longitude = $request->longitude;
         $store->offer_percentage = $request->offer_percentage;
         $store->offer_description = $request->offer_description;
         $store->map_location_link = $request->google_map_link;
-        $store->store_address = $request->address;
+        $store->store_address = $request->store_address;
         $store->zone_id = $request->zone_id;
         $store->tax = $request->tax;
         if($request->index){
