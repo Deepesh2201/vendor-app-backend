@@ -19,6 +19,7 @@ use App\Models\VendorEmployee;
 use MatanYadaev\EloquentSpatial\Objects\Point;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Support\Facades\Storage;
 use Exception;
 
 class VendorLoginController extends Controller
@@ -229,11 +230,22 @@ class VendorLoginController extends Controller
                     // $business->offer_image =   'public/images/business-images/' . $business->offer_image;
                     // $business->storeImage = 'public/images/business-images/' . $business->logo;
                     // $business->cover_photo = 'public/images/business-images/' . $business->cover_photo;
+
+                    // $fieldsToUpdate = ['offer_image', 'logo', 'cover_photo'];
+                    // foreach ($fieldsToUpdate as $field) {
+                    //     $fieldName = ($field === 'logo') ? 'storeImage' : $field;
+                    //     if($business->$field){
+                    //         $business->$fieldName = 'public/images/business-images/' . $business->$field;
+                    //     }else{
+                    //          $business->$fieldName = null;
+                    //     }
+                    // }
                     $fieldsToUpdate = ['offer_image', 'logo', 'cover_photo'];
                     foreach ($fieldsToUpdate as $field) {
                         $fieldName = ($field === 'logo') ? 'storeImage' : $field;
+                        $path = ($field === 'logo') ? asset('storage/app/public/store/') : asset('storage/app/public/store/cover');
                         if($business->$field){
-                            $business->$fieldName = 'public/images/business-images/' . $business->$field;
+                            $business->$fieldName = $path  . $business->$field;
                         }else{
                              $business->$fieldName = null;
                         }
@@ -326,37 +338,65 @@ class VendorLoginController extends Controller
             $listing->email = $request->email;
             if ($request->hasFile('offer_photo')) {
                 if($listing->offer_image){
-                    $filePath = public_path('images/business-images/'.$listing->offer_image) ;
-                    if (file_exists($filePath)) {
-                        unlink($filePath);
+                    // $filePath = public_path('images/business-images/'.$listing->offer_image) ;
+                    // if (file_exists($filePath)) {
+                    //     unlink($filePath);
+                    // }
+                    if (Storage::disk('public')->exists('store/cover/' . $listing->offer_image)) {
+                        Storage::disk('public')->delete('store/cover/' . $listing->offer_image);
                     }
                 }
+                // $imageName = time().'.offer_image.'.$request->offer_photo->extension();
+                // $request->offer_photo->move(public_path('images/business-images'), $imageName);
+                // $listing->offer_image = $imageName;
+                $dir = 'store/cover/';
+                $image = $request->file('offer_photo');
                 $imageName = time().'.offer_image.'.$request->offer_photo->extension();
-                $request->offer_photo->move(public_path('images/business-images'), $imageName);
-                $listing->offer_image = $imageName;
+                if (!Storage::disk('public')->exists('store/cover/')) {
+                    Storage::disk('public')->makeDirectory($dir);
+                }
+                Storage::disk('public')->putFileAs($dir, $image, $imageName);
             }
             if ($request->hasFile('logo')) {
                 if($listing->logo){
-                    $filePath = public_path('images/business-images/'.$listing->logo) ;
-                    if (file_exists($filePath)) {
-                        unlink($filePath);
+                    // $filePath = public_path('images/business-images/'.$listing->logo) ;
+                    // if (file_exists($filePath)) {
+                    //     unlink($filePath);
+                    // }
+                    if (Storage::disk('public')->exists('store/' . $listing->logo)) {
+                        Storage::disk('public')->delete('store/' . $listing->logo);
                     }
                 }
 
                 $imageName = time().'.store_logo.'.$request->logo->extension();
-                $request->logo->move(public_path('images/business-images'), $imageName);
-                $listing->logo = $imageName;
+                // $request->logo->move(public_path('images/business-images'), $imageName);
+                // $listing->logo = $imageName;
+                $dir = 'store/';
+                $image = $request->file('logo');
+                if (!Storage::disk('public')->exists('store/')) {
+                    Storage::disk('public')->makeDirectory($dir);
+                }
+                Storage::disk('public')->putFileAs($dir, $image, $imageName);
             }
             if ($request->hasFile('cover_photo')) {
                 if($listing->cover_photo){
-                    $filePath = public_path('images/business-images/'.$listing->cover_photo) ;
-                    if (file_exists($filePath)) {
-                        unlink($filePath);
+                    // $filePath = public_path('images/business-images/'.$listing->cover_photo) ;
+                    // if (file_exists($filePath)) {
+                    //     unlink($filePath);
+                    // }
+                    if (Storage::disk('public')->exists('store/cover/' . $listing->cover_photo)) {
+                        Storage::disk('public')->delete('store/cover/' . $listing->cover_photo);
                     }
                 }
                 $imageName = time().'.store_banner.'.$request->cover_photo->extension();
-                $request->cover_photo->move(public_path('images/business-images'), $imageName);
-                $listing->cover_photo = $imageName;
+                // $request->cover_photo->move(public_path('images/business-images'), $imageName);
+                // $listing->cover_photo = $imageName;
+                $dir = 'store/cover/';
+                $image = $request->file('cover_photo');
+                if (!Storage::disk('public')->exists('store/cover/')) {
+                    Storage::disk('public')->makeDirectory($dir);
+                }
+                Storage::disk('public')->putFileAs($dir, $image, $imageName);
             }
             $listing->vendor_id =$request->user_id ?? 1;
             $listing->meta_description = $request->description;
@@ -424,9 +464,12 @@ class VendorLoginController extends Controller
         try {
             $store = Store::find($store_id);
             if($store){
-                $store->offer_image =   'public/images/business-images/' . $store->offer_image;
-                $store->logo = 'public/images/business-images/' . $store->logo;
-                $store->cover_photo = 'public/images/business-images/' . $store->cover_photo;
+                // $store->offer_image =   'public/images/business-images/' . $store->offer_image;
+                // $store->logo = 'public/images/business-images/' . $store->logo;
+                // $store->cover_photo = 'public/images/business-images/' . $store->cover_photo;
+                $store->offer_image = asset('storage/app/public/store/cover/'.$store->offer_image);
+                $store->logo =  asset('storage/app/public/store/'.$store->logo);
+                $store->cover_photo = asset('storage/app/public/store/cover/'.$store->cover_photo);
             }
             if (!$store) {
                 return response()->json(['status' => 'error','message' => 'Store not found'], 200);
