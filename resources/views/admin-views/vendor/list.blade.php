@@ -219,9 +219,9 @@
                                 </span>
                             </td>
                             <td>
-                                <span class="d-block font-size-sm text-body">
+                                {{-- <span class="d-block font-size-sm text-body">
                                     {{Str::limit($store->vendor->f_name.' '.$store->vendor->l_name,20,'...')}}
-                                </span>
+                                </span> --}}
                                 <div>
                                     {{$store['phone']}}
                                 </div>
