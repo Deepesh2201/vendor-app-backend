@@ -73,15 +73,15 @@
                                     <div class="col-6 col-md-6 col-sm-6">
                                     <label class="input-label"
                                         for="default_name">Email </label>
-                                    <input type="text" name="name[]" id="default_name"
-                                        class="form-control" placeholder="Email" value=""
+                                    <input type="text" name="store_email" id="default_name"
+                                        class="form-control" placeholder="Email" value="{{$store->email ?? ''}}"
                                         required>
                                     </div>
                                     <div class="col-6 col-md-6 col-sm-6">
                                     <label class="input-label"
-                                        for="default_name">Websile </label>
-                                    <input type="text" name="name[]" id="default_name"
-                                        class="form-control" placeholder="Websile" value=""
+                                        for="default_name">Website </label>
+                                    <input type="text" name="website" id="default_name"
+                                        class="form-control" placeholder="Website" value="{{$store->website_link ?? ''}}"
                                         required>
                                     </div>
                                 </div>
@@ -90,19 +90,19 @@
                                     <div class="col-6 col-md-6 col-sm-6">
                                     <label class="input-label"
                                         for="default_name">Index </label>
-                                    <input type="text" name="name[]" id="default_name"
-                                        class="form-control" placeholder="Index" value=""
+                                    <input type="number" name="index" onkeypress="return event.charCode >= 48 && event.charCode <= 57" id="default_name"
+                                        class="form-control" placeholder="Index" value="{{$store->index ?? ''}}"
                                         required>
                                     </div>
                                     <div class="col-6 col-md-6 col-sm-6">
                                     <label class="input-label"
                                         for="default_name">Status </label>
-                                    <select type="text" name="name[]" id="default_name"
+                                    <select type="text" name="status" id="default_name"
                                         class="form-control" placeholder="Websile" value=""
                                         required>
-                                        <option value="0">In Review</option>
-                                        <option value="1">Approved</option>
-                                        <option value="2">Rejected</option>
+                                        <option @if($store->status == 0) selected @endif value="0">In Review</option>
+                                        <option @if($store->status == 1) selected @endif value="1">Approved</option>
+                                        <option @if($store->status == 2) selected @endif value="2">Rejected</option>
                                     </select>
                                     </div>
                                 </div>
@@ -111,24 +111,24 @@
                                     <div class="col-6 col-md-6 col-sm-6">
                                     <label class="input-label"
                                         for="default_name">Offer % </label>
-                                    <input type="text" name="name[]" id="default_name"
-                                        class="form-control" placeholder="Offer %" value=""
-                                        required>
+                                    <input type="text" name="offer_percentage" onkeypress="return event.charCode >= 48 && event.charCode <= 57" id="default_name"
+                                        class="form-control" placeholder="Offer %" value="{{$store->offer_percentage ?? ''}}"
+                                        >
                                     </div>
                                     <div class="col-6 col-md-6 col-sm-6">
                                     <label class="input-label"
                                         for="default_name">Offer Description </label>
-                                    <input type="text" name="name[]" id="default_name"
-                                        class="form-control" placeholder="Offer Description" value=""
-                                        required>
+                                    <input type="text" name="offer_description" id="default_name"
+                                        class="form-control" placeholder="Offer Description" value="{{$store->offer_description ?? ''}}"
+                                        >
                                     </div>
                                 </div>
 
                                 <div class="form-group mt-3">
                                     <label class="input-label"
                                         for="default_name">Google Map Link </label>
-                                    <input type="text" name="name[]" id="default_name"
-                                        class="form-control" placeholder="Link" value=""
+                                    <input type="text" name="google_map_link" id="default_name"
+                                        class="form-control" placeholder="Link" value="{{$store->map_location_link}}"
                                         required>
                                 </div>
                             </div>
@@ -207,7 +207,7 @@
 
                                         {{-- {{url('images/business-images').'/'.$store->logo}} --}}
                                         <img class="img--110 min-height-170px min-width-170px" id="viewer"
-                                            onerror="this.src='{{ asset('public/assets/admin/img/upload.png') }}'"
+                                            {{-- onerror="this.src='{{ asset('public/assets/admin/img/upload.png') }}'" --}}
                                             src="{{asset('storage/app/public/store').'/'.$store->logo}}" alt="{{$store->name}}"
                                             alt="logo image" />
                                     </center>
@@ -225,7 +225,7 @@
 
                                         {{-- {{url('images/business-images').'/'.$store->cover_photo}} --}}
                                         <img class="img--vertical min-height-170px min-width-170px" id="coverImageViewer"
-                                            onerror="this.src='{{ asset('public/assets/admin/img/upload-img.png') }}'"
+                                            {{-- onerror="this.src='{{ asset('public/assets/admin/img/upload-img.png') }}'" --}}
                                             src="{{asset('storage/app/public/store/cover/'.$store->cover_photo)}}"
                                             alt="Fav icon" />
                                     </center>
@@ -250,8 +250,8 @@
                                     <center>
                                         {{-- {{asset('storage/app/public/store/cover/'.$store->cover_photo)}} --}}
                                         <img class="img--vertical min-height-170px min-width-170px" id="coverImageViewer1"
-                                            onerror="this.src='{{ asset('public/assets/admin/img/upload-img.png') }}'"
-                                            src="{{asset('storage/app/public/store/cover/'.$store->cover_photo)}}"
+                                            {{-- onerror="this.src='{{ asset('public/assets/admin/img/upload-img.png') }}'" --}}
+                                            src="{{asset('storage/app/public/store/cover/'.$store->offer_image)}}"
                                             alt="Fav icon" />
                                     </center>
                                     <input type="file" name="offer_photo" id="coverImageUpload1"  class="custom-file-input"
@@ -417,7 +417,7 @@
                         </div>
                     </div>
                 </div> --}}
-                <div class="col-lg-12">
+                {{-- <div class="col-lg-12">
                     <div class="card">
                         <div class="card-header">
                             <h4 class="card-title m-0 d-flex align-items-center">
@@ -482,7 +482,48 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
+                @if ($store->user)
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title m-0 d-flex align-items-center">
+                                    <span class="card-header-icon mr-2"><i class="tio-user"></i></span>
+                                    <span>{{ translate('messages.owner_information') }}</span>
+                                </h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="row g-3">
+                                    <div class="col-md-4 col-sm-6">
+                                        <div class="form-group mb-0">
+                                            <label class="input-label" for="f_name">{{ translate('messages.Full_Name') }}</label>
+                                            <input type="text" name="f_name" class="form-control"
+                                                placeholder="{{ translate('messages.first_name') }}"
+                                                value="{{ $store->user->f_name ?? '' }}" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-sm-6">
+                                        <div class="form-group mb-0">
+                                            <label class="input-label"
+                                                for="exampleFormControlInput1">{{ translate('messages.email') }}</label>
+                                            <input type="email" name="email" class="form-control"
+                                                placeholder="{{ translate('messages.Ex:') }} ex@example.com"
+                                                value="{{ $store->user->email ?? '' }}" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-sm-6">
+                                        <div class="form-group mb-0">
+                                            <label class="input-label" for="phone">{{ translate('messages.phone') }}</label>
+                                            <input type="text" id="phone" name="phone" class="form-control"
+                                                placeholder="{{ translate('messages.Ex:') }} 017********"
+                                                value="{{ $store->user->phone ?? '' }}" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endif
                 <div class="col-lg-12">
                     <div class="btn--container justify-content-end">
                         <button type="reset" id="reset_btn" class="btn btn--reset">{{translate('messages.reset')}}</button>
@@ -556,6 +597,9 @@
 
         $("#coverImageUpload").change(function () {
             readURL(this, 'coverImageViewer');
+        });
+        $("#coverImageUpload1").change(function () {
+            readURL(this, 'coverImageViewer1');
         });
         @php($country=\App\Models\BusinessSetting::where('key','country')->first())
         var phone = $("#phone").intlTelInput({

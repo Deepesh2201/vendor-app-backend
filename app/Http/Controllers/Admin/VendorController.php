@@ -199,15 +199,22 @@ class VendorController extends Controller
 
     public function update(Request $request, Store $store)
     {
+        // dd($store);
         $validator = Validator::make($request->all(), [
-            'f_name' => 'required|max:100',
+            'f_name' => 'nullable|max:100',
             'l_name' => 'nullable|max:100',
             'name' => 'required|max:191',
-            'email' => 'required|unique:vendors,email,'.$store->vendor->id,
-            'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10|max:20|unique:vendors,phone,'.$store->vendor->id,
+            'store_email' => 'required|email',
+            'website' => 'required',
+            // 'email' => 'required|unique:vendors,email,'.$store->vendor->id,
+            // 'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10|max:20|unique:vendors,phone,'.$store->vendor->id,
             'zone_id'=>'required',
+            'index'=> 'required',
             'latitude' => 'required',
             'longitude' => 'required',
+            'offer_percentage' => 'required',
+            'offer_description' => 'required',
+            'google_map_link' => 'required',
             'tax' => 'required',
             'password' => ['nullable', Password::min(8)->mixedCase()->letters()->numbers()->symbols()->uncompromised()],
             'minimum_delivery_time' => 'required',
@@ -243,26 +250,55 @@ class VendorController extends Controller
                     ->withErrors($validator)
                     ->withInput();
         }
-        $vendor = Vendor::findOrFail($store->vendor->id);
-        $vendor->f_name = $request->f_name;
-        $vendor->l_name = $request->l_name;
-        $vendor->email = $request->email;
-        $vendor->phone = $request->phone;
-        $vendor->password = strlen($request->password)>1?bcrypt($request->password):$store->vendor->password;
-        $vendor->save();
+        // $vendor = Vendor::findOrFail($store->vendor->id);
+        // $vendor->f_name = $request->f_name;
+        // $vendor->l_name = $request->l_name;
+        // $vendor->email = $request->email;
+        // $vendor->phone = $request->phone;
+        // $vendor->password = strlen($request->password)>1?bcrypt($request->password):$store->vendor->password;
+        // $vendor->save();
 
         $slug = Str::slug($request->name[array_search('default', $request->lang)]);
         $store->slug = $store->slug? $store->slug :"{$slug}{$store->id}";
-        $store->email = $request->email;
+        $store->email = $request->store_email;
         $store->phone = $request->phone;
+        $store->website_link = $request->website;
         $store->logo = $request->has('logo') ? Helpers::update('store/', $store->logo, 'png', $request->file('logo')) : $store->logo;
+
         $store->cover_photo = $request->has('cover_photo') ? Helpers::update('store/cover/', $store->cover_photo, 'png', $request->file('cover_photo')) : $store->cover_photo;
+
+        $store->offer_image = $request->has('offer_photo') ? Helpers::update('store/cover/', $store->offer_image, 'png', $request->file('offer_photo')) : $store->offer_image;
+
         $store->name = $request->name[array_search('default', $request->lang)];
         $store->address = $request->address[array_search('default', $request->lang)];
         $store->latitude = $request->latitude;
         $store->longitude = $request->longitude;
+        $store->offer_percentage = $request->offer_percentage;
+        $store->offer_description = $request->offer_description;
+        $store->map_location_link = $request->google_map_link;
+        $store->store_address = $request->address;
         $store->zone_id = $request->zone_id;
         $store->tax = $request->tax;
+        if($request->index){
+            $row = $store;
+            $newIndex = $request->index;
+            $previousIndex = $row->index;
+
+            if ($newIndex > $previousIndex) {
+                Store::where('index', '>', $previousIndex)
+                    ->where('index', '<=', $newIndex)
+                    ->decrement('index');
+            } elseif ($newIndex < $previousIndex) {
+                
+                Store::where('index', '>=', $newIndex)
+                    ->where('index', '<', $previousIndex)
+                    ->increment('index');
+            }
+            // Update the index of the current row
+            $row->index = $newIndex;
+
+        }
+        $store->status = $request->status;
         $store->delivery_time = $request->minimum_delivery_time .'-'. $request->maximum_delivery_time.' '.$request->delivery_time_type;
         $store->save();
         $default_lang = str_replace('_', '-', app()->getLocale());
@@ -317,14 +353,14 @@ class VendorController extends Controller
                 }
             }
         }
-        if ($vendor->userinfo) {
-            $userinfo = $vendor->userinfo;
-            $userinfo->f_name = $store->name;
-            $userinfo->l_name = '';
-            $userinfo->email = $store->email;
-            $userinfo->image = $store->logo;
-            $userinfo->save();
-        }
+        // if ($vendor->userinfo) {
+        //     $userinfo = $vendor->userinfo;
+        //     $userinfo->f_name = $store->name;
+        //     $userinfo->l_name = '';
+        //     $userinfo->email = $store->email;
+        //     $userinfo->image = $store->logo;
+        //     $userinfo->save();
+        // }
         Toastr::success(translate('messages.store').translate('messages.updated_successfully'));
         return redirect('admin/store/list');
     }
@@ -440,7 +476,7 @@ class VendorController extends Controller
         $zone_id = $request->query('zone_id', 'all');
         $type = $request->query('type', 'all');
         $module_id = $request->query('module_id', 'all');
-        $stores = Store::with('vendor','module')->where('status', 1)
+        $stores = Store::with('vendor','module')
         // ->whereHas('vendor', function($query){
         //     return $query->where('status', 1);
         // })

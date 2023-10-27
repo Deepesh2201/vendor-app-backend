@@ -1628,6 +1628,7 @@ class Helpers
 
     public static function upload(string $dir, string $format, $image = null)
     {
+        
         if ($image != null) {
             $imageName = \Carbon\Carbon::now()->toDateString() . "-" . uniqid() . "." . $format;
             if (!Storage::disk('public')->exists($dir)) {
@@ -1647,7 +1648,9 @@ class Helpers
             return $old_image;
         }
         if (Storage::disk('public')->exists($dir . $old_image)) {
+            
             Storage::disk('public')->delete($dir . $old_image);
+           
         }
         $imageName = Helpers::upload($dir, $format, $image);
         return $imageName;

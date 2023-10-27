@@ -219,15 +219,16 @@
                                 </span>
                             </td>
                             <td>
-                                {{-- <span class="d-block font-size-sm text-body">
-                                    {{Str::limit($store->vendor->f_name.' '.$store->vendor->l_name,20,'...')}}
-                                </span> --}}
+                                <span class="d-block font-size-sm text-body">
+                                    {{-- {{Str::limit($store->vendor->f_name.' '.$store->vendor->l_name,20,'...')}} --}}
+                                    {{Str::limit($store->user->f_name.' '.$store->user->l_name,20,'...')}}
+                                </span>
                                 <div>
                                     {{$store['phone']}}
                                 </div>
                             </td>
-                            <td></td>
-                            <td></td>
+                            <td>{{$store['offer_percentage'] ?? '-'}}</td>
+                            <td>{{Str::limit($store['offer_description'],40,'...')}}</td>
                             <td>
                                 {{$store->zone?$store->zone->name:translate('messages.zone_deleted')}}
                                 {{--<span class="d-block font-size-sm">{{$banner['image']}}</span>--}}
@@ -243,7 +244,7 @@
                             </td>
 
                             <td>
-                                @if(isset($store->vendor->status))
+                                {{-- @if(isset($store->vendor->status))
                                     @if($store->vendor->status)
                                     <label class="toggle-switch toggle-switch-sm" for="stocksCheckbox{{$store->id}}">
                                         <input type="checkbox" onclick="status_change_alert('{{route('admin.store.status',[$store->id,$store->status?0:1])}}', '{{translate('messages.you_want_to_change_this_store_status')}}', event)" class="toggle-switch-input" id="stocksCheckbox{{$store->id}}" {{$store->status?'checked':''}}>
@@ -256,7 +257,13 @@
                                     @endif
                                 @else
                                     <span class="badge badge-soft-danger">{{translate('messages.pending')}}</span>
-                                @endif
+                                @endif --}}
+                                <label class="toggle-switch toggle-switch-sm" for="stocksCheckbox{{$store->id}}">
+                                    <input type="checkbox" onclick="status_change_alert('{{route('admin.store.status',[$store->id,$store->status?0:1])}}', '{{translate('messages.you_want_to_change_this_store_status')}}', event)" class="toggle-switch-input" id="stocksCheckbox{{$store->id}}" {{$store->status?'checked':''}}>
+                                    <span class="toggle-switch-label">
+                                        <span class="toggle-switch-indicator"></span>
+                                    </span>
+                                </label>
                             </td>
 
                             <td>
