@@ -243,9 +243,9 @@ class VendorLoginController extends Controller
                     $fieldsToUpdate = ['offer_image', 'logo', 'cover_photo'];
                     foreach ($fieldsToUpdate as $field) {
                         $fieldName = ($field === 'logo') ? 'storeImage' : $field;
-                        $path = ($field === 'logo') ? asset('storage/app/public/store/') : asset('storage/app/public/store/cover');
+                        $path = ($field === 'logo') ? asset('storage/app/public/store/') : asset('storage/app/public/store/cover/');
                         if($business->$field){
-                            $business->$fieldName = $path  . $business->$field;
+                            $business->$fieldName = $path .'/' . $business->$field;
                         }else{
                              $business->$fieldName = null;
                         }
