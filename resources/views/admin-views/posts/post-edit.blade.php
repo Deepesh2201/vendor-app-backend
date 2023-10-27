@@ -133,10 +133,11 @@
                             <div class="row mt-3">
                                 <div class="col-6 col-md-6 col-md-sm-6">
                                     <div class="form-group">
-                                        <label class="input-label" for="">Index
-                                        </label>
-                                        <input type="text" name="" id="" class="form-control" placeholder="Index"
-                                            value="">
+                                        <label class="input-label"
+                                        for="default_name">Index </label>
+                                    <input type="number" name="index" onkeypress="return event.charCode >= 48 && event.charCode <= 57" id="default_name"
+                                        class="form-control" placeholder="Index" value="{{$post->index ?? ''}}"
+                                        required>
                                     </div>
 
                                 </div>
@@ -144,11 +145,11 @@
                                     <div class="form-group">
                                         <label class="input-label" for="">Status
                                         </label>
-                                        <select type="date" name="" id="" class="form-control"
+                                        <select type="date" name="status" id="" class="form-control"
                                              value="">
-                                             <option value="0">In Review</option>
-                                            <option value="1">Approved</option>
-                                            <option value="2">Rejected</option>
+                                             <option @if($post->status == 0) selected @endif value="0">In Review</option>
+                                        <option @if($post->status == 1) selected @endif value="1">Approved</option>
+                                        <option @if($post->status == 2) selected @endif value="2">Rejected</option>
                                         </select>
                                     </div>
                                 </div>
@@ -188,7 +189,7 @@
 
                                             <img class="img--vertical min-height-170px min-width-170px"
                                                 id="imagePreview1"
-                                                src="{{ file_exists($filePath1) ? url('/images/post-images/'.$post->image1) : asset('public/assets/admin/img/upload-img.png') }}"
+                                                src="{{ file_exists($filePath1) ? url('public/images/post-images/'.$post->image1) : asset('public/assets/admin/img/upload-img.png') }}"
                                                 onerror="this.src='{{ asset('public/assets/admin/img/upload-img.png') }}'"
                                                 alt="Fav icon" />
 
@@ -212,7 +213,7 @@
 
                                             <img class="img--vertical min-height-170px min-width-170px"
                                                 id="imagePreview2"
-                                                src="{{ file_exists($filePath2) ? url('/images/post-images/'.$post->image2) : asset('public/assets/admin/img/upload-img.png') }}"
+                                                src="{{ file_exists($filePath2) ? url('public/images/post-images/'.$post->image2) : asset('public/assets/admin/img/upload-img.png') }}"
                                                 onerror="this.src='{{ asset('public/assets/admin/img/upload-img.png') }}'"
                                                 alt="Fav icon" />
                                         </center>
@@ -235,7 +236,7 @@
 
                                             <img class="img--vertical min-height-170px min-width-170px"
                                                 id="imagePreview3"
-                                                src="{{ file_exists($filePath3) ? url('/images/post-images/'.$post->image3) : asset('public/assets/admin/img/upload-img.png') }}"
+                                                src="{{ file_exists($filePath3) ? url('public/images/post-images/'.$post->image3) : asset('public/assets/admin/img/upload-img.png') }}"
                                                 onerror="this.src='{{ asset('public/assets/admin/img/upload-img.png') }}'"
                                                 alt="Fav icon" />
                                         </center>
@@ -258,7 +259,7 @@
 
                                             <img class="img--vertical min-height-170px min-width-170px"
                                                 id="imagePreview4"
-                                                src="{{ file_exists($filePath4) ? url('/images/post-images/'.$post->image4) : asset('public/assets/admin/img/upload-img.png') }}"
+                                                src="{{ file_exists($filePath4) ? url('public/images/post-images/'.$post->image4) : asset('public/assets/admin/img/upload-img.png') }}"
                                                 onerror="this.src='{{ asset('public/assets/admin/img/upload-img.png') }}'"
                                                 alt="Fav icon" />
                                         </center>

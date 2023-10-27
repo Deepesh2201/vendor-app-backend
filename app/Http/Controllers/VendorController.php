@@ -260,6 +260,8 @@ class VendorController extends Controller
                     'bathrooms' => 'required|integer|min:0',
                     'floors' => 'required|integer|min:0',
                     'description' => 'required|string',
+                    'index' => 'required',
+                    'status' => 'required',
                     'possession_date' => 'required|date', // Ensure that possession_date is a valid date
                     'image1' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Validating image1 as an example, you can apply similar rules to other images
                     'image2' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Optional image fields
@@ -269,6 +271,24 @@ class VendorController extends Controller
                 ]);
                 $listing = Post::find($id);
                 $message = 'Post updated successfully';
+                if($request->index){
+                    $newIndex = $request->index;
+                    $previousIndex =  $listing->index;
+        
+                    if ($newIndex > $previousIndex) {
+                        Post::where('index', '>', $previousIndex)
+                            ->where('index', '<=', $newIndex)
+                            ->decrement('index');
+                    } elseif ($newIndex < $previousIndex) {
+                        
+                        Post::where('index', '>=', $newIndex)
+                            ->where('index', '<', $previousIndex)
+                            ->increment('index');
+                    }
+                    // Update the index of the current row
+                    $listing->index = $newIndex;
+        
+                }
             }
             else{
 
@@ -302,6 +322,8 @@ class VendorController extends Controller
             $listing->floors = $request->floors;
             $listing->description = $request->description;
             $listing->possession_date = $request->possession_date;
+            $listing->status = $request->status;
+            
 
             // Handle image uploads
             if ($request->hasFile('image1')) {
