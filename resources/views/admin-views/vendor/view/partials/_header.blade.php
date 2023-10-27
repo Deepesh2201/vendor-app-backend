@@ -11,7 +11,7 @@
             </div>
             <div>
                 @if(Request::is("admin/store/view/{$store->id}"))
-                    @if($store->vendor->status)
+                    {{-- @if($store->vendor->status)
                     <a href="{{route('admin.store.edit',[$store->id])}}" class="btn btn--primary float-right">
                         <i class="tio-edit"></i> {{translate('messages.edit_store')}}
                     </a>
@@ -24,7 +24,7 @@
                         <a class="btn btn--primary text-capitalize font-weight-bold float-right mr-2"
                         onclick="request_alert('{{route('admin.store.application',[$store['id'],1])}}','{{translate('messages.you_want_to_approve_this_application')}}')"
                             href="javascript:"><i class="tio-checkmark-circle-outlined font-weight-bold pr-1"></i>{{translate('messages.approve')}}</a>
-                    @endif
+                    @endif --}}
                 @endif
             </div>
         </div>
