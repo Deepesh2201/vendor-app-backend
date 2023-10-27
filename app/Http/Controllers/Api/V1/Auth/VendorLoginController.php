@@ -243,7 +243,7 @@ class VendorLoginController extends Controller
                     $fieldsToUpdate = ['offer_image', 'logo', 'cover_photo'];
                     foreach ($fieldsToUpdate as $field) {
                         $fieldName = ($field === 'logo') ? 'storeImage' : $field;
-                        $path = ($field === 'logo') ? asset('storage/app/public/store/') : asset('storage/app/public/store/cover/');
+                        $path = ($field === 'logo') ? 'storage/app/public/store' : 'storage/app/public/store/cover';
                         if($business->$field){
                             $business->$fieldName = $path .'/' . $business->$field;
                         }else{
@@ -471,9 +471,9 @@ class VendorLoginController extends Controller
                 // $store->offer_image =   'public/images/business-images/' . $store->offer_image;
                 // $store->logo = 'public/images/business-images/' . $store->logo;
                 // $store->cover_photo = 'public/images/business-images/' . $store->cover_photo;
-                $store->offer_image = asset('storage/app/public/store/cover/'.$store->offer_image);
-                $store->logo =  asset('storage/app/public/store/'.$store->logo);
-                $store->cover_photo = asset('storage/app/public/store/cover/'.$store->cover_photo);
+                $store->offer_image ='storage/app/public/store/cover/'.$store->offer_image;
+                $store->logo = 'storage/app/public/store/'.$store->logo;
+                $store->cover_photo = 'storage/app/public/store/cover/'.$store->cover_photo;
             }
             if (!$store) {
                 return response()->json(['status' => 'error','message' => 'Store not found'], 200);
