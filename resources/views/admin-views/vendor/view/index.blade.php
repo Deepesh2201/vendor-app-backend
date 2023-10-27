@@ -13,7 +13,7 @@
     @include('admin-views.vendor.view.partials._header',['store'=>$store])
 
     <!-- Page Heading -->
-    @if($store->vendor->status)
+    {{-- @if($store->vendor->status) --}}
     <div class="row g-3 text-capitalize">
         <!-- Earnings (Monthly) Card Example -->
         <div class="col-md-4">
@@ -79,7 +79,7 @@
 
         </div>
     </div>
-    @endif
+    {{-- @endif --}}
     <div class="card mt-4">
         <div class="card-header">
             <h5 class="card-title m-0 d-flex align-items-center">
