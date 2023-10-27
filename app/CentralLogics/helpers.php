@@ -568,7 +568,7 @@ class Helpers
                 unset($item['pivot']);
                 $item['store_open'] = 1;
                 $item['offer_percentage'] = $item['offer_percentage'] ? $item['offer_percentage'] : 0;
-                $item['offer_image'] = $item['offer_image']  ? $item['offer_image'] : 'public/images/business-images/advertise_here.png';
+                $item['offer_image'] = $item['offer_image']  ? 'storage/app/public/store/cover/'.$item['offer_image'] : 'public/images/business-images/advertise_here.png';;
                 array_push($storage, $item);
             }
             $data = $storage;
