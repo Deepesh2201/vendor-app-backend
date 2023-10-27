@@ -356,6 +356,7 @@ class VendorLoginController extends Controller
                     Storage::disk('public')->makeDirectory($dir);
                 }
                 Storage::disk('public')->putFileAs($dir, $image, $imageName);
+                $listing->offer_image = $imageName;
             }
             if ($request->hasFile('logo')) {
                 if($listing->logo){
@@ -377,6 +378,7 @@ class VendorLoginController extends Controller
                     Storage::disk('public')->makeDirectory($dir);
                 }
                 Storage::disk('public')->putFileAs($dir, $image, $imageName);
+                $listing->logo = $imageName;
             }
             if ($request->hasFile('cover_photo')) {
                 if($listing->cover_photo){
@@ -397,6 +399,7 @@ class VendorLoginController extends Controller
                     Storage::disk('public')->makeDirectory($dir);
                 }
                 Storage::disk('public')->putFileAs($dir, $image, $imageName);
+                $listing->cover_photo = $imageName;
             }
             $listing->vendor_id =$request->user_id ?? 1;
             $listing->meta_description = $request->description;
@@ -409,6 +412,7 @@ class VendorLoginController extends Controller
             $listing->map_location_link = $request->gmpLink;
             $listing->website_link = $request->website;
             $listing->store_address = $request->store_address;
+            $listing->address = $request->store_address;
             $listing->latitude = '12.918804202266855';
             $listing->longitude = '77.65186298277348';
             $listing->module_id = $request->category;
