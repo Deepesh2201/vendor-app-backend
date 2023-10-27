@@ -423,7 +423,7 @@ class VendorController extends Controller
             $store = Store::withoutGlobalScope('translate')->findOrFail($store_id);
             return view('admin-views.vendor.view.meta-data', compact('store', 'sub_tab'));
         }
-        return view('admin-views.vendor.view.index', compact('store', 'wallet'));
+        return view('admin-views.vendor.view.index',get_defined_vars());
     }
 
     public function view_tab(Store $store)
